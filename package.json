@@ -34,5 +34,5 @@
         "grunt": "~0.4.2",
         "js2xmlparser": "~0.1.2"
     },
-    "keywords": []
+    "keywords": ["scenarioo"]
 }
