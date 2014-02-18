@@ -18,6 +18,7 @@
         "element": true,
         "by": true,
         "it": true,
+        "waitsFor": true,
         "expect":true
 
     }

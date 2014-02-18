@@ -2,6 +2,7 @@
 
 var docuWriter = require('../../lib/scenarioDocuWriter.js');
 var extend = require('extend');
+var fs = require('fs');
 
 describe('scenarioDocuWriter', function () {
 
@@ -30,27 +31,45 @@ describe('scenarioDocuWriter', function () {
         stepCounter: 0
     };
 
-    function getTimeStampedBuildObject() {
+    function getTS() {
+        return  Math.round((new Date()).getTime() / 1000);
+    }
+
+    function getTimeStampedBuildObject(timeStamp) {
         var build = {};
         extend(build, dummyBuild);
-        var timeStamp = Math.round((new Date()).getTime() / 1000);
         build.name = build.name + timeStamp;
         return build;
     }
 
+    function assertFileWillExistWithin(filePath, timeout) {
+        waitsFor(function () {
+            return fs.existsSync(filePath);
+        }, filePath + 'written', timeout);
+    }
+
     it('should write branch and build on start()', function () {
-        docuWriter.start(dummyBranch, getTimeStampedBuildObject(), targetDir);
+        var timeStamp = getTS();
+        docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
+        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/build.xml';
+        assertFileWillExistWithin(expectedFilePath, 2000);
     });
 
-    it('should write usecase xml', function () {
-        docuWriter.start(dummyBranch, getTimeStampedBuildObject(), targetDir);
+    it('should save usecase', function () {
+        var timeStamp = getTS();
+        docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
         docuWriter.saveUseCase(dummyUseCase);
+        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/use_case_name__toll_/usecase.xml';
+        assertFileWillExistWithin(expectedFilePath, 2000);
     });
 
-    it('should write scenario xml', function () {
-        docuWriter.start(dummyBranch, getTimeStampedBuildObject(), targetDir);
+    it('should save scenario', function () {
+        var timeStamp = getTS();
+        docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
         docuWriter.saveUseCase(dummyUseCase);
         docuWriter.saveScenario(dummyScenario);
+        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/use_case_name__toll_/_some_cool_scenario_name/scenario.xml';
+        assertFileWillExistWithin(expectedFilePath, 2000);
     });
 
 
