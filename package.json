@@ -33,9 +33,10 @@
     "devDependencies": {
         "grunt-contrib-jshint": "~0.6.4",
         "jasmine-node": "1.13.1",
-        "grunt-jasmine-node":"0.1.0",
+        "grunt-jasmine-node": "0.1.0",
         "grunt-contrib-watch": "~0.5.3",
-        "grunt": "~0.4.2"
+        "grunt": "~0.4.2",
+        "extend": "~1.2.1"
     },
     "keywords": ["scenarioo"]
 }

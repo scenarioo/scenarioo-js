@@ -10,8 +10,8 @@ module.exports = function (grunt) {
             requirejs: false,
             forceExit: true,
             jUnit: {
-                report: false,
-                savePath: "./build/reports/jasmine/",
+                report: true,
+                savePath: "./test-reports/jasmine/",
                 useDotNotation: true,
                 consolidate: true
             }

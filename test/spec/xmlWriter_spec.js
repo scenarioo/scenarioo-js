@@ -2,7 +2,7 @@
 
 var xmlWriter = require('../../lib/xmlWriter.js');
 
-describe('cmlWriter: simpleFile', function () {
+describe('xmlWriter: simpleFile', function () {
 
     it('should serialize simple object', function () {
 
