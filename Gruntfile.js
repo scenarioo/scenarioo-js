@@ -4,8 +4,17 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        nodeunit: {
-            files: ['test/**/*_test.js']
+        jasmine_node: {
+            specNameMatcher: "", // load only specs containing specNameMatcher
+            projectRoot: ".",
+            requirejs: false,
+            forceExit: true,
+            jUnit: {
+                report: false,
+                savePath: "./build/reports/jasmine/",
+                useDotNotation: true,
+                consolidate: true
+            }
         },
         jshint: {
             options: {
@@ -28,21 +37,21 @@ module.exports = function (grunt) {
             },
             lib: {
                 files: '<%= jshint.lib.src %>',
-                tasks: ['jshint:lib', 'nodeunit']
+                tasks: ['jshint:lib', 'jasmine_node']
             },
             test: {
                 files: '<%= jshint.test.src %>',
-                tasks: ['jshint:test', 'nodeunit']
+                tasks: ['jshint:test', 'jasmine_node']
             }
         }
     });
 
     // These plugins provide necessary tasks.
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
+    grunt.loadNpmTasks('grunt-jasmine-node');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'nodeunit']);
+    grunt.registerTask('default', ['jshint', 'jasmine_node']);
 
 };
