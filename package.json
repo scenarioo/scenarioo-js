@@ -1,7 +1,7 @@
 {
     "name": "scenarioo-js",
     "description": "Scenarioo API for Javascript to generate Scenarioo Documentations",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "homepage": "http://scenarioo.org",
     "author": {
         "name": "xeronimus",
@@ -27,12 +27,14 @@
     "scripts": {
         "test": "grunt nodeunit"
     },
+    "dependencies": {
+        "js2xmlparser": "~0.1.2"
+    },
     "devDependencies": {
         "grunt-contrib-jshint": "~0.6.4",
         "grunt-contrib-nodeunit": "~0.2.0",
         "grunt-contrib-watch": "~0.5.3",
-        "grunt": "~0.4.2",
-        "js2xmlparser": "~0.1.2"
+        "grunt": "~0.4.2"
     },
     "keywords": ["scenarioo"]
 }
