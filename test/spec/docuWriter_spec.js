@@ -45,13 +45,13 @@ describe('scenarioDocuWriter', function () {
     function assertFileWillExistWithin(filePath, timeout) {
         waitsFor(function () {
             return fs.existsSync(filePath);
-        }, filePath + 'written', timeout);
+        }, filePath + ' written', timeout);
     }
 
-    it('should write branch and build on start()', function () {
+    it('should write branch on start()', function () {
         var timeStamp = getTS();
         docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
-        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/build.xml';
+        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/branch.xml';
         assertFileWillExistWithin(expectedFilePath, 2000);
     });
 
