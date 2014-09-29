@@ -72,5 +72,12 @@ describe('scenarioDocuWriter', function () {
         assertFileWillExistWithin(expectedFilePath, 2000);
     });
 
+    it('should save a step', function() {
+        var timeStamp = getTS();
+        docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
+        docuWriter.saveStep('my step');
+        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/scenariodocuwriter/should_save_a_step/steps/000.xml';
+        assertFileWillExistWithin(expectedFilePath, 2000);
+    });
 
 });

@@ -82,6 +82,27 @@ describe('util: safeForFilename', function () {
         expect(result).toBe('a_a__a_some');
     });
 
+});
 
+describe('util: sanitizeIdentifier', function() {
+
+    it('should return the original value if it is not a string', function() {
+        expect(util.sanitizeIdentifier(123)).toBe(123);
+        expect(util.sanitizeIdentifier(null)).toBe(null);
+        expect(util.sanitizeIdentifier(undefined)).toBe(undefined);
+    });
+
+    it('should return the original value if the string input does not contain forbidden characters', function() {
+        var validString = 'abc123DEF_- .:';
+        expect(util.sanitizeIdentifier(validString)).toBe(validString);
+    });
+
+    it('should replace slashes', function() {
+        expect(util.sanitizeIdentifier('/some/string')).toBe('_some_string');
+    });
+
+    it('should replace backslashes', function() {
+        expect(util.sanitizeIdentifier('\\some\\string')).toBe('_some_string');
+    });
 
 });
