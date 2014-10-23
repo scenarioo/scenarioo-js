@@ -15,7 +15,7 @@ gulp.task('clean', function (done) {
 });
 
 gulp.task('lint', function () {
-  return gulp.src(paths.sourceFiles)
+  return gulp.src([paths.sourceFiles, paths.testFiles])
     .pipe(eslint())
     .pipe(eslint.format());
 });

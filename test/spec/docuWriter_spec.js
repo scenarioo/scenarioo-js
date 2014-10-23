@@ -1,8 +1,11 @@
 'use strict';
 
-var docuWriter = require('../../lib/scenarioDocuWriter.js');
-var extend = require('extend');
-var fs = require('fs');
+var
+  docuWriter = require('../../lib/scenarioDocuWriter.js'),
+  extend = require('extend'),
+  expect = require('expect.js'),
+  Q = require('q'),
+  fs = require('fs');
 
 before(function () {
 
@@ -20,6 +23,35 @@ before(function () {
       return env;
     }
   };
+
+  global.browser = {
+    getCurrentUrl: function () {
+      var deferred = Q.defer();
+      deferred.resolve('http://example.url.com');
+      return deferred.promise;
+    },
+    takeScreenshot: function () {
+      var deferred = Q.defer();
+      deferred.resolve('dummyImageDate');
+      return deferred.promise;
+    }
+  };
+
+  global.by = {
+    css: function () {
+    }
+  };
+
+  global.element = function () {
+    return {
+      getOuterHtml: function () {
+        var outerHtmlDeferred = Q.defer();
+        outerHtmlDeferred.resolve('<html></html>');
+        return outerHtmlDeferred.promise;
+      }
+    };
+  };
+
 });
 
 describe('scenarioDocuWriter', function () {
@@ -61,45 +93,53 @@ describe('scenarioDocuWriter', function () {
   }
 
   function assertFileExists(filePath, done) {
-
-    fs.exists(filePath, function (err, resu) {
+    fs.exists(filePath, function (result) {
+      expect(result).to.be(true);
       done();
     });
-//        waitsFor(function () {
-//            return fs.existsSync(filePath);
-//        }, filePath + ' written', timeout);
   }
 
   it('should write branch on start()', function (done) {
     var timeStamp = getTS();
-    docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
-    var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/branch.xml';
-    assertFileExists(expectedFilePath, done);
+    docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir)
+      .then(function () {
+        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/branch.xml';
+        assertFileExists(expectedFilePath, done);
+      });
   });
 
   it('should save usecase', function (done) {
     var timeStamp = getTS();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
-    docuWriter.saveUseCase(dummyUseCase);
-    var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/use_case_name__toll_/usecase.xml';
-    assertFileExists(expectedFilePath, done);
+    docuWriter.saveUseCase(dummyUseCase)
+      .then(function () {
+        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/use_case_name__toll_/usecase.xml';
+        assertFileExists(expectedFilePath, done);
+      });
   });
 
   it('should save scenario', function (done) {
     var timeStamp = getTS();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
-    docuWriter.saveUseCase(dummyUseCase);
-    docuWriter.saveScenario(dummyScenario);
-    var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/use_case_name__toll_/_some_cool_scenario_name/scenario.xml';
-    assertFileExists(expectedFilePath, done);
+    docuWriter.saveUseCase(dummyUseCase)
+      .then(function () {
+        docuWriter.saveScenario(dummyScenario)
+          .then(function () {
+            var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/use_case_name__toll_/_some_cool_scenario_name/scenario.xml';
+            assertFileExists(expectedFilePath, done);
+          });
+      });
   });
 
   it('should save a step', function (done) {
     var timeStamp = getTS();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
-    docuWriter.saveStep('my step');
-    var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/scenariodocuwriter/should_save_a_step/steps/000.xml';
-    assertFileExists(expectedFilePath, done);
+    docuWriter.saveStep('my step').then(function () {
+      var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/suitedescription/specdescription/steps/000.xml';
+      assertFileExists(expectedFilePath, done);
+    }, function (err) {
+      throw new Error(err);
+    });
   });
 
 });

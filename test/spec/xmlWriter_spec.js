@@ -1,20 +1,21 @@
 'use strict';
 
 var xmlWriter = require('../../lib/xmlWriter.js');
-var expect = require('expect.js');
 
 describe('xmlWriter: simpleFile', function () {
 
-  it('should serialize simple object', function () {
+  it('should serialize simple object', function (done) {
 
     var dummyObjectToWrite = {
       name: 'sergio',
       lastName: 'trentini'
     };
 
-    var result = xmlWriter.writeXmlFile('rootElement', dummyObjectToWrite, './test/out/testfile.xml');
+    var promise = xmlWriter.writeXmlFile('rootElement', dummyObjectToWrite, './test/out/testfile.xml');
 
-    expect(result).to.be(true);
+    promise.then(function () {
+      done();
+    });
   });
 
 
