@@ -1,43 +1,42 @@
 {
-    "name": "scenarioo-js",
-    "description": "Scenarioo API for Javascript to generate Scenarioo Documentations",
-    "version": "0.1.6",
-    "homepage": "http://scenarioo.org",
-    "author": {
-        "name": "xeronimus",
-        "email": "xeronimus@gmail.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/scenarioo/scenarioo-js.git"
-    },
-    "bugs": {
-        "url": "https://github.com/scenarioo/scenarioo-js/issues"
-    },
-    "licenses": [
-        {
-            "type": "GNU GENERAL PUBLIC LICENSE",
-            "url": "https://www.gnu.org/copyleft/gpl.html"
-        }
-    ],
-    "main": "lib/scenarioo-js",
-    "engines": {
-        "node": ">= 0.8.0"
-    },
-    "scripts": {
-        "test": "grunt nodeunit"
-    },
-    "dependencies": {
-        "js2xmlparser": "~0.1.2"
-    },
-    "devDependencies": {
-        "grunt-contrib-jshint": "~0.6.4",
-        "jasmine-node": "1.13.1",
-        "grunt-jasmine-node": "0.1.0",
-        "grunt-contrib-watch": "~0.5.3",
-        "grunt": "~0.4.2",
-        "extend": "~1.2.1",
-        "promise": "~6.0.0"
-    },
-    "keywords": ["scenarioo"]
+  "name": "scenarioo-js",
+  "description": "Scenarioo API for Javascript to generate Scenarioo Documentations",
+  "version": "0.1.6",
+  "homepage": "http://scenarioo.org",
+  "author": {
+    "name": "xeronimus",
+    "email": "xeronimus@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scenarioo/scenarioo-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/scenarioo/scenarioo-js/issues"
+  },
+  "licenses": [
+    {
+      "type": "GNU GENERAL PUBLIC LICENSE",
+      "url": "https://www.gnu.org/copyleft/gpl.html"
+    }
+  ],
+  "main": "lib/scenarioo-js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "dependencies": {
+    "js2xmlparser": "~0.1.2"
+  },
+  "devDependencies": {
+    "extend": "~1.2.1",
+    "gulp": "^3.8.9",
+    "gulp-eslint": "^0.1.8",
+    "promise": "~6.0.0"
+  },
+  "keywords": [
+    "scenarioo"
+  ]
 }

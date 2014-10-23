@@ -1,0 +1,19 @@
+{
+  "env": {
+    "node": true
+  },
+
+  "rules": {
+    "curly": 2,
+    "quotes": [2,"single"]
+  },
+
+  "globals": {
+    "browser": false,
+    "jasmine": false,
+    "describe": false,
+    "it": false,
+    "element": false,
+    "by": false
+  }
+}
