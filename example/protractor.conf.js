@@ -1,7 +1,7 @@
 'use strict';
 
 
-var e2eBaseUrl = 'http://localhost:8080';
+var e2eBaseUrl = 'http://localhost:8081';
 
 var exportsConfig = {
 
