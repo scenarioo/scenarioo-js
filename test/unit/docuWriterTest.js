@@ -139,7 +139,7 @@ describe('scenarioDocuWriter', function () {
     }, done);
   });
 
-  it('should save a  with additional misc data ("details")', function (done) {
+  it('should save a step with additional misc data ("details")', function (done) {
     var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
     var dummyDetailData = {
@@ -170,6 +170,36 @@ describe('scenarioDocuWriter', function () {
         additional: 'data2',
         that: 'should be stored2'
       });
+
+      done();
+    }, done);
+  });
+
+  it('should save a step with additional misc data ("details") including arrays', function (done) {
+    var timeStamp = getTimeStamp();
+    docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
+    var dummyDetailData = {
+      complexCustomInfo: [
+        'this is a more complex example of metadata',
+        'We expect this to end up in valid "entry/key/value" xml'
+      ],
+      moreComplexCustomInfo: [
+        {
+          attributeOne: 'valueOne',
+          attributeTwo: 'valueTwo'
+        },
+        {
+          attributeOne: 'valueOneOne',
+          attributeTwo: 'valueTwoTwo'
+        }
+      ]
+    };
+
+    docuWriter.saveStep('my step', dummyDetailData).then(function (savedStepData) {
+      var stepDescriptionDetails = savedStepData[0].metadata.details;
+
+      expect(stepDescriptionDetails).not.to.be(undefined);
+
 
       done();
     }, done);
