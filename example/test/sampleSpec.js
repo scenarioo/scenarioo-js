@@ -16,7 +16,22 @@ scenarioo.describeUseCase('Example Usecase', function () {
 
     element(by.css('li#item_two')).click();
     expect(element(by.id('selected')).getText('two'));
-    scenarioo.docuWriter.saveStep('two is displayed');
+    scenarioo.docuWriter.saveStep('two is displayed',{
+      complexCustomInfo: [
+        'this is a more complex example of metadata',
+        'We expect this to end up in valid "entry/key/value" xml'
+      ],
+      moreComplexCustomInfo: [
+        {
+          attributeOne:'valueOne',
+          attributeTwo:'valueTwo'
+        },
+        {
+          attributeOne:'valueOneOne',
+          attributeTwo:'valueTwoTwo'
+        }
+      ]
+    });
 
     element(by.css('li#item_three')).click();
     expect(element(by.id('selected')).getText('three'));
