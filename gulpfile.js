@@ -15,9 +15,19 @@ gulp.task('cleanTestOut', function (done) {
 });
 
 gulp.task('lint', function () {
-  return gulp.src([paths.sourceFiles, paths.testFiles])
-    .pipe(eslint())
-    .pipe(eslint.format());
+
+  var stream = gulp.src([paths.sourceFiles, paths.testFiles]);
+
+  stream.pipe(eslint());
+
+  if (process.env.BUILD_ENV === 'TRAVISCI') {
+    stream.pipe(eslint.failOnError())
+  }
+
+  stream.pipe(eslint.format());
+
+  return stream;
+
 });
 
 gulp.task('test', ['cleanTestOut'], function () {
