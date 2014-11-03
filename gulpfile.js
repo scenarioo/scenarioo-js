@@ -5,10 +5,10 @@ var del = require('del');
 
 var paths = {
   sourceFiles: 'lib/*.js',
-  testFiles: 'test/spec/*_spec.js'
+  testFiles: 'test/unit/*.js'
 };
 
-gulp.task('clean', function (done) {
+gulp.task('cleanTestOut', function (done) {
   del('test/out/*', function (err) {
     done(err);
   });
@@ -20,7 +20,7 @@ gulp.task('lint', function () {
     .pipe(eslint.format());
 });
 
-gulp.task('test', ['clean'], function () {
+gulp.task('test', ['cleanTestOut'], function () {
   return gulp.src(paths.testFiles, {read: false})
     .pipe(mocha({reporter: 'spec'}));
 });

@@ -2,8 +2,8 @@
 
 var
   docuWriter = require('../../lib/scenarioDocuWriter.js'),
-  extend = require('extend'),
   expect = require('expect.js'),
+  _ = require('lodash'),
   Q = require('q'),
   fs = require('fs');
 
@@ -81,13 +81,12 @@ describe('scenarioDocuWriter', function () {
     stepCounter: 0
   };
 
-  function getTS() {
+  function getTimeStamp() {
     return  Math.round((new Date()).getTime() / 1000);
   }
 
   function getTimeStampedBuildObject(timeStamp) {
-    var build = {};
-    extend(build, dummyBuild);
+    var build = _.cloneDeep(dummyBuild);
     build.name = build.name + timeStamp;
     return build;
   }
@@ -100,7 +99,7 @@ describe('scenarioDocuWriter', function () {
   }
 
   it('should write branch on start()', function (done) {
-    var timeStamp = getTS();
+    var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir)
       .then(function () {
         var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/branch.xml';
@@ -109,7 +108,7 @@ describe('scenarioDocuWriter', function () {
   });
 
   it('should save usecase', function (done) {
-    var timeStamp = getTS();
+    var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
     docuWriter.saveUseCase(dummyUseCase)
       .then(function () {
@@ -119,7 +118,7 @@ describe('scenarioDocuWriter', function () {
   });
 
   it('should save scenario', function (done) {
-    var timeStamp = getTS();
+    var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
     docuWriter.saveUseCase(dummyUseCase)
       .then(function () {
@@ -132,14 +131,62 @@ describe('scenarioDocuWriter', function () {
   });
 
   it('should save a step', function (done) {
-    var timeStamp = getTS();
+    var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
     docuWriter.saveStep('my step').then(function () {
       var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/suitedescription/specdescription/steps/000.xml';
       assertFileExists(expectedFilePath, done);
-    }, function (err) {
-      throw new Error(err);
-    });
+    }, done);
+  });
+
+  it('should save a  with additional misc data ("details")', function (done) {
+    var timeStamp = getTimeStamp();
+    docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
+    var dummyDetailData = {
+      first: {
+        arbitrary: 1,
+        additional: 'data',
+        that: 'should be stored'
+      },
+      second: {
+        arbitrary: 2,
+        additional: 'data2',
+        that: 'should be stored2'
+      }
+    };
+
+    docuWriter.saveStep('my step', dummyDetailData).then(function (savedStepData) {
+      var stepDescriptionDetails = savedStepData[0].metadata.details;
+      expect(stepDescriptionDetails).not.to.be(undefined);
+      expect(stepDescriptionDetails.entry[0].key).to.be('first');
+      expect(stepDescriptionDetails.entry[0].value).to.eql({
+        arbitrary: 1,
+        additional: 'data',
+        that: 'should be stored'
+      });
+      expect(stepDescriptionDetails.entry[1].key).to.be('second');
+      expect(stepDescriptionDetails.entry[1].value).to.eql({
+        arbitrary: 2,
+        additional: 'data2',
+        that: 'should be stored2'
+      });
+
+      done();
+    }, done);
+  });
+
+  it('should fail if step metadata details is not an object', function (done) {
+    var timeStamp = getTimeStamp();
+    docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
+    var dummyDetailData = [];
+
+    docuWriter.saveStep('my step', dummyDetailData)
+      .then(function () {
+        done('should not be successful!');
+      }, function (err) {
+        expect(err.message).to.contain('Step metadata details must be an object');
+        done();
+      });
   });
 
 });
