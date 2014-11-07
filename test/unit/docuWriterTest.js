@@ -27,7 +27,7 @@ before(function () {
   global.browser = {
     getCurrentUrl: function () {
       var deferred = Q.defer();
-      deferred.resolve('http://example.url.com');
+      deferred.resolve('http://example.url.com/#/somepage');
       return deferred.promise;
     },
     takeScreenshot: function () {
@@ -133,9 +133,27 @@ describe('scenarioDocuWriter', function () {
   it('should save a step', function (done) {
     var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
-    docuWriter.saveStep('my step').then(function () {
+    docuWriter.saveStep('my step').then(function (stepData) {
+      expect(stepData[0].page.name).to.be('http:__example.url.com_#_somepage');
       var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/suitedescription/specdescription/steps/000.xml';
       assertFileExists(expectedFilePath, done);
+    }, done);
+  });
+
+  it('should save a step with custom pagename function', function (done) {
+    var timeStamp = getTimeStamp();
+    docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
+    docuWriter.registerPageNameFunction(function (url) {
+      var pos = url.indexOf('#');
+      if (pos > -1) {
+        return url.substring(pos + 1);
+      } else {
+        return url;
+      }
+    });
+    docuWriter.saveStep('my step').then(function (stepData) {
+      expect(stepData[0].page.name).to.be('_somepage');
+      done();
     }, done);
   });
 
@@ -175,6 +193,10 @@ describe('scenarioDocuWriter', function () {
     }, done);
   });
 
+  /**
+   * At the moment, this does not work as expected.
+   * //TODO: Discuss this with the scenarioo core team.
+   */
   it('should save a step with additional misc data ("details") including arrays', function (done) {
     var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
