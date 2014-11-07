@@ -1,7 +1,7 @@
 {
   "name": "scenarioo-js",
   "description": "Scenarioo API for Javascript to generate Scenarioo Documentations",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "homepage": "http://scenarioo.org",
   "author": {
     "name": "xeronimus",
