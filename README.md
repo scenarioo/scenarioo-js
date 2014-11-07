@@ -1,6 +1,7 @@
-# scenarioo-js
+# scenarioo-js [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
+> Scenarioo API for [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs) e2e tests!
 
-Scenarioo API for Javascript to generate Scenarioo Documentations in protractor e2e tests.
+Scenarioo API for Javascript to generate Scenarioo Documentations in WebDriverJS (and protractor) e2e tests.
 
 This is a subproject of Scenarioo, for Wiki documentation and more informations see here: https://github.com/scenarioo/scenarioo/wiki
 
