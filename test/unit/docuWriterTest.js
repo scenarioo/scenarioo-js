@@ -12,7 +12,7 @@ before(function () {
   // define our mock jasmine object
   global.jasmine = {
     getEnv: function () {
-      var env = {
+      return {
         currentSpec: {
           suite: {
             description: 'SuiteDescription'
@@ -20,7 +20,6 @@ before(function () {
           description: 'specDescription'
         }
       };
-      return env;
     }
   };
 
@@ -133,22 +132,32 @@ describe('scenarioDocuWriter', function () {
   it('should save a step', function (done) {
     var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
-    docuWriter.saveStep('my step').then(function (stepData) {
-      expect(stepData[0].page.name).to.be('http:__example.url.com_#_somepage');
+    docuWriter.saveStep('my step').then(function () {
       var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/suitedescription/specdescription/steps/000.xml';
       assertFileExists(expectedFilePath, done);
     }, done);
+  });
+
+  it('should save a step with default pagename', function (done) {
+    var timeStamp = getTimeStamp();
+    docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
+    docuWriter.saveStep('my step')
+      .then(function (stepData) {
+        expect(stepData[0].page.name).to.be('#_somepage');
+        done();
+      }, done)
+      .catch(done);
   });
 
   it('should save a step with custom pagename function', function (done) {
     var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
     docuWriter.registerPageNameFunction(function (url) {
-      var pos = url.indexOf('#');
+      var pos = url.href.indexOf('#');
       if (pos > -1) {
-        return url.substring(pos + 1);
+        return url.href.substring(pos + 1);
       } else {
-        return url;
+        return url.href;
       }
     });
     docuWriter.saveStep('my step').then(function (stepData) {
