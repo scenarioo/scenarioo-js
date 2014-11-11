@@ -92,8 +92,11 @@ describe('scenarioDocuWriter', function () {
 
   function assertFileExists(filePath, done) {
     fs.exists(filePath, function (result) {
-      expect(result).to.be(true);
-      done();
+      if (result === false) {
+        done(new Error('File ' + filePath + ' does not exist!'));
+      } else {
+        done();
+      }
     });
   }
 
