@@ -81,7 +81,7 @@ describe('scenarioDocuWriter', function () {
   };
 
   function getTimeStamp() {
-    return  Math.round((new Date()).getTime() / 1000);
+    return Math.round((new Date()).getTime() / 1000);
   }
 
   function getTimeStampedBuildObject(timeStamp) {
@@ -101,7 +101,7 @@ describe('scenarioDocuWriter', function () {
     var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir)
       .then(function () {
-        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/branch.xml';
+        var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/branch.xml';
         assertFileExists(expectedFilePath, done);
       });
   });
@@ -111,7 +111,7 @@ describe('scenarioDocuWriter', function () {
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
     docuWriter.saveUseCase(dummyUseCase)
       .then(function () {
-        var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/use_case_name__toll_/usecase.xml';
+        var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/some+build+name_' + timeStamp + '/use+case+name%2C+toll!/usecase.xml';
         assertFileExists(expectedFilePath, done);
       });
   });
@@ -123,7 +123,7 @@ describe('scenarioDocuWriter', function () {
       .then(function () {
         docuWriter.saveScenario(dummyScenario)
           .then(function () {
-            var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/use_case_name__toll_/_some_cool_scenario_name/scenario.xml';
+            var expectedFilePath = targetDir + '//my+unsafe+branch+name%2C+will//some+build+name_' + timeStamp + '/use+case+name%2C+toll!/+some+cool+scenario+name/scenario.xml';
             assertFileExists(expectedFilePath, done);
           });
       });
@@ -133,7 +133,7 @@ describe('scenarioDocuWriter', function () {
     var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
     docuWriter.saveStep('my step').then(function () {
-      var expectedFilePath = targetDir + '/my_unsafe_branch_name__will/some_build_name_' + timeStamp + '/suitedescription/specdescription/steps/000.xml';
+      var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/some+build+name_' + timeStamp + '/suitedescription/specdescription/steps/000.xml';
       assertFileExists(expectedFilePath, done);
     }, done);
   });

@@ -6,7 +6,7 @@ var
 
 describe('pageNameExtractor', function () {
 
-  describe('pageNameExtractor#getPageNameFromUrl', function () {
+  describe('#getPageNameFromUrl', function () {
 
     describe('default extraction', function () {
 
