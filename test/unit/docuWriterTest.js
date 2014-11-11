@@ -143,7 +143,7 @@ describe('scenarioDocuWriter', function () {
     var timeStamp = getTimeStamp();
     docuWriter.start(dummyBranch, getTimeStampedBuildObject(timeStamp), targetDir);
     docuWriter.saveStep('my step').then(function () {
-      var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/some+build+name_' + timeStamp + '/suitedescription/specdescription/steps/000.xml';
+      var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/some+build+name_' + timeStamp + '/SuiteDescription/specDescription/steps/000.xml';
       assertFileExists(expectedFilePath, done);
     }, done);
   });
