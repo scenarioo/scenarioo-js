@@ -1,6 +1,7 @@
 'use strict';
 
 var
+  testHelper = require('./testHelper'),
   docuWriter = require('../../lib/scenarioDocuWriter.js'),
   expect = require('expect.js'),
   _ = require('lodash'),
@@ -93,7 +94,13 @@ describe('scenarioDocuWriter', function () {
   function assertFileExists(filePath, done) {
     fs.exists(filePath, function (result) {
       if (result === false) {
-        done(new Error('File ' + filePath + ' does not exist!'));
+        // file not found, list files in our test-out dir
+        testHelper
+          .logDirectoryTree(targetDir)
+          .then(function () {
+            done(new Error('File ' + filePath + ' does not exist!'));
+          });
+
       } else {
         done();
       }

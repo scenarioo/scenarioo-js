@@ -38,7 +38,8 @@
     "gulp": "3.8.9",
     "gulp-eslint": "0.1.8",
     "gulp-mocha": "1.1.1",
-    "mocha": "1.21.5"
+    "mocha": "1.21.5",
+    "findit": "2.0.0"
   },
   "keywords": [
     "scenarioo"
