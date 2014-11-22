@@ -214,7 +214,14 @@ describe('scenarioDocuWriter', function () {
       docuWriter.saveUseCase(dummyUseCase)
         .then(function () {
           var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll!/usecase.xml';
-          testHelper.assertFileExists(targetDir, expectedFilePath, done);
+
+          testHelper.assertXmlContent(expectedFilePath, {
+            useCase: {
+              name: ['use case name, toll!'],
+              description: ['some description with special chars ;) %&'],
+              status: ['success']
+            }
+          }, done);
         })
         .catch(done);
     });
@@ -282,7 +289,15 @@ describe('scenarioDocuWriter', function () {
       docuWriter.saveScenario(dummyScenario, 'a use case')
         .then(function () {
           var expectedFilePath = targetDir + '//my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name/scenario.xml';
-          testHelper.assertFileExists(targetDir, expectedFilePath, done);
+
+          testHelper.assertXmlContent(expectedFilePath, {
+            scenario: {
+              name: [' some cool scenario name'],
+              description: ['scenario description'],
+              status: ['success']
+            }
+          }, done);
+
         })
         .catch(done);
     });
