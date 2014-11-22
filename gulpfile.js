@@ -1,11 +1,12 @@
-var gulp = require('gulp');
-var mocha = require('gulp-mocha');
-var eslint = require('gulp-eslint');
-var del = require('del');
+var
+  gulp = require('gulp'),
+  mocha = require('gulp-mocha'),
+  eslint = require('gulp-eslint'),
+  del = require('del');
 
 var paths = {
-  sourceFiles: 'lib/*.js',
-  testFiles: 'test/unit/*.js'
+  sourceFiles: './lib/*.js',
+  testFiles: './test/unit/*.js'
 };
 
 gulp.task('cleanTestOut', function (done) {
