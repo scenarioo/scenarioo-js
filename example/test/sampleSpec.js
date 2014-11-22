@@ -14,7 +14,7 @@ scenarioo.describeUseCase('Example Usecase', 'You can optionally pass in a use c
 
     // write your normal webdriverjs / protractor test-code here
 
-    browser.get('/');
+    browser.get('/index.html');
 
     // use scenarioo's docuWriter to save step information (screenshot, etc.)
     scenarioo.docuWriter.saveStep('start');
