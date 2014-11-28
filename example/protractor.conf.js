@@ -33,6 +33,7 @@ var exportsConfig = {
     // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
     require('jasmine-reporters');
     var scenarioo = require('../lib/scenarioo-js');
+    // pass in the current branch of your VCS you are testing, an arbitrary build name and the current revision you are testing.
     var scenariooReporter = new scenarioo.reporter('./scenariodocu', 'master', 'the master branch', 'build_' + new Date(), '1.0.0');
     jasmine.getEnv().addReporter(scenariooReporter);
   },
