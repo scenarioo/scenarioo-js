@@ -28,19 +28,18 @@
     "test": "gulp"
   },
   "dependencies": {
-    "js2xmlparser": "0.1.5",
     "lodash": "2.4.1",
-    "q": "1.0.1"
+    "q": "1.0.1",
+    "xml2js": "0.4.4"
   },
   "devDependencies": {
     "del": "0.1.3",
     "expect.js": "0.3.1",
-    "gulp": "3.8.9",
+    "gulp": "3.8.10",
     "gulp-eslint": "0.1.8",
     "gulp-mocha": "1.1.1",
     "mocha": "1.21.5",
-    "findit": "2.0.0",
-    "xml2js": "~0.4.4"
+    "findit": "2.0.0"
   },
   "keywords": [
     "scenarioo"
