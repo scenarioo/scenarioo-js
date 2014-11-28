@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Starting http-server..."
-node_modules/http-server/bin/http-server app &
+node_modules/http-server/bin/http-server -p 8081 app &
 serverPID=$!
 echo "http-server is running (pid: $serverPID)"
 
