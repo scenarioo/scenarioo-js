@@ -15,11 +15,11 @@ function logDirectoryTree(rootDir) {
   var find = findit(rootDir);
 
   find.on('file', function (file) {
-    console.log(file);
+    console.log('f ' + file);
   });
 
   find.on('directory', function (file) {
-    console.log(file);
+    console.log('d ' + file);
   });
 
   find.on('end', function () {

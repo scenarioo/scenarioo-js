@@ -1,6 +1,7 @@
 'use strict';
 
 var
+  path = require('path'),
   testHelper = require('../utils/testHelper'),
   mockWebdriver = require('../utils/mockWebdriver'),
   docuWriter = require('../../lib/scenarioDocuWriter.js'),
@@ -15,53 +16,76 @@ describe('scenarioDocuWriter', function () {
   /** let's set up some dummy objects **/
   var targetDir = './test/out/docu';
 
-  var dummyBranch = {
-    name: 'my unsafe branch name, will',
-    description: 'my safe description'
-  };
-
-  var dummyUseCase = {
-    name: 'use case name, toll!',
-    description: 'some description with special chars ;) %&',
-    status: 'success'
-  };
-
-  var dummyScenario = {
-    name: ' some cool scenario name',
-    description: 'scenario description',
-    status: 'success'
-  };
-
   describe('#start()', function () {
 
-    it('should throw if name attribute is missing ', function () {
-      var branch = {};
-
-      expect(function () {
-        docuWriter.start(branch, 'build_name', targetDir);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Branch must contain attribute "name"');
-        });
-    });
-
-    it('should write branch directory on start()', function (done) {
-      docuWriter.start(dummyBranch, 'some build name', targetDir)
-        .then(function () {
-          var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will';
-          testHelper.assertFileExists(targetDir, expectedFilePath, done);
+    it('should write branch/build directory on start()', function (done) {
+      docuWriter.start(targetDir, 'someBranch', 'someBuild')
+        .then(function (actualFilePath) {
+          var expectedPath = path.join(path.resolve(targetDir), '/someBranch/someBuild');
+          expect(actualFilePath).to.be(expectedPath);
+          testHelper.assertFileExists(targetDir, expectedPath, done);
         })
         .catch(done);
     });
 
-    it('should write branch.xml on start() with all attributes', function (done) {
-      docuWriter.start(dummyBranch, 'some build name', targetDir)
-        .then(function () {
-          var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/branch.xml';
+    it('branch and build names are sanitized and encoded', function (done) {
+      docuWriter.start(targetDir, 'some\\branch', 'some build')
+        .then(function (actualFilePath) {
+          var expectedPath = path.join(path.resolve(targetDir), '/some_branch/some+build');
+          expect(actualFilePath).to.be(expectedPath);
+          testHelper.assertFileExists(targetDir, expectedPath, done);
+        })
+        .catch(done);
+    });
 
-          testHelper.assertXmlContent(expectedFilePath, {
+
+  });
+
+  describe('#saveBranch()', function () {
+
+    beforeEach(function (done) {
+      docuWriter.start(targetDir, 'some\\Branch', 'someBuild')
+        .then(function () {
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should throw if branch name is missing', function (done) {
+      // do not check for full validation here -> entityValidatorTest
+      var branch = {/* no name */};
+      expect(function () {
+        docuWriter.saveBranch(branch);
+      }).to.throwException(function (e) {
+          expect(e.message).to.contain('Missing required property: name');
+          done();
+        });
+    });
+
+    it('should throw if branch name does not match', function (done) {
+      var branch = {name: 'notSomeBranch'};
+      expect(function () {
+        docuWriter.saveBranch(branch);
+      }).to.throwException(function (e) {
+          expect(e.message).to.be('ScenarioDocuWriter was started with branch name some_Branch, but given branch object has name notSomeBranch');
+          done();
+        });
+    });
+
+    it('should write branch.xml with attributes', function (done) {
+      var branch = {
+        name: 'some\\Branch',
+        description: 'my super branch'
+      };
+
+      docuWriter.saveBranch(branch)
+        .then(function (actualFilePath) {
+          expect(actualFilePath).to.contain('branch.xml');
+
+          testHelper.assertXmlContent(actualFilePath, {
             branch: {
-              name: ['my unsafe branch name, will'],
-              description: ['my safe description']
+              name: ['some_Branch'],
+              description: ['my super branch']
             }
           }, done);
         })
@@ -69,10 +93,11 @@ describe('scenarioDocuWriter', function () {
     });
   });
 
+
   describe('#saveBuild()', function () {
 
     beforeEach(function (done) {
-      docuWriter.start(dummyBranch, 'save_build_test', targetDir)
+      docuWriter.start(targetDir, 'someBranch', 'someBuild')
         .then(function () {
           done();
         })
@@ -80,74 +105,49 @@ describe('scenarioDocuWriter', function () {
     });
 
     it('should throw if name attribute is missing ', function () {
-      var build = {
-        date: new Date(),
-        status: 'successs'
-      };
+      // do not check for full validation here -> entityValidatorTest
+      var build = {};
 
       expect(function () {
-        docuWriter.saveBuild(build, targetDir);
+        docuWriter.saveBuild(build);
       }).to.throwException(function (err) {
-          expect(err.message).to.contain('Build must contain attribute "name"');
+          expect(err.message).to.contain('Missing required property: name');
         });
     });
 
-    it('should throw if date attribute is missing ', function () {
-      var build = {
-        name: 'some build name',
-        status: 'successs'
-      };
-
-      expect(function () {
-        docuWriter.saveBuild(build, targetDir);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Build must contain attribute "date"');
-        });
-    });
-
-    it('should throw if status attribute is missing ', function () {
-      var build = {
-        name: 'some build name',
-        date: new Date()
-      };
-
-      expect(function () {
-        docuWriter.saveBuild(build, targetDir);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Build must contain attribute "status"');
-        });
-    });
-
-    it('should throw if status attribute is not "failed" or "success" ', function () {
-      var build = {
-        name: 'some build name',
-        date: new Date(),
-        status: 'something'
-      };
-
-      expect(function () {
-        docuWriter.saveBuild(build, targetDir);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Build must contain attribute "status" with value "success" or "failed"');
-        });
-    });
-
-    it('should save mandatory fields correctly build.xml', function (done) {
+    it('should throw if build name does not match', function () {
       var buildDate = new Date();
       var build = {
-        name: 'save_build_test',
+        name: 'notSomeBuild',
         date: buildDate,
         status: 'failed'
       };
 
-      docuWriter.saveBuild(build, targetDir)
-        .then(function () {
-          var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/save_build_test/build.xml';
+      expect(function () {
+        docuWriter.saveBuild(build);
+      }).to.throwException(function (err) {
+          expect(err.message).to.contain('ScenarioDocuWriter was started with build name someBuild, but given branch object has name notSomeBuild');
+        });
+    });
 
-          testHelper.assertXmlContent(expectedFilePath, {
+    it('should write build.xml with attributes', function (done) {
+      var buildDate = new Date();
+      var build = {
+        name: 'someBuild',
+        date: buildDate,
+        status: 'failed'
+      };
+
+      docuWriter.saveBuild(build)
+        .then(function (actualFilePath) {
+          expect(actualFilePath).to.contain('someBuild');
+          expect(actualFilePath).to.contain('someBranch');
+          expect(actualFilePath).to.contain('build.xml');
+
+          testHelper.assertXmlContent(actualFilePath, {
             build: {
-              name: ['save_build_test'],
-              date: [buildDate.toString()],
+              name: ['someBuild'],
+              date: [buildDate.toISOString()],
               status: ['failed']
             }
           }, done);
@@ -157,65 +157,43 @@ describe('scenarioDocuWriter', function () {
 
   });
 
-
   describe('#saveUseCase()', function () {
 
-    beforeEach(function () {
-      docuWriter.start(dummyBranch, 'some build name', targetDir);
-    });
-
-    it('should throw if name attribute is missing ', function () {
-      var useCase = {
-        status: 'successs'
-      };
-
-      expect(function () {
-        docuWriter.saveUseCase(useCase);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('UseCase must contain attribute "name"');
-        });
-    });
-
-    it('should throw if status attribute is missing ', function () {
-      var useCase = {
-        name: 'Some use case'
-      };
-
-      expect(function () {
-        docuWriter.saveUseCase(useCase);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('UseCase must contain attribute "status"');
-        });
-    });
-
-    it('should throw if status attribute is not "failed" or "success" ', function () {
-      var useCase = {
-        name: 'some useCase name',
-        status: 'something'
-      };
-
-      expect(function () {
-        docuWriter.saveUseCase(useCase);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('UseCase must contain attribute "status" with value "success" or "failed"');
-        });
-    });
-
-    it('should create useCase directory', function (done) {
-      docuWriter.saveUseCase(dummyUseCase)
+    beforeEach(function (done) {
+      docuWriter.start(targetDir, 'someBranch', 'someBuild')
         .then(function () {
-          var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll!';
-          testHelper.assertFileExists(targetDir, expectedFilePath, done);
+          done();
         })
         .catch(done);
     });
 
-    it('should create usecase.xml', function (done) {
-      docuWriter.saveUseCase(dummyUseCase)
-        .then(function () {
-          var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll!/usecase.xml';
+    it('should throw if name attribute is missing ', function () {
+      // do not check for full validation here -> entityValidatorTest
+      var useCase = {
+        status: 'success'
+      };
 
-          testHelper.assertXmlContent(expectedFilePath, {
+      expect(function () {
+        docuWriter.saveUseCase(useCase);
+      }).to.throwException(function (err) {
+          expect(err.message).to.contain('Missing required property: name ()');
+        });
+    });
+
+    it('should write usecase.xml with attributes', function (done) {
+
+      var useCase = {
+        name: 'use case name, toll!',
+        description: 'some description with special chars ;) %&',
+        status: 'success'
+      };
+      docuWriter.saveUseCase(useCase)
+        .then(function (actualFilePath) {
+          expect(actualFilePath).to.contain('someBranch');
+          expect(actualFilePath).to.contain('someBuild');
+          expect(actualFilePath).to.contain('use+case+name%2C+toll!');
+          expect(actualFilePath).to.contain('usecase.xml');
+          testHelper.assertXmlContent(actualFilePath, {
             useCase: {
               name: ['use case name, toll!'],
               description: ['some description with special chars ;) %&'],
@@ -228,69 +206,46 @@ describe('scenarioDocuWriter', function () {
 
   });
 
+
+  // bis hier
+
   describe('#saveScenario()', function () {
 
     beforeEach(function (done) {
-      docuWriter.start(dummyBranch, 'some build name', targetDir);
-      docuWriter.saveUseCase(dummyUseCase)
+      docuWriter.start(targetDir, 'someBranch', 'someBuild')
         .then(function () {
           done();
-        })
-        .catch(done);
+        });
     });
 
     it('should throw if name attribute is missing ', function () {
+      // do not check for full validation here -> entityValidatorTest
       var scenario = {
         status: 'successs'
       };
 
       expect(function () {
-        docuWriter.saveScenario(scenario, 'a use case');
+        docuWriter.saveScenario('someUseCase', scenario);
       }).to.throwException(function (err) {
-          expect(err.message).to.contain('Scenario must contain attribute "name"');
+          expect(err.message).to.contain('Missing required property: name');
         });
     });
 
-    it('should throw if status attribute is missing ', function () {
+    it('should write scenario.xml with attributes', function (done) {
       var scenario = {
-        name: 'my super scenario'
+        name: ' some cool scenario name',
+        description: 'scenario description',
+        status: 'success'
       };
 
-      expect(function () {
-        docuWriter.saveScenario(scenario, 'a use case');
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Scenario must contain attribute "status"');
-        });
-    });
-
-    it('should throw if status attribute is not "failed" or "success" ', function () {
-      var scenario = {
-        name: 'some scenario name',
-        status: 'something'
-      };
-
-      expect(function () {
-        docuWriter.saveScenario(scenario, 'a use case');
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Scenario must contain attribute "status" with value "success" or "failed"');
-        });
-    });
-
-    it('should save scenario directory', function (done) {
-      docuWriter.saveScenario(dummyScenario, 'a use case')
-        .then(function () {
-          var expectedFilePath = targetDir + '//my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name';
-          testHelper.assertFileExists(targetDir, expectedFilePath, done);
-        })
-        .catch(done);
-    });
-
-    it('should save scenario.xml', function (done) {
-      docuWriter.saveScenario(dummyScenario, 'a use case')
-        .then(function () {
-          var expectedFilePath = targetDir + '//my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name/scenario.xml';
-
-          testHelper.assertXmlContent(expectedFilePath, {
+      docuWriter.saveScenario('someUseCase', scenario)
+        .then(function (actualFilePath) {
+          expect(actualFilePath).to.contain('someBranch');
+          expect(actualFilePath).to.contain('someBuild');
+          expect(actualFilePath).to.contain('someUseCase');
+          expect(actualFilePath).to.contain('+some+cool+scenario+name');
+          expect(actualFilePath).to.contain('scenario.xml');
+          testHelper.assertXmlContent(actualFilePath, {
             scenario: {
               name: [' some cool scenario name'],
               description: ['scenario description'],
@@ -305,124 +260,8 @@ describe('scenarioDocuWriter', function () {
   });
 
   describe('#saveStep()', function () {
+    // TODO:!
 
-    beforeEach(function () {
-      docuWriter.start(dummyBranch, 'myBuildName', targetDir);
-    });
-
-    it('should save a step', function (done) {
-      docuWriter.saveStep('my step')
-        .then(function () {
-          var expectedFilePath = targetDir + '/my+unsafe+branch+name%2C+will/myBuildName/SuiteDescription/specDescription/steps/000.xml';
-          testHelper.assertFileExists(targetDir, expectedFilePath, done);
-        }, done)
-        .catch(done);
-    });
-
-    it('should save a step with default pagename', function (done) {
-      docuWriter.saveStep('my step')
-        .then(function (stepData) {
-          expect(stepData[0].page.name).to.be('#_somepage');
-          done();
-        }, done)
-        .catch(done);
-    });
-
-    it('should save a step with custom pagename function', function (done) {
-      docuWriter.registerPageNameFunction(function (url) {
-        var pos = url.href.indexOf('#');
-        if (pos > -1) {
-          return url.href.substring(pos + 1);
-        } else {
-          return url.href;
-        }
-      });
-      docuWriter.saveStep('my step')
-        .then(function (stepData) {
-          expect(stepData[0].page.name).to.be('_somepage');
-          done();
-        }, done)
-        .catch(done);
-    });
-
-    it('should save a step with additional misc data ("details")', function (done) {
-      var dummyDetailData = {
-        first: {
-          arbitrary: 1,
-          additional: 'data',
-          that: 'should be stored'
-        },
-        second: {
-          arbitrary: 2,
-          additional: 'data2',
-          that: 'should be stored2'
-        }
-      };
-
-      docuWriter.saveStep('my step', dummyDetailData)
-        .then(function (savedStepData) {
-          var stepDescriptionDetails = savedStepData[0].metadata.details;
-          expect(stepDescriptionDetails).not.to.be(undefined);
-          expect(stepDescriptionDetails.entry[0].key).to.be('first');
-          expect(stepDescriptionDetails.entry[0].value).to.eql({
-            arbitrary: 1,
-            additional: 'data',
-            that: 'should be stored'
-          });
-          expect(stepDescriptionDetails.entry[1].key).to.be('second');
-          expect(stepDescriptionDetails.entry[1].value).to.eql({
-            arbitrary: 2,
-            additional: 'data2',
-            that: 'should be stored2'
-          });
-
-          done();
-        }, done)
-        .catch(done);
-    });
-
-    /**
-     * At the moment, this does not work as expected.
-     * //TODO: Discuss this with the scenarioo core team.
-     */
-    it('should save a step with additional misc data ("details") including arrays', function (done) {
-      var dummyDetailData = {
-        complexCustomInfo: [
-          'this is a more complex example of metadata',
-          'We expect this to end up in valid "entry/key/value" xml'
-        ],
-        moreComplexCustomInfo: [
-          {
-            attributeOne: 'valueOne',
-            attributeTwo: 'valueTwo'
-          },
-          {
-            attributeOne: 'valueOneOne',
-            attributeTwo: 'valueTwoTwo'
-          }
-        ]
-      };
-
-      docuWriter.saveStep('my step', dummyDetailData)
-        .then(function (savedStepData) {
-          var stepDescriptionDetails = savedStepData[0].metadata.details;
-          expect(stepDescriptionDetails).not.to.be(undefined);
-          done();
-        }, done)
-        .catch(done);
-    });
-
-    it('should fail if step metadata details is not an object', function (done) {
-      var dummyDetailData = [];
-      docuWriter.saveStep('my step', dummyDetailData)
-        .then(function () {
-          done('should not be successful!');
-        }, function (err) {
-          expect(err.message).to.contain('Step metadata details must be an object');
-          done();
-        })
-        .catch(done);
-    });
   });
 
 

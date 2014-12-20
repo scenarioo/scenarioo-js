@@ -30,7 +30,8 @@
   "dependencies": {
     "lodash": "2.4.1",
     "q": "1.0.1",
-    "xml2js": "0.4.4"
+    "xml2js": "0.4.4",
+    "tv4": "~1.1.5"
   },
   "devDependencies": {
     "del": "0.1.3",

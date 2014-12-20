@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "pattern": "^(success|failed)$"
+    },
+    "labels": {
+      "$ref": "labels"
+    },
+    "details": {
+      "$ref": "details"
+    }
+  },
+  "required": [
+    "name",
+    "status"
+  ],
+  "additionalProperties": false
+}
