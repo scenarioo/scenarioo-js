@@ -1,8 +1,8 @@
 'use strict';
 
 var
-  pageNameExtractor = require('../../lib/pageNameExtractor'),
-  expect = require('expect.js');
+  pageNameExtractor = require('../../../lib/docuWriter/pageNameExtractor'),
+  assert = require('assert');
 
 describe('pageNameExtractor', function () {
 
@@ -19,26 +19,26 @@ describe('pageNameExtractor', function () {
         var pageName;
 
         pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/index.html');
-        expect(pageName).to.be('index.html');
+        assert.equal(pageName, 'index.html');
         pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/home');
-        expect(pageName).to.be('home');
+        assert.equal(pageName, 'home');
         pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/profile/details');
-        expect(pageName).to.be('profile/details');
+        assert.equal(pageName, 'profile/details');
         pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/#/profile/details');
-        expect(pageName).to.be('#/profile/details');
+        assert.equal(pageName, '#/profile/details');
         pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/home/#/profile/details');
-        expect(pageName).to.be('home/#/profile/details');
+        assert.equal(pageName, 'home/#/profile/details');
 
       });
 
       it('should return default page name from url with query params', function () {
         var pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/index.php?action=some');
-        expect(pageName).to.be('index.php');
+        assert.equal(pageName, 'index.php');
       });
 
       it('should return whole input if invalid url', function () {
         var pageName = pageNameExtractor.getPageNameFromUrl('this-.is a malformed url/with\\no sense');
-        expect(pageName).to.be('this-.is a malformed url/with\\no sense');
+        assert.equal(pageName, 'this-.is a malformed url/with\\no sense');
       });
 
     });
@@ -60,9 +60,9 @@ describe('pageNameExtractor', function () {
 
       it('should invoke custom function with parsed url object', function () {
         pageNameExtractor.getPageNameFromUrl('http://some-domain.com/index.php?action=some');
-        expect(customFunctionArguments.length).to.be(1);
-        expect(customFunctionArguments[0][0].pathname).to.be('/index.php');
-        expect(customFunctionArguments[0][0].search).to.be('?action=some');
+        assert.equal(customFunctionArguments.length, 1);
+        assert.equal(customFunctionArguments[0][0].pathname, '/index.php');
+        assert.equal(customFunctionArguments[0][0].search, '?action=some');
       });
 
 

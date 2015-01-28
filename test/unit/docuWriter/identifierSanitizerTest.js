@@ -1,8 +1,8 @@
 'use strict';
 
 var
-  identifierSanitizer = require('../../lib/identifierSanitizer'),
-  expect = require('expect.js');
+  identifierSanitizer = require('../../../lib/docuWriter/identifierSanitizer'),
+  assert = require('assert');
 
 describe('identifierSanitizer', function () {
 
@@ -12,24 +12,24 @@ describe('identifierSanitizer', function () {
       var input = 'This is a unsafe identifier /with/a/path';
       var result = identifierSanitizer.sanitize(input);
 
-      expect(result).to.be('This is a unsafe identifier _with_a_path');
+      assert.equal(result, 'This is a unsafe identifier _with_a_path');
     });
 
     it('should replace backward slashes', function () {
       var input = 'This is a unsafe identifier C:\\stupid\\backslashes\\';
       var result = identifierSanitizer.sanitize(input);
 
-      expect(result).to.be('This is a unsafe identifier C:_stupid_backslashes_');
+      assert.equal(result, 'This is a unsafe identifier C:_stupid_backslashes_');
     });
 
     it('should handle undefined and null input', function () {
-      var input;
+      var input = undefined;
       var result = identifierSanitizer.sanitize(input);
-      expect(result).to.be(undefined);
+      assert.equal(result, undefined);
 
       input = null;
       result = identifierSanitizer.sanitize(input);
-      expect(result).to.be(undefined);
+      assert.equal(result, undefined);
     });
 
   });

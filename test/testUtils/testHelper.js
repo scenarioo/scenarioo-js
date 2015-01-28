@@ -3,7 +3,6 @@
 var
   xml2js = require('xml2js'),
   Q = require('q'),
-  expect = require('expect.js'),
   fs = require('fs'),
   findit = require('findit');
 
@@ -46,7 +45,7 @@ function assertXmlContent(filePath, content, done) {
         done(err);
         return;
       }
-      expect(result).to.eql(content);
+      assert.deepEqual(result, content, 'Xml content must match expectation');
 
       done();
     });
@@ -67,6 +66,12 @@ function assertFileExists(targetDir, filePath, done) {
     }
   });
 }
+
+//   extend assert with a string contains check
+var assert = require('assert');
+assert.contain = function (input, query) {
+  assert(input.indexOf(query) > -1, 'Expected "' + input + '" to contain "' + query + '"');
+};
 
 module.exports = {
   logDirectoryTree: logDirectoryTree,

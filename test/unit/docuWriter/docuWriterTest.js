@@ -1,11 +1,12 @@
 'use strict';
 
 var
+  Q = require('q'),
+  assert = require('assert'),
   path = require('path'),
-  testHelper = require('../utils/testHelper'),
-  mockWebdriver = require('../utils/mockWebdriver'),
-  docuWriter = require('../../lib/scenarioDocuWriter.js'),
-  expect = require('expect.js');
+  testHelper = require('../../testUtils/testHelper'),
+  mockWebdriver = require('../../testUtils/mockWebdriver'),
+  docuWriter = require('../../../lib/scenarioo').docuWriter;
 
 before(function () {
   mockWebdriver.registerMockGlobals();
@@ -19,10 +20,10 @@ describe('scenarioDocuWriter', function () {
   describe('#start()', function () {
 
     it('should write branch/build directory on start()', function (done) {
-      docuWriter.start(targetDir, 'someBranch', 'someBuild')
+      docuWriter.start(targetDir, 'someBranch', 'someBuild', 'a3bc333f')
         .then(function (actualFilePath) {
           var expectedPath = path.join(path.resolve(targetDir), '/someBranch/someBuild');
-          expect(actualFilePath).to.be(expectedPath);
+          assert.equal(actualFilePath, expectedPath);
           testHelper.assertFileExists(targetDir, expectedPath, done);
         })
         .catch(done);
@@ -32,7 +33,7 @@ describe('scenarioDocuWriter', function () {
       docuWriter.start(targetDir, 'some\\branch', 'some build')
         .then(function (actualFilePath) {
           var expectedPath = path.join(path.resolve(targetDir), '/some_branch/some+build');
-          expect(actualFilePath).to.be(expectedPath);
+          assert.equal(actualFilePath, expectedPath);
           testHelper.assertFileExists(targetDir, expectedPath, done);
         })
         .catch(done);
@@ -51,25 +52,20 @@ describe('scenarioDocuWriter', function () {
         .catch(done);
     });
 
-    it('should throw if branch name is missing', function (done) {
+    it('should throw if branch name is missing', function () {
       // do not check for full validation here -> entityValidatorTest
       var branch = {/* no name */};
-      expect(function () {
+
+      assert.throws(function () {
         docuWriter.saveBranch(branch);
-      }).to.throwException(function (e) {
-          expect(e.message).to.contain('Missing required property: name');
-          done();
-        });
+      }, /Missing required property: name/);
     });
 
-    it('should throw if branch name does not match', function (done) {
+    it('should throw if branch name does not match', function () {
       var branch = {name: 'notSomeBranch'};
-      expect(function () {
+      assert.throws(function () {
         docuWriter.saveBranch(branch);
-      }).to.throwException(function (e) {
-          expect(e.message).to.be('ScenarioDocuWriter was started with branch name some_Branch, but given branch object has name notSomeBranch');
-          done();
-        });
+      }, /ScenarioDocuWriter was started with branch name some_Branch, but given branch object has name notSomeBranch/);
     });
 
     it('should write branch.xml with attributes', function (done) {
@@ -80,8 +76,7 @@ describe('scenarioDocuWriter', function () {
 
       docuWriter.saveBranch(branch)
         .then(function (actualFilePath) {
-          expect(actualFilePath).to.contain('branch.xml');
-
+          assert.contain(actualFilePath, 'branch.xml');
           testHelper.assertXmlContent(actualFilePath, {
             branch: {
               name: ['some_Branch'],
@@ -108,11 +103,9 @@ describe('scenarioDocuWriter', function () {
       // do not check for full validation here -> entityValidatorTest
       var build = {};
 
-      expect(function () {
+      assert.throws(function () {
         docuWriter.saveBuild(build);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Missing required property: name');
-        });
+      }, /Missing required property: name/);
     });
 
     it('should throw if build name does not match', function () {
@@ -123,11 +116,9 @@ describe('scenarioDocuWriter', function () {
         status: 'failed'
       };
 
-      expect(function () {
+      assert.throws(function () {
         docuWriter.saveBuild(build);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('ScenarioDocuWriter was started with build name someBuild, but given branch object has name notSomeBuild');
-        });
+      }, /ScenarioDocuWriter was started with build name someBuild, but given build object has name notSomeBuild/);
     });
 
     it('should write build.xml with attributes', function (done) {
@@ -140,9 +131,9 @@ describe('scenarioDocuWriter', function () {
 
       docuWriter.saveBuild(build)
         .then(function (actualFilePath) {
-          expect(actualFilePath).to.contain('someBuild');
-          expect(actualFilePath).to.contain('someBranch');
-          expect(actualFilePath).to.contain('build.xml');
+          assert.contain(actualFilePath, 'someBuild');
+          assert.contain(actualFilePath, 'someBranch');
+          assert.contain(actualFilePath, 'build.xml');
 
           testHelper.assertXmlContent(actualFilePath, {
             build: {
@@ -173,11 +164,9 @@ describe('scenarioDocuWriter', function () {
         status: 'success'
       };
 
-      expect(function () {
+      assert.throws(function () {
         docuWriter.saveUseCase(useCase);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Missing required property: name ()');
-        });
+      }, /Missing required property: name ()/);
     });
 
     it('should write usecase.xml with attributes', function (done) {
@@ -189,10 +178,11 @@ describe('scenarioDocuWriter', function () {
       };
       docuWriter.saveUseCase(useCase)
         .then(function (actualFilePath) {
-          expect(actualFilePath).to.contain('someBranch');
-          expect(actualFilePath).to.contain('someBuild');
-          expect(actualFilePath).to.contain('use+case+name%2C+toll!');
-          expect(actualFilePath).to.contain('usecase.xml');
+          assert.contain(actualFilePath, 'someBranch');
+          assert.contain(actualFilePath, 'someBuild');
+          assert.contain(actualFilePath, 'use+case+name%2C+toll!');
+          assert.contain(actualFilePath, 'usecase.xml');
+
           testHelper.assertXmlContent(actualFilePath, {
             useCase: {
               name: ['use case name, toll!'],
@@ -205,9 +195,6 @@ describe('scenarioDocuWriter', function () {
     });
 
   });
-
-
-  // bis hier
 
   describe('#saveScenario()', function () {
 
@@ -224,11 +211,9 @@ describe('scenarioDocuWriter', function () {
         status: 'successs'
       };
 
-      expect(function () {
+      assert.throws(function () {
         docuWriter.saveScenario('someUseCase', scenario);
-      }).to.throwException(function (err) {
-          expect(err.message).to.contain('Missing required property: name');
-        });
+      }, /Missing required property: name/);
     });
 
     it('should write scenario.xml with attributes', function (done) {
@@ -240,11 +225,11 @@ describe('scenarioDocuWriter', function () {
 
       docuWriter.saveScenario('someUseCase', scenario)
         .then(function (actualFilePath) {
-          expect(actualFilePath).to.contain('someBranch');
-          expect(actualFilePath).to.contain('someBuild');
-          expect(actualFilePath).to.contain('someUseCase');
-          expect(actualFilePath).to.contain('+some+cool+scenario+name');
-          expect(actualFilePath).to.contain('scenario.xml');
+          assert.contain(actualFilePath, 'someBranch');
+          assert.contain(actualFilePath, 'someBuild');
+          assert.contain(actualFilePath, 'someUseCase');
+          assert.contain(actualFilePath, '+some+cool+scenario+name');
+          assert.contain(actualFilePath, 'scenario.xml');
           testHelper.assertXmlContent(actualFilePath, {
             scenario: {
               name: [' some cool scenario name'],
@@ -260,7 +245,68 @@ describe('scenarioDocuWriter', function () {
   });
 
   describe('#saveStep()', function () {
-    // TODO:!
+
+    var mockAdapter = {
+      getCurrentPageInformation: function () {
+        return Q.when({
+          url: 'home.html'
+        });
+      },
+      getScreenshot: function () {
+        return Q.when('ghsjkghjksdhgsjkdghksdjg');
+      }
+    };
+
+    var mockReporter = {
+      onInit: function () {
+
+      },
+      getCurrentUseCaseName: function () {
+        return 'someUseCase';
+      },
+      getCurrentScenarioName: function () {
+        return ' some cool scenario name';
+      },
+      getAndIncrementStepCounter: function () {
+        return 0;
+      }
+    };
+
+
+    beforeEach(function (done) {
+      var scenarioo = require('../../../lib/scenarioo');
+      scenarioo.useAdapter(mockAdapter);
+      scenarioo.useReporter(mockReporter);
+      scenarioo.init({
+        targetDirectory: targetDir,
+        branch: 'someBranch',
+        build: 'someBuild',
+        revision: '1.2.3'
+      });
+
+      docuWriter.start(targetDir, 'someBranch', 'someBuild')
+        .then(function () {
+          done();
+        });
+    });
+
+    it('should write step.xml', function (done) {
+
+      docuWriter.saveStep('MySuperStep')
+        .then(function (paths) {
+          var savedXmlFilePath = paths[0];
+          assert.contain(savedXmlFilePath, 'someBranch');
+          assert.contain(savedXmlFilePath, 'someBuild');
+          assert.contain(savedXmlFilePath, 'someUseCase');
+          assert.contain(savedXmlFilePath, '+some+cool+scenario+name');
+          assert.contain(savedXmlFilePath, 'steps');
+          assert.contain(savedXmlFilePath, '000.xml');
+
+          done();
+        })
+        .catch(done);
+    });
+
 
   });
 

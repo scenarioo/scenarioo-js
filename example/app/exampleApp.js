@@ -2,7 +2,6 @@ angular.module('example', [])
 
   .controller('ExampleController', function ExampleController() {
 
-
     var vm = this;
 
     vm.selectItem = selectItem;

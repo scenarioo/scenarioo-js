@@ -1,31 +1,25 @@
-var scenarioo = require('../../lib/scenarioo-js');
+var scenarioo = require('scenarioo-js');
 
+/**
+ *  This defines a scenarioo "Use Case". It can contain multiple "scenarios".
+ *  Scenarioo will generate the appropriate report files (xml) for this use case.
+ */
+describeUseCase('Example Usecase', 'You can optionally pass in a use case description here', function () {
 
-describe('Example UseCase', function () {
+  /**
+   * This defines a scenarioo "scenario".
+   * Scenarioo will generate the appropriate report files (xml) for this scenario.
+   */
+  describeScenario('Example Scenario', 'You can optionally pass in a scenario description here', function () {
 
+    browser.get('http://localhost:8081/index.html');
+    scenarioo.docuWriter.saveStep('example-step');
 
-  it('Example Scenario', function () {
+    element(by.css('li#item_one')).click();
 
+    scenarioo.docuWriter.saveStep('example-ste-two');
 
   });
 
-
 });
 
-
-// do this in jasmine reporter: reportSuiteResults
-scenarioo.docuWriter.saveUseCase({
-  name: 'Example UseCase',
-  description: 'use case description',
-  status: 'success', // or "failed"
-  labels: ['labelUcOne', 'labelUcTwo']
-});
-
-
-// do this in jasmine reporter:  reportSpecResults
-scenarioo.docuWriter.saveScenario('Example UseCase', {
-  name: 'Example Scenario',
-  description: 'scenario description',
-  status: 'success', // or "failed"
-  labels: ['labelScOne', 'labelScTwo']
-});

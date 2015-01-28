@@ -5,8 +5,8 @@ var
   del = require('del');
 
 var paths = {
-  sourceFiles: './lib/*.js',
-  testFiles: './test/unit/*.js'
+  sourceFiles: './lib/**/*.js',
+  testFiles: './test/unit/**/*.js'
 };
 
 gulp.task('cleanTestOut', function (done) {
@@ -16,25 +16,16 @@ gulp.task('cleanTestOut', function (done) {
 });
 
 gulp.task('lint', function () {
-
-  var stream = gulp.src([paths.sourceFiles, paths.testFiles]);
-
-  stream.pipe(eslint());
-
-  if (process.env.BUILD_ENV === 'TRAVISCI') {
-    stream.pipe(eslint.failOnError())
-  }
-
-  stream.pipe(eslint.format());
-
-  return stream;
-
+  return gulp.src([paths.sourceFiles, paths.testFiles])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
 });
 
-gulp.task('test', ['cleanTestOut'], function () {
+gulp.task('test', ['cleanTestOut', 'lint'], function () {
   return gulp.src(paths.testFiles, {read: false})
     .pipe(mocha({reporter: 'spec'}));
 });
 
 
-gulp.task('default', ['lint', 'test']);
+gulp.task('default', ['test']);

@@ -1,5 +1,6 @@
 'use strict';
 
+var path = require('path');
 
 var e2eBaseUrl = 'http://localhost:8081';
 
@@ -8,7 +9,7 @@ var exportsConfig = {
   framework: 'jasmine',
 
   // The location of the selenium standalone server .jar file.
-  seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.43.1.jar',
+  seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.44.0.jar',
   // find its own unused port.
   seleniumPort: null,
 
@@ -30,12 +31,18 @@ var exportsConfig = {
   rootElement: 'body',
 
   onPrepare: function () {
-    // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
-    require('jasmine-reporters');
-    var scenarioo = require('../lib/scenarioo-js');
+    var scenarioo = require('scenarioo-js');
+    scenarioo.useReporter('jasmine');
+    scenarioo.useAdapter('protractor');
+
     // pass in the current branch of your VCS you are testing, an arbitrary build name and the current revision you are testing.
-    var scenariooReporter = new scenarioo.reporter('./scenariodocu', 'master', 'the master branch', 'build_' + new Date(), '1.0.0');
-    jasmine.getEnv().addReporter(scenariooReporter);
+    scenarioo.init({
+      targetDirectory: path.join(__dirname, './scenariodocu'),
+      branch: 'master',
+      build: 'build_' + new Date().toISOString(),
+      revision: '1.0.0'
+    });
+
   },
 
   params: {

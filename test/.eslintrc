@@ -2,12 +2,14 @@
   "env": {
     "node": true
   },
-
   "rules": {
+    "no-undef-init": 0
   },
-
   "globals": {
     "before": false,
-    "beforeEach": false
+    "beforeEach": false,
+    "afterEach": false,
+    "describeUseCase": false,
+    "describeScenario": false
   }
 }

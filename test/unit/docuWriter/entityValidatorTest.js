@@ -1,11 +1,10 @@
 'use strict';
 
 var
-  expect = require('expect.js'),
-  validator = require('../../lib/entityValidator');
+  assert = require('assert'),
+  validator = require('../../../lib/docuWriter/entityValidator');
 
 describe('entityValidator', function () {
-
 
   describe('#validateBranch()', function () {
 
@@ -24,11 +23,9 @@ describe('entityValidator', function () {
     });
 
     it('should throw on invalid branch: missing required properties', function () {
-      expect(function () {
+      assert.throws(function () {
         validator.validateBranch({});
-      }).to.throwException(function (e) {
-          expect(e.message).to.contain('Missing required property: name');
-        });
+      }, /Missing required property: name/);
     });
 
   });
@@ -55,23 +52,19 @@ describe('entityValidator', function () {
     });
 
     it('should throw on invalid build: missing required properties', function () {
-      expect(function () {
+      assert.throws(function () {
         validator.validateBuild({});
-      }).to.throwException(function (e) {
-          expect(e.message).to.be('Missing required property: name () | Missing required property: status () | Missing required property: date ()');
-        });
+      }, /Missing required property: name .* Missing required property: status .* Missing required property: date/);
     });
 
     it('should throw on invalid build: status attribute not "failed" or "success"', function () {
-      expect(function () {
+      assert.throws(function () {
         validator.validateBuild({
           name: 'Some Build name',
           status: 'someThingElse',
           date: new Date().toISOString()
         });
-      }).to.throwException(function (e) {
-          expect(e.message).to.be('String does not match pattern: ^(success|failed)$ (/status)');
-        });
+      }, /String does not match pattern: /);
     });
 
   });
@@ -96,22 +89,18 @@ describe('entityValidator', function () {
     });
 
     it('should throw on invalid useCase: missing required properties', function () {
-      expect(function () {
+      assert.throws(function () {
         validator.validateUseCase({});
-      }).to.throwException(function (e) {
-          expect(e.message).to.be('Missing required property: name () | Missing required property: status ()');
-        });
+      }, /Missing required property: name .* Missing required property: status/);
     });
 
     it('should throw on invalid useCase: status attribute not "failed" or "success"', function () {
-      expect(function () {
+      assert.throws(function () {
         validator.validateUseCase({
           name: 'Some use case name',
           status: 'not...'
         });
-      }).to.throwException(function (e) {
-          expect(e.message).to.be('String does not match pattern: ^(success|failed)$ (/status)');
-        });
+      }, /String does not match pattern: /);
     });
 
   });
@@ -136,22 +125,18 @@ describe('entityValidator', function () {
     });
 
     it('should throw on invalid scenario: missing required properties', function () {
-      expect(function () {
+      assert.throws(function () {
         validator.validateScenario({});
-      }).to.throwException(function (e) {
-          expect(e.message).to.be('Missing required property: name () | Missing required property: status ()');
-        });
+      }, /Missing required property: name .* Missing required property: status/);
     });
 
     it('should throw on invalid scenario: status attribute not "failed" or "success"', function () {
-      expect(function () {
+      assert.throws(function () {
         validator.validateScenario({
           name: 'Some scenario name',
           status: 'not...'
         });
-      }).to.throwException(function (e) {
-          expect(e.message).to.be('String does not match pattern: ^(success|failed)$ (/status)');
-        });
+      }, /String does not match pattern: /);
     });
 
   });
@@ -187,7 +172,7 @@ describe('entityValidator', function () {
 
     it('should throw on invalid step: invalid page', function () {
 
-      expect(function () {
+      assert.throws(function () {
         validator.validateStep({
           page: {
             // name is missing
@@ -195,9 +180,7 @@ describe('entityValidator', function () {
             labels: 'other'    // must be an array
           }
         });
-      }).to.throwException(function (e) {
-          expect(e.message).to.be('Missing required property: name (/page) | Invalid type: string (expected object) (/page/details) | Invalid type: string (expected array) (/page/labels)');
-        });
+      }, /Missing required property: name .* Invalid type: string .* Invalid type: string \(expected array\) \(\/page\/labels, \/properties\/page\/properties\/labels\/type\)/);
 
     });
 
