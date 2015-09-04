@@ -28,12 +28,17 @@ describe('pageNameExtractor', function () {
         expect(pageName).to.be('#/profile/details');
         pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/home/#/profile/details');
         expect(pageName).to.be('home/#/profile/details');
-
       });
 
       it('should return default page name from url with query params', function () {
-        var pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/index.php?action=some');
+        var pageName;
+
+        pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/index.php?action=some');
         expect(pageName).to.be('index.php');
+        pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/#index.php?action=some');
+        expect(pageName).to.be('#index.php');
+        pageName = pageNameExtractor.getPageNameFromUrl('http://localhost:9000/#/step/Donate/find_donate_page/startSearch.jsp/0/0?branch=wikipedia-docu-example&build=2014-02-21');
+        expect(pageName).to.be('#/step/Donate/find_donate_page/startSearch.jsp/0/0');
       });
 
       it('should return whole input if invalid url', function () {
