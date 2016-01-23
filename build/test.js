@@ -1,7 +1,6 @@
 var
     gulp = require('gulp'),
     mocha = require('gulp-mocha'),
-    eslint = require('gulp-eslint'),
     del = require('del');
 
     

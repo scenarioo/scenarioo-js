@@ -1,5 +1,5 @@
 var gulp = require('gulp');
- 
+
 require('./build/dependencyCheck');
 require('./build/lint');
 require('./build/test');

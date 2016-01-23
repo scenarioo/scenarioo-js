@@ -34,7 +34,7 @@ gulp.task('checkNpmDependencies', function (done) {
     }).then(function (report) {
         return q.nfcall(fs.writeFile, reportFileName, report);
     }).then(function () {
-        gutil.log(gutil.colors.green('Report saved to ' + reportFileName))
+        gutil.log(gutil.colors.green('Report saved to ' + reportFileName));
     }).catch(done);
 
 });
