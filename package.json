@@ -28,9 +28,9 @@
     "test": "gulp"
   },
   "dependencies": {
-    "lodash": "2.4.1",
-    "q": "1.0.1",
-    "xml2js": "0.4.4"
+    "lodash": "4.0.0",
+    "q": "1.4.1",
+    "xml2js": "0.4.16"
   },
   "devDependencies": {
     "del": "2.2.0",
@@ -38,9 +38,8 @@
     "findit": "2.0.0",
     "gulp": "3.9.0",
     "gulp-eslint": "1.1.1",
-    "gulp-mocha": "1.1.1",
+    "gulp-mocha": "2.2.0",
     "gulp-util": "3.0.7",
-    "mocha": "1.21.5",
     "npm-check-updates": "2.5.6"
   },
   "keywords": [
