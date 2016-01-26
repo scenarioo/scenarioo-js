@@ -29,8 +29,9 @@
   },
   "dependencies": {
     "lodash": "4.0.0",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "0.5.1",
     "q": "1.4.1",
+    "tv4": "1.2.7",
     "xml2js": "0.4.16"
   },
   "devDependencies": {

@@ -35,14 +35,6 @@ describe('scenarioDocuWriter', function () {
 
     describe('#start()', function () {
 
-        it('should throw if name attribute is missing ', function () {
-            var branch = {};
-
-            assert.throws(function () {
-                docuWriter.start(branch, 'build_name', targetDir);
-            }, /Branch must contain attribute "name"/);
-        });
-
         it('should write branch directory on start()', function () {
             docuWriter.start(dummyBranch, 'some build name', targetDir)
                 .then(function () {
@@ -77,51 +69,6 @@ describe('scenarioDocuWriter', function () {
                 .catch(done);
         });
 
-        it('should throw if name attribute is missing ', function () {
-            var build = {
-                date: new Date(),
-                status: 'successs'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveBuild(build, targetDir);
-            }, /Build must contain attribute "name"/);
-        });
-
-        it('should throw if date attribute is missing ', function () {
-            var build = {
-                name: 'some build name',
-                status: 'successs'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveBuild(build, targetDir);
-            }, /Build must contain attribute "date"/);
-        });
-
-        it('should throw if status attribute is missing ', function () {
-            var build = {
-                name: 'some build name',
-                date: new Date()
-            };
-
-            assert.throws(function () {
-                docuWriter.saveBuild(build, targetDir);
-            }, /Build must contain attribute "status"/);
-        });
-
-        it('should throw if status attribute is not "failed" or "success" ', function () {
-            var build = {
-                name: 'some build name',
-                date: new Date(),
-                status: 'something'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveBuild(build, targetDir);
-            }, /Build must contain attribute "status" with value "success" or "failed"/);
-        });
-
         it('should save mandatory fields correctly build.xml', function (done) {
             var buildDate = new Date();
             var build = {
@@ -152,37 +99,6 @@ describe('scenarioDocuWriter', function () {
 
         beforeEach(function () {
             docuWriter.start(dummyBranch, 'some build name', targetDir);
-        });
-
-        it('should throw if name attribute is missing ', function () {
-            var useCase = {
-                status: 'successs'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveUseCase(useCase);
-            }, /UseCase must contain attribute "name"/);
-        });
-
-        it('should throw if status attribute is missing ', function () {
-            var useCase = {
-                name: 'Some use case'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveUseCase(useCase);
-            }, /UseCase must contain attribute "status"/);
-        });
-
-        it('should throw if status attribute is not "failed" or "success" ', function () {
-            var useCase = {
-                name: 'some useCase name',
-                status: 'something'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveUseCase(useCase);
-            }, /UseCase must contain attribute "status" with value "success" or "failed"/);
         });
 
         it('should create useCase directory', function () {
@@ -216,37 +132,6 @@ describe('scenarioDocuWriter', function () {
         beforeEach(function () {
             docuWriter.start(dummyBranch, 'some build name', targetDir);
             return docuWriter.saveUseCase(dummyUseCase);
-        });
-
-        it('should throw if name attribute is missing ', function () {
-            var scenario = {
-                status: 'successs'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveScenario(scenario, 'a use case');
-            }, /Scenario must contain attribute "name"/);
-        });
-
-        it('should throw if status attribute is missing ', function () {
-            var scenario = {
-                name: 'my super scenario'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveScenario(scenario, 'a use case');
-            }, /Scenario must contain attribute "status"/);
-        });
-
-        it('should throw if status attribute is not "failed" or "success" ', function () {
-            var scenario = {
-                name: 'some scenario name',
-                status: 'something'
-            };
-
-            assert.throws(function () {
-                docuWriter.saveScenario(scenario, 'a use case');
-            }, /Scenario must contain attribute "status" with value "success" or "failed"/);
         });
 
         it('should save scenario directory', function () {

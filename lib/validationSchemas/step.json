@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "page": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "details": {
+          "$ref": "details"
+        },
+        "labels": {
+          "$ref": "labels"
+        }
+      },
+      "required": ["name"]
+    },
+    "stepDescription": {
+      "type": "object",
+      "properties": {
+        "labels": {
+          "$ref": "labels"
+        }
+      }
+    },
+    "html": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}
