@@ -7,3 +7,37 @@ Scenarioo API for Javascript to generate Scenarioo Documentations in WebDriverJS
 
 This is a subproject of Scenarioo, for Wiki documentation and more informations see here: https://github.com/scenarioo/scenarioo/wiki
 
+## Jasmine2 Support
+
+The next release of scenarioo-js will depend on jasmine2.  jasmine 1.x support will be dropped.
+The current develop branch already includes this switch. Check the *example* for a working example.
+
+### Migration (Subject to change)
+
+#### Protractor configuration
+
+scenarioo.reporter is now a factory function. (omit the "new" keyword)
+
+```javascript
+ onPrepare: function () {
+      require('jasmine-reporters');
+      var scenariooReporter = require('../lib/scenarioo-js').reporter('./scenariodocu', 'master', 'the master branch', 'build_' + new Date(), '1.0.0');
+      jasmine.getEnv().addReporter(scenariooReporter);
+  },
+```
+
+#### saveStep
+
+The "saveStep" function is now directly exposed on scenario.
+
+
+```javascript
+scenarioo.describeUseCase('Example Usecase', function () {
+
+  scenarioo.describeScenario('Example Scenario ', function () {
+    scenarioo.saveStep('start'); // instead of scenarioo.docuWriter.saveStep
+  });
+
+});
+```
+

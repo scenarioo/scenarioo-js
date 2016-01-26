@@ -18,9 +18,9 @@
     "browser": false,
     "jasmine": false,
     "describe": false,
-    "ddescribe": false,
+    "fdescribe": false,
     "it": false,
-    "iit": false,
+    "fit": false,
     "element": false,
     "by": false
   }
