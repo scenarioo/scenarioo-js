@@ -5,10 +5,10 @@ scenarioo.describeUseCase('Example Usecase failing', function exampleFailingUseC
 
   scenarioo.describeScenario('Example Scenario failing', function exampleFailingScenario() {
     browser.get('/index.html');
-    scenarioo.docuWriter.saveStep('start');
+    scenarioo.saveStep('start');
 
     element(by.css('li#item_is_not_present')).click();
-    scenarioo.docuWriter.saveStep('one is displayed');
+    scenarioo.saveStep('one is displayed');
 
   });
 
