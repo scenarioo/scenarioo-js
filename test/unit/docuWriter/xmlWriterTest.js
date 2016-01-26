@@ -1,5 +1,3 @@
-'use strict';
-
 var xmlWriter = require('../../../lib/docuWriter/xmlWriter.js');
 
 describe('xmlWriter: simpleFile', function () {

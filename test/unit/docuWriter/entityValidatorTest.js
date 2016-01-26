@@ -1,5 +1,3 @@
-'use strict';
-
 var
   assert = require('assert'),
   validator = require('../../../lib/docuWriter/entityValidator');

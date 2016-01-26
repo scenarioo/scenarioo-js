@@ -1,5 +1,3 @@
-'use strict';
-
 var
   assert = require('assert'),
   identifierSanitizer = require('../../../lib/docuWriter/identifierSanitizer');

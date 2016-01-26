@@ -1,5 +1,3 @@
-'use strict';
-
 var
   assert = require('assert'),
   pageNameExtractor = require('../../../lib/docuWriter/pageNameExtractor');

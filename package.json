@@ -28,6 +28,7 @@
     "test": "gulp"
   },
   "dependencies": {
+    "immutable": "3.7.6",
     "lodash": "4.0.0",
     "mkdirp": "0.5.1",
     "q": "1.4.1",

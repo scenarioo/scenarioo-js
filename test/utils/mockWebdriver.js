@@ -1,21 +1,9 @@
-'use strict';
-
-var
-  Q = require('q');
+var Q = require('q');
 
 function registerMockGlobals() {
 
   // define our mock jasmine object that contains dummy scenarioo environment (state about current useCases/scenarios)
-  global.jasmine = {
-    scoEnv: {
-      currentUseCase: {
-        description: 'UseCaseDescription'
-      },
-      currentScenario: {
-        description: 'ScenarioDescription'
-      }
-    }
-  };
+  global.jasmine = {};
 
   global.browser = {
     getCurrentUrl: function () {

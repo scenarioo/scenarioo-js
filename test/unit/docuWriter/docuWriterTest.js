@@ -1,10 +1,9 @@
-'use strict';
-
 var
   path = require('path'),
   assert = require('assert'),
   testHelper = require('../../utils/testHelper'),
   mockWebdriver = require('../../utils/mockWebdriver'),
+  store = require('../../../lib/scenariooStore'),
   docuWriter = require('../../../lib/docuWriter/docuWriter');
 
 before(function () {
@@ -165,6 +164,9 @@ describe('scenarioDocuWriter', function () {
 
     beforeEach(function () {
       docuWriter.start(dummyBranch, 'myBuildName', targetDir);
+      store.init(dummyBranch.name, dummyBranch.description, 'myBuildName');
+      store.setCurrentScenario({description: 'ScenarioDescription'});
+      store.setCurrentUseCase({description: 'UseCaseDescription'});
     });
 
     it('should save a step', function () {
