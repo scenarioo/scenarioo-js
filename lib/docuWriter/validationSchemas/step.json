@@ -14,7 +14,9 @@
           "$ref": "labels"
         }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "stepDescription": {
       "type": "object",

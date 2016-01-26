@@ -1,6 +1,6 @@
 'use strict';
 
-var xmlWriter = require('../../lib/xmlWriter.js');
+var xmlWriter = require('../../../lib/docuWriter/xmlWriter.js');
 
 describe('xmlWriter: simpleFile', function () {
 
@@ -17,6 +17,5 @@ describe('xmlWriter: simpleFile', function () {
       done();
     });
   });
-
 
 });
