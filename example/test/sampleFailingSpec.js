@@ -1,14 +1,14 @@
 var scenarioo = require('../../lib/scenarioo-js');
 
 
-scenarioo.describeUseCase('Example Usecase failing', function () {
+scenarioo.describeUseCase('Example Usecase failing', function exampleFailingUseCase() {
 
-  scenarioo.describeScenario('Example Scenario failing', function () {
+  scenarioo.describeScenario('Example Scenario failing', function exampleFailingScenario() {
     browser.get('/index.html');
-    scenarioo.docuWriter.saveStep('start');
+    scenarioo.saveStep('start');
 
     element(by.css('li#item_is_not_present')).click();
-    scenarioo.docuWriter.saveStep('one is displayed');
+    scenarioo.saveStep('one is displayed');
 
   });
 

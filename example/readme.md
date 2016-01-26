@@ -4,14 +4,10 @@ This example shows how to use scenarioo-js in a protractor (webdriverJS) environ
 
 example/app contains a very simple angularJS application.
 
-run npm install and bower install to prepare the example app
+run npm install to prepare the example app
 
 ```
 npm install
-```
-
-```
-bower install
 ```
 
 Run webdriver-manager (protractor) to download selenium dependencies and chrome driver.

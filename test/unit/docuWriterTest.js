@@ -213,13 +213,9 @@ describe('scenarioDocuWriter', function () {
 
     describe('#saveScenario()', function () {
 
-        beforeEach(function (done) {
+        beforeEach(function () {
             docuWriter.start(dummyBranch, 'some build name', targetDir);
-            docuWriter.saveUseCase(dummyUseCase)
-                .then(function () {
-                    done();
-                })
-                .catch(done);
+            return docuWriter.saveUseCase(dummyUseCase);
         });
 
         it('should throw if name attribute is missing ', function () {
@@ -289,7 +285,7 @@ describe('scenarioDocuWriter', function () {
         it('should save a step', function () {
             return docuWriter.saveStep('my step')
                 .then(function () {
-                    var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/myBuildName/SuiteDescription/specDescription/steps/000.xml');
+                    var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/myBuildName/UseCaseDescription/ScenarioDescription/steps/000.xml');
                     return testHelper.assertFileExists(expectedFilePath);
                 });
         });
