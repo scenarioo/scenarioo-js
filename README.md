@@ -18,12 +18,22 @@ The current develop branch already includes this switch. Check the *example* for
 
 scenarioo.reporter is now a factory function. (omit the "new" keyword)
 
+scenarioo.reporter takes now a options object.
+
 ```javascript
- onPrepare: function () {
-      require('jasmine-reporters');
-      var scenariooReporter = require('../lib/scenarioo-js').reporter('./scenariodocu', 'master', 'the master branch', 'build_' + new Date(), '1.0.0');
-      jasmine.getEnv().addReporter(scenariooReporter);
-  },
+onPrepare: function () {
+   var scenariooReporter = require('scenarioo-js').reporter({
+     targetDirectory: './scenariodocu',
+     branchName: 'master',
+     branchDescription: 'the master branch',
+     buildName: 'build_' + new Date(),
+     revision: '1.0.0',
+     pageNameExtractor: function (url) {
+       return url.pathname.substring(1);
+     }
+   });
+   jasmine.getEnv().addReporter(scenariooReporter);
+}
 ```
 
 #### saveStep
