@@ -13,8 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "http-server": "0.7.2",
-    "jasmine-reporters": "2.0.0",
-    "protractor": "^3.0.0"
+    "protractor": "3.0.0"
   },
   "dependencies": {
     "angular": "1.4.9"

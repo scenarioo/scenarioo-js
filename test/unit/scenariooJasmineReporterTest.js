@@ -13,7 +13,13 @@ describe('scenariooJasmineReporter', function () {
   describe('state manipulation', function () {
 
     beforeEach(function () {
-      reporter = jasmineReporter('./test/out/docu', 'reporterTest-state-manipulation', 'reporterTestBranch', 'reporterTestBuild', '0.0.1');
+      reporter = jasmineReporter({
+        targetDirectory: './test/out/docu',
+        branchName: 'reporterTest-state-manipulation',
+        branchDescription: 'reporterTestBranch',
+        buildName: 'reporterTestBuild',
+        revision: '0.0.1'
+      });
     });
 
     it('#jasmineStarted()', function () {
@@ -138,7 +144,13 @@ describe('scenariooJasmineReporter', function () {
 
     it('should invoke docuWriter as expected', function () {
 
-      reporter = jasmineReporter('./test/out/docu', 'reporterTest-lifecycle', 'reporterTestBranch', 'reporterTestBuild', '0.0.1');
+      reporter = jasmineReporter({
+        targetDirectory: './test/out/docu',
+        branchName: 'reporterTest-lifecycle',
+        branchDescription: 'reporterTestBranch',
+        buildName: 'reporterTestBuild',
+        revision: '0.0.1'
+      });
 
       var dummyObjects = {
         useCaseOne: {
