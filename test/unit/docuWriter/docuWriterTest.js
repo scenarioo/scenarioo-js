@@ -1,5 +1,6 @@
 var
   path = require('path'),
+  Q = require('q'),
   assert = require('assert'),
   testHelper = require('../../utils/testHelper'),
   mockWebdriver = require('../../utils/mockWebdriver'),
@@ -181,7 +182,21 @@ describe('scenarioDocuWriter', function () {
       return docuWriter.saveStep('my step')
         .then(function (stepData) {
           assert.equal(stepData[0].page.name, '#_somepage');
+          assert.equal(stepData[0].stepDescription.index, 0);
         });
+    });
+
+    it('should increase stepCounter', function () {
+      var firstSave = docuWriter.saveStep('my step 1')
+        .then(function (stepData) {
+          assert.equal(stepData[0].stepDescription.index, 0);
+        });
+      var secondSave = docuWriter.saveStep('my step 2')
+        .then(function (stepData) {
+          assert.equal(stepData[0].stepDescription.index, 1);
+        });
+
+      return Q.all([firstSave, secondSave]);
     });
 
     it('should save a step with custom pagename function', function () {

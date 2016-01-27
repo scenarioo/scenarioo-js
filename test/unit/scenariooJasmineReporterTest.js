@@ -1,5 +1,7 @@
 var
   assert = require('assert'),
+  _ = require('lodash'),
+  sinon = require('sinon'),
   store = require('../../lib/scenariooStore'),
   jasmineReporter = require('../../lib/scenariooJasmineReporter');
 
@@ -113,109 +115,154 @@ describe('scenariooJasmineReporter', function () {
   });
 
 
-  it('whole lifecycle', function () {
+  describe('whole lifecylce', function () {
 
-    reporter = jasmineReporter('./test/out/docu', 'reporterTest-lifecycle', 'reporterTestBranch', 'reporterTestBuild', '0.0.1');
+    var docuWriter = require('../../lib/docuWriter/docuWriter');
 
-    var dummyObjects = {
-      useCaseOne: {
-        id: 'suite1',
-        description: 'useCase will fail',
-        additionalDescription: 'some more info'
-      },
-      scenarioOne: {
-        id: 'spec1',
-        description: 'spec will fail',
-        additionalDescription: 'more'
-      },
-      useCaseTwo: {
-        id: 'suite2',
-        description: 'useCase will succeed',
-        additionalDescription: 'some more info juhuu'
-      },
-      scenarioTwo: {
-        id: 'spec2',
-        description: 'spec will suceed',
-        additionalDescription: 'more juhuu'
-      }
-    };
-
-    reporter.jasmineStarted({
-      totalSpecsDefined: 2
+    before(function () {
+      // let's wrap docuWriter's methods with sinon spies
+      // this allows us to assert jasmineReporter calls docuWriter in an expected way
+      sinon.spy(docuWriter, 'start');
+      sinon.spy(docuWriter, 'saveScenario');
+      sinon.spy(docuWriter, 'saveUseCase');
+      sinon.spy(docuWriter, 'saveBuild');
     });
 
-    // --- first useCase with one failing spec
-
-    // this would be set by dsl ("describeUseCase")
-    store.updateUseCase(dummyObjects.useCaseOne.id, {
-      additionalDescription: dummyObjects.useCaseOne.additionalDescription
+    after(function () {
+      // make sure to remove our spies
+      docuWriter.start.restore();
+      docuWriter.saveScenario.restore();
+      docuWriter.saveUseCase.restore();
+      docuWriter.saveBuild.restore();
     });
 
-    reporter.suiteStarted({
-      id: dummyObjects.useCaseOne.id,
-      description: dummyObjects.useCaseOne.description
+    it('should invoke docuWriter as expected', function () {
+
+      reporter = jasmineReporter('./test/out/docu', 'reporterTest-lifecycle', 'reporterTestBranch', 'reporterTestBuild', '0.0.1');
+
+      var dummyObjects = {
+        useCaseOne: {
+          id: 'suite1',
+          description: 'useCase will fail',
+          additionalDescription: 'some more info'
+        },
+        scenarioOne: {
+          id: 'spec1',
+          description: 'spec will fail',
+          additionalDescription: 'more'
+        },
+        useCaseTwo: {
+          id: 'suite2',
+          description: 'useCase will succeed',
+          additionalDescription: 'some more info juhuu'
+        },
+        scenarioTwo: {
+          id: 'spec2',
+          description: 'spec will suceed',
+          additionalDescription: 'more juhuu'
+        }
+      };
+
+      reporter.jasmineStarted({
+        totalSpecsDefined: 2
+      });
+
+      // --- first useCase with one failing spec
+
+      // this would be set by dsl ("describeUseCase")
+      store.updateUseCase(dummyObjects.useCaseOne.id, {
+        additionalDescription: dummyObjects.useCaseOne.additionalDescription
+      });
+
+      reporter.suiteStarted({
+        id: dummyObjects.useCaseOne.id,
+        description: dummyObjects.useCaseOne.description
+      });
+
+      // this would be set by dsl ("describeScenario")
+      store.updateScenario(dummyObjects.scenarioOne.description, {
+        additionalDescription: dummyObjects.scenarioOne.additionalDescription
+      });
+
+      reporter.specStarted({
+        id: dummyObjects.scenarioOne.id,
+        description: dummyObjects.scenarioOne.description
+      });
+
+      reporter.specDone({
+        id: dummyObjects.scenarioOne.id,
+        description: dummyObjects.scenarioOne.description,
+        status: 'failed',
+        _suite: {id: dummyObjects.useCaseOne.id, description: dummyObjects.useCaseOne.description}
+      });
+
+      reporter.suiteDone({
+        isUseCase: true,
+        id: dummyObjects.useCaseOne.id,
+        description: dummyObjects.useCaseOne.description
+      });
+
+      // --- second useCase with one succeeding spec
+
+      // this would be set by dsl ("describeUseCase")
+      store.updateUseCase(dummyObjects.useCaseTwo.id, {
+        additionalDescription: dummyObjects.useCaseTwo.additionalDescription
+      });
+
+      reporter.suiteStarted({
+        id: dummyObjects.useCaseTwo.id,
+        description: dummyObjects.useCaseTwo.description
+      });
+
+      // this would be set by dsl ("describeScenario")
+      store.updateScenario(dummyObjects.scenarioTwo.description, {
+        additionalDescription: dummyObjects.scenarioTwo.additionalDescription
+      });
+
+      reporter.specStarted({
+        id: dummyObjects.scenarioTwo.id,
+        description: dummyObjects.scenarioTwo.description
+      });
+
+      reporter.specDone({
+        id: dummyObjects.scenarioTwo.id,
+        description: dummyObjects.scenarioTwo.description,
+        status: 'success',
+        _suite: {id: dummyObjects.useCaseTwo.id, description: dummyObjects.useCaseTwo.description}
+      });
+
+      reporter.suiteDone({
+        isUseCase: true,
+        id: dummyObjects.useCaseTwo.id,
+        description: dummyObjects.useCaseTwo.description
+      });
+
+      reporter.jasmineDone();
+
+
+      // Now let's assert that the reporter called docuWriter as expected
+      // in general, let's not assert too much -> no complete whitebox test of the reporter -  or this tests gets very brittle
+
+
+      assert.equal(docuWriter.start.callCount, 1);
+      assert.equal(docuWriter.saveScenario.callCount, 2);
+      assert.equal(docuWriter.saveUseCase.callCount, 2);
+      assert.equal(docuWriter.saveBuild.callCount, 1);
+
+      assert(_.isPlainObject(docuWriter.start.getCall(0).args[0]), 'docuWriter.start must be called with the branch object as first parameter');
+
+      assert.equal(docuWriter.saveScenario.getCall(0).args.length, 2, 'docuWriter.saveUseCase must be called with two argument');
+      assert(_.isPlainObject(docuWriter.saveScenario.getCall(0).args[0]), 'docuWriter.saveScenario must be called with the current scenario object as first parameter');
+      assert(_.isString(docuWriter.saveScenario.getCall(0).args[1]), 'docuWriter.saveScenario must be called with the useCase name as second parameter');
+
+      assert.equal(docuWriter.saveUseCase.getCall(0).args.length, 1, 'docuWriter.saveUseCase must be called with one argument');
+      assert(_.isPlainObject(docuWriter.saveUseCase.getCall(0).args[0]), 'docuWriter.saveUseCase must be called with the current useCase object as first parameter');
+
+      assert.equal(docuWriter.saveBuild.getCall(0).args.length, 1, 'docuWriter.saveBuild must be called with one argument');
+      assert(_.isPlainObject(docuWriter.saveBuild.getCall(0).args[0]), 'docuWriter.saveBuild must be called with the build object as first parameter');
+
+
     });
-
-    // this would be set by dsl ("describeScenario")
-    store.updateScenario(dummyObjects.scenarioOne.description, {
-      additionalDescription: dummyObjects.scenarioOne.additionalDescription
-    });
-
-    reporter.specStarted({
-      id: dummyObjects.scenarioOne.id,
-      description: dummyObjects.scenarioOne.description
-    });
-
-    reporter.specDone({
-      id: dummyObjects.scenarioOne.id,
-      description: dummyObjects.scenarioOne.description,
-      status: 'failed',
-      _suite: {id: dummyObjects.useCaseOne.id, description: dummyObjects.useCaseOne.description}
-    });
-
-    reporter.suiteDone({
-      isUseCase: true,
-      id: dummyObjects.useCaseOne.id,
-      description: dummyObjects.useCaseOne.description
-    });
-
-    // --- second useCase with one succeeding spec
-
-    // this would be set by dsl ("describeUseCase")
-    store.updateUseCase(dummyObjects.useCaseTwo.id, {
-      additionalDescription: dummyObjects.useCaseTwo.additionalDescription
-    });
-
-    reporter.suiteStarted({
-      id: dummyObjects.useCaseTwo.id,
-      description: dummyObjects.useCaseTwo.description
-    });
-
-    // this would be set by dsl ("describeScenario")
-    store.updateScenario(dummyObjects.scenarioTwo.description, {
-      additionalDescription: dummyObjects.scenarioTwo.additionalDescription
-    });
-
-    reporter.specStarted({
-      id: dummyObjects.scenarioTwo.id,
-      description: dummyObjects.scenarioTwo.description
-    });
-
-    reporter.specDone({
-      id: dummyObjects.scenarioTwo.id,
-      description: dummyObjects.scenarioTwo.description,
-      status: 'success',
-      _suite: {id: dummyObjects.useCaseTwo.id, description: dummyObjects.useCaseTwo.description}
-    });
-
-    reporter.suiteDone({
-      isUseCase: true,
-      id: dummyObjects.useCaseTwo.id,
-      description: dummyObjects.useCaseTwo.description
-    });
-
-    reporter.jasmineDone();
-
   });
 
 });
