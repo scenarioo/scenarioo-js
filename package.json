@@ -14,12 +14,7 @@
   "bugs": {
     "url": "https://github.com/scenarioo/scenarioo-js/issues"
   },
-  "licenses": [
-    {
-      "type": "GNU GENERAL PUBLIC LICENSE",
-      "url": "https://www.gnu.org/copyleft/gpl.html"
-    }
-  ],
+  "license": "GPL-2.0",
   "main": "lib/scenarioo-js",
   "engines": {
     "node": ">= 0.10.0"
