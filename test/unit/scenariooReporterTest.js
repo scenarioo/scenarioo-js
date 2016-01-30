@@ -1,17 +1,17 @@
 var assert = require('assert');
 var store = require('../../lib/scenariooStore');
-var reporter = require('../../lib/reporter');
+var reporter = require('../../lib/scenariooReporter');
 
-describe.only('Reporter', function () {
+describe.only('ScenariooReporter', function () {
 
   beforeEach(function () {
-    this.rep = reporter({
+    this.defaultOptions = {
       targetDirectory: './test/out/docu',
       branchName: 'reporterTest-state-manipulation',
       branchDescription: 'reporterTestBranch',
       buildName: 'reporterTestBuild',
       revision: '0.0.1'
-    });
+    };
   });
 
   afterEach(function () {
@@ -21,14 +21,14 @@ describe.only('Reporter', function () {
   describe('#runStarted()', function () {
 
     it('successful', function () {
-      this.rep.runStarted();
+      reporter.runStarted(this.defaultOptions);
     });
 
     it('fail on already started', function () {
-      this.rep.runStarted();
+      reporter.runStarted(this.defaultOptions);
 
       assert.throws(function () {
-        this.rep.runStarted();
+        reporter.runStarted();
       }.bind(this), /Run already started/);
     });
 
@@ -36,31 +36,37 @@ describe.only('Reporter', function () {
 
   describe('#runEnded()', function () {
     it('successful ended and cleared store', function () {
-      this.rep.runEnded();
+      reporter.runStarted(this.defaultOptions);
+      reporter.runEnded();
 
-      assert.throws(function () {
-        store.dump();
-      }, /Store is not initialized!/);
+      assert(!store.isInitialized());
     });
+
+    it('fail if run not started', function () {
+      assert.throws(function () {
+        reporter.runEnded();
+      }, /Cannot end test run. No test run was started/);
+    });
+
   });
 
   describe('#useCaseStarted()', function () {
 
     it('successful', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
     });
 
     it('fail if id missing', function () {
-      this.rep.runStarted();
+      reporter.runStarted(this.defaultOptions);
       assert.throws(function () {
-        this.rep.useCaseStarted();
+        reporter.useCaseStarted();
       }.bind(this), /Please provide a useCaseId/);
     });
 
     it('fail if run not started', function () {
       assert.throws(function () {
-        this.rep.useCaseStarted('uc1');
+        reporter.useCaseStarted('uc1');
       }.bind(this), /Cannot start useCase, run was not started!/);
     });
 
@@ -69,24 +75,24 @@ describe.only('Reporter', function () {
   describe('#scenarioStarted()', function () {
 
     it('successful', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.scenarioStarted('sc1');
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.scenarioStarted('sc1');
     });
 
     it('fail if id missing', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
       assert.throws(function () {
-        this.rep.scenarioStarted();
+        reporter.scenarioStarted();
       }.bind(this), /Please provide a scenarioId/);
     });
 
     it('fail if useCase not started', function () {
-      this.rep.runStarted();
+      reporter.runStarted(this.defaultOptions);
 
       assert.throws(function () {
-        this.rep.scenarioStarted('sc1');
+        reporter.scenarioStarted('sc1');
       }.bind(this), /Cannot start scenario, useCase was not started!/);
     });
 
@@ -95,10 +101,10 @@ describe.only('Reporter', function () {
   describe('#scenarioEnded()', function () {
 
     it('successful (with state successful)', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.scenarioStarted('sc1');
-      this.rep.scenarioEnded('sc1', this.rep.SUCCESSFUL);
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.scenarioStarted('sc1');
+      reporter.scenarioEnded('sc1', reporter.SUCCESSFUL);
 
       // parent useCase must be updated
       var useCase = store.getUseCase('uc1');
@@ -106,10 +112,10 @@ describe.only('Reporter', function () {
     });
 
     it('successful (with state failed)', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.scenarioStarted('sc1');
-      this.rep.scenarioEnded('sc1', this.rep.FAILED);
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.scenarioStarted('sc1');
+      reporter.scenarioEnded('sc1', reporter.FAILED);
 
       // parent useCase must be updated
       var useCase = store.getUseCase('uc1');
@@ -117,10 +123,10 @@ describe.only('Reporter', function () {
     });
 
     it('successful (with state skipped)', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.scenarioStarted('sc1');
-      this.rep.scenarioEnded('sc1', this.rep.SKIPPED);
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.scenarioStarted('sc1');
+      reporter.scenarioEnded('sc1', reporter.SKIPPED);
 
       // parent useCase must be updated
       var useCase = store.getUseCase('uc1');
@@ -128,43 +134,42 @@ describe.only('Reporter', function () {
     });
 
     it('fail if id is missing', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.scenarioStarted('sc1');
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.scenarioStarted('sc1');
 
       assert.throws(function () {
-        this.rep.scenarioEnded();
+        reporter.scenarioEnded();
       }.bind(this), /Please provide a scenarioId/);
     });
 
     it('fail if id does not match started scenario', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.scenarioStarted('sc1');
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.scenarioStarted('sc1');
 
       assert.throws(function () {
-        this.rep.scenarioEnded('sc2');
+        reporter.scenarioEnded('sc2');
       }.bind(this), /Cannot end scenario 'sc2', current scenario is 'sc1'/);
     });
 
     it('fail if scenario not started', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
 
       assert.throws(function () {
-        this.rep.scenarioEnded('sc1', this.rep.SUCCESSFUL);
+        reporter.scenarioEnded('sc1', reporter.SUCCESSFUL);
       }.bind(this), /Cannot end scenario, no scenario was started!/);
     });
 
   });
 
-
   describe('#useCaseEnded()', function () {
 
     it('successful (with state successful)', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.useCaseEnded('uc1', reporter.SUCCESSFUL);
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.useCaseEnded('uc1', reporter.SUCCESSFUL);
 
       // build  must be updated
       var build = store.getBuild();
@@ -172,9 +177,9 @@ describe.only('Reporter', function () {
     });
 
     it('successful (with state failed)', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.useCaseEnded('uc1', reporter.FAILED);
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.useCaseEnded('uc1', reporter.FAILED);
 
       // build must be updated
       var build = store.getBuild();
@@ -182,9 +187,9 @@ describe.only('Reporter', function () {
     });
 
     it('successful (with state skipped)', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
-      this.rep.useCaseEnded('uc1', reporter.SKIPPED);
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
+      reporter.useCaseEnded('uc1', reporter.SKIPPED);
 
       // build must be updated
       var build = store.getBuild();
@@ -192,28 +197,28 @@ describe.only('Reporter', function () {
     });
 
     it('fail if id is missing', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
 
       assert.throws(function () {
-        this.rep.useCaseEnded();
+        reporter.useCaseEnded();
       }.bind(this), /Please provide a useCaseId/);
     });
 
     it('fail if id does not match started UseCase', function () {
-      this.rep.runStarted();
-      this.rep.useCaseStarted('uc1');
+      reporter.runStarted(this.defaultOptions);
+      reporter.useCaseStarted('uc1');
 
       assert.throws(function () {
-        this.rep.useCaseEnded('uc2');
+        reporter.useCaseEnded('uc2');
       }.bind(this), /Cannot end useCase 'uc2', current useCase is 'uc1'/);
     });
 
     it('fail if useCase not started', function () {
-      this.rep.runStarted();
+      reporter.runStarted(this.defaultOptions);
 
       assert.throws(function () {
-        this.rep.useCaseEnded('uc1', this.rep.SUCCESSFUL);
+        reporter.useCaseEnded('uc1', reporter.SUCCESSFUL);
       }.bind(this), /Cannot end useCase, no useCase was started!/);
     });
   });
