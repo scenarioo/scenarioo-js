@@ -166,8 +166,10 @@ describe('scenarioDocuWriter', function () {
     beforeEach(function () {
       docuWriter.start(dummyBranch, 'myBuildName', targetDir);
       store.init(dummyBranch.name, dummyBranch.description, 'myBuildName');
-      store.setCurrentScenario({description: 'ScenarioDescription'});
-      store.setCurrentUseCase({description: 'UseCaseDescription'});
+      store.updateUseCase('uc1', {name: 'UseCaseDescription'});
+      store.setCurrentUseCaseId('uc1');
+      store.updateScenario('sc1', {name: 'ScenarioDescription'});
+      store.setCurrentScenarioId('sc1');
     });
 
     it('should save a step', function () {

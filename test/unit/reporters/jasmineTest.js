@@ -2,12 +2,18 @@ var
   assert = require('assert'),
   _ = require('lodash'),
   sinon = require('sinon'),
-  store = require('../../lib/scenariooStore'),
-  jasmineReporter = require('../../lib/scenariooJasmineReporter');
+  store = require('../../../lib/scenariooStore'),
+  jasmineReporter = require('../../../lib/reporters/jasmine');
 
 describe('scenariooJasmineReporter', function () {
   var reporter;
 
+  beforeEach(function () {
+    store.clear();
+  });
+  afterEach(function () {
+    store.clear();
+  });
 
   // all of these hook functions get invoked by jasmine. let's assert that our scenarioo state is correctly manipulated
   describe('state manipulation', function () {
@@ -20,13 +26,11 @@ describe('scenariooJasmineReporter', function () {
         buildName: 'reporterTestBuild',
         revision: '0.0.1'
       });
+
+      reporter.jasmineStarted();
     });
 
     it('#jasmineStarted()', function () {
-      reporter.jasmineStarted({
-        totalSpecsDefined: 33
-      });
-
       var state = store.dump();
       assert(state.branch);
       assert(state.build);
@@ -35,30 +39,29 @@ describe('scenariooJasmineReporter', function () {
 
     it('#suiteStarted()', function () {
 
-      // this is set in "describeScenario"
-      store.updateUseCase('suite1', {});
-
       reporter.suiteStarted({
         id: 'suite1'
       });
       var state = store.dump();
       assert(state.currentUseCase);
-      assert.equal(state.currentUseCase.isUseCase, true);
-      assert.equal(state.currentUseCase.id, 'suite1');
+      assert.equal(state.currentUseCase, 'suite1');
 
       // start another suite (nested suite)
       reporter.suiteStarted({
         id: 'suite2'
       });
 
-      assert.equal(store.dump().currentUseCase.id, 'suite1', 'currentUseCase must still be suite1, not suite2');
+      assert.equal(store.dump().currentUseCase, 'suite1', 'currentUseCase must still be suite1, not suite2');
 
     });
 
     it('#specStarted()', function () {
+      // prepare
+      reporter.suiteStarted({
+        id: 'suite1'
+      });
 
-      store.setCurrentUseCase({id: 'suite1'});
-
+      // now invoke specStarted
       var spec = {
         id: 'spec1'
       };
@@ -66,14 +69,22 @@ describe('scenariooJasmineReporter', function () {
 
       var state = store.dump();
       assert(state.currentScenario);
-      assert.equal(state.currentScenario.id, 'spec1');
+      assert.equal(state.currentScenario, 'spec1');
       assert.equal(spec._suite.id, 'suite1', 'parent suite (the useCase) must be set');
     });
 
     it('#specDone() pending', function () {
+      // prepare
+      reporter.suiteStarted({
+        id: 'suite1',
+        description: 'Some use case'
+      });
+      reporter.specStarted({
+        id: 'spec1',
+        description: 'Some scenario'
+      });
 
-      store.updateUseCase('suite1', {skippedScenarios: 0});
-
+      // now invoke specDone
       reporter.specDone({
         id: 'spec1',
         status: 'pending',
@@ -86,12 +97,20 @@ describe('scenariooJasmineReporter', function () {
     });
 
     it('#specDone() success', function () {
+      // prepare
+      reporter.suiteStarted({
+        id: 'suite1',
+        description: 'Some use case'
+      });
+      reporter.specStarted({
+        id: 'spec1',
+        description: 'Some scenario'
+      });
 
-      store.updateUseCase('suite1', {passedScenarios: 0});
-      store.updateScenario('My Super Spec', {additionalDescription: 'extended'});
-
+      // now invoke specDone
       reporter.specDone({
         id: 'spec1',
+        status: 'passed',
         description: 'My Super Spec',
         _suite: {id: 'suite1'}
       });
@@ -102,10 +121,17 @@ describe('scenariooJasmineReporter', function () {
     });
 
     it('#specDone() failed', function () {
+      // prepare
+      reporter.suiteStarted({
+        id: 'suite1',
+        description: 'Some use case'
+      });
+      reporter.specStarted({
+        id: 'spec1',
+        description: 'Some scenario'
+      });
 
-      store.updateUseCase('suite1', {failedScenarios: 0});
-      store.updateScenario('My Super Spec', {additionalDescription: 'extended'});
-
+      // now invoke specDone
       reporter.specDone({
         id: 'spec1',
         status: 'failed',
@@ -123,7 +149,7 @@ describe('scenariooJasmineReporter', function () {
 
   describe('whole lifecylce', function () {
 
-    var docuWriter = require('../../lib/docuWriter/docuWriter');
+    var docuWriter = require('../../../lib/docuWriter/docuWriter');
 
     before(function () {
       // let's wrap docuWriter's methods with sinon spies
@@ -175,9 +201,7 @@ describe('scenariooJasmineReporter', function () {
         }
       };
 
-      reporter.jasmineStarted({
-        totalSpecsDefined: 2
-      });
+      reporter.jasmineStarted();
 
       // --- first useCase with one failing spec
 
@@ -210,6 +234,7 @@ describe('scenariooJasmineReporter', function () {
 
       reporter.suiteDone({
         isUseCase: true,
+        status: 'success',
         id: dummyObjects.useCaseOne.id,
         description: dummyObjects.useCaseOne.description
       });
@@ -239,12 +264,13 @@ describe('scenariooJasmineReporter', function () {
       reporter.specDone({
         id: dummyObjects.scenarioTwo.id,
         description: dummyObjects.scenarioTwo.description,
-        status: 'success',
+        status: 'passed',
         _suite: {id: dummyObjects.useCaseTwo.id, description: dummyObjects.useCaseTwo.description}
       });
 
       reporter.suiteDone({
         isUseCase: true,
+        status: 'finished',
         id: dummyObjects.useCaseTwo.id,
         description: dummyObjects.useCaseTwo.description
       });
