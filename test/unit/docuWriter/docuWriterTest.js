@@ -11,7 +11,7 @@ before(function () {
   mockWebdriver.registerMockGlobals();
 });
 
-describe('scenarioDocuWriter', function () {
+describe('docuWriter', function () {
 
   /** let's set up some dummy objects **/
   var targetDir = './test/out/docu';
@@ -166,10 +166,8 @@ describe('scenarioDocuWriter', function () {
     beforeEach(function () {
       docuWriter.start(dummyBranch, 'myBuildName', targetDir);
       store.init(dummyBranch.name, dummyBranch.description, 'myBuildName');
-      store.updateUseCase('uc1', {name: 'UseCaseDescription'});
-      store.setCurrentUseCaseId('uc1');
-      store.updateScenario('sc1', {name: 'ScenarioDescription'});
-      store.setCurrentScenarioId('sc1');
+      store.updateCurrentUseCase({name: 'UseCaseDescription'});
+      store.updateCurrentScenario({name: 'ScenarioDescription'});
     });
 
     it('should save a step', function () {
@@ -181,6 +179,9 @@ describe('scenarioDocuWriter', function () {
     });
 
     it('should save a step with default pagename', function () {
+
+      docuWriter.registerPageNameFunction(undefined);
+
       return docuWriter.saveStep('my step')
         .then(function (stepData) {
           assert.equal(stepData[0].page.name, '#_somepage');

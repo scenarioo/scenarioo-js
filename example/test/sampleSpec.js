@@ -4,14 +4,14 @@ var scenarioo = require('../../lib/scenarioo-js');
  *  This defines a scenarioo "Use Case". It can contain multiple "scenarios".
  *  Scenarioo will generate the appropriate report files (xml) for this use case.
  */
-scenarioo.describeUseCase('Example Usecase', 'You can optionally pass in a use case description here', function exampleUseCase() {
+describe('Example Usecase', function exampleUseCase() {
 
 
   /**
    * This defines a scenarioo "scenario".
    * Scenarioo will generate the appropriate report files (xml) for this scenario.
    */
-  var sc = scenarioo.describeScenario('Example Scenario', 'You can optionally pass in a scenario description here', function exampleScenario() {
+  it('Example Scenario', function exampleScenario() {
 
     // write your normal webdriverjs / protractor test-code here
 

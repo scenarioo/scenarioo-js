@@ -1,9 +1,12 @@
 var scenarioo = require('../../lib/scenarioo-js');
 
 
-scenarioo.describeUseCase('Example Usecase failing', function exampleFailingUseCase() {
+describe('Example Usecase failing', function exampleFailingUseCase() {
+  scenarioo.getUseCaseContext().setDescription('An optional description for a failing useCase');
 
-  scenarioo.describeScenario('Example Scenario failing', function exampleFailingScenario() {
+  it('Example Scenario failing', function exampleFailingScenario() {
+    scenarioo.getScenarioContext().setDescription('An optional description for a failing scenario');
+
     browser.get('/index.html');
     scenarioo.saveStep('start');
 
@@ -13,3 +16,4 @@ scenarioo.describeUseCase('Example Usecase failing', function exampleFailingUseC
   });
 
 });
+

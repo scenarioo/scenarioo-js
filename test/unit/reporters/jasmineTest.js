@@ -40,37 +40,32 @@ describe('scenariooJasmineReporter', function () {
     it('#suiteStarted()', function () {
 
       reporter.suiteStarted({
-        id: 'suite1'
+        id: 'suite1',
+        description: 'The useCase'
       });
       var state = store.dump();
       assert(state.currentUseCase);
-      assert.equal(state.currentUseCase, 'suite1');
-
-      // start another suite (nested suite)
-      reporter.suiteStarted({
-        id: 'suite2'
-      });
-
-      assert.equal(store.dump().currentUseCase, 'suite1', 'currentUseCase must still be suite1, not suite2');
+      assert.equal(state.currentUseCase.name, 'The useCase');
 
     });
 
     it('#specStarted()', function () {
       // prepare
       reporter.suiteStarted({
-        id: 'suite1'
+        id: 'suite1',
+        description: 'UC 1'
       });
 
       // now invoke specStarted
       var spec = {
-        id: 'spec1'
+        id: 'spec1',
+        description: 'SC 1'
       };
       reporter.specStarted(spec);
 
       var state = store.dump();
       assert(state.currentScenario);
-      assert.equal(state.currentScenario, 'spec1');
-      assert.equal(spec._suite.id, 'suite1', 'parent suite (the useCase) must be set');
+      assert.equal(state.currentScenario.name, 'SC 1');
     });
 
     it('#specDone() pending', function () {
@@ -93,7 +88,7 @@ describe('scenariooJasmineReporter', function () {
       });
       var state = store.dump();
       assert(!state.currentScenario, 'currentScenario must be reset');
-      assert.equal(state.useCases.suite1.skippedScenarios, 1);
+      assert.equal(state.currentUseCase.skippedScenarios, 1);
     });
 
     it('#specDone() success', function () {
@@ -117,7 +112,7 @@ describe('scenariooJasmineReporter', function () {
 
       var state = store.dump();
       assert(!state.currentScenario, 'currentScenario must be reset');
-      assert.equal(state.useCases.suite1.passedScenarios, 1);
+      assert.equal(state.currentUseCase.passedScenarios, 1);
     });
 
     it('#specDone() failed', function () {
@@ -141,7 +136,7 @@ describe('scenariooJasmineReporter', function () {
 
       var state = store.dump();
       assert(!state.currentScenario, 'currentScenario must be reset');
-      assert.equal(state.useCases.suite1.failedScenarios, 1);
+      assert.equal(state.currentUseCase.failedScenarios, 1);
     });
 
   });
@@ -205,19 +200,9 @@ describe('scenariooJasmineReporter', function () {
 
       // --- first useCase with one failing spec
 
-      // this would be set by dsl ("describeUseCase")
-      store.updateUseCase(dummyObjects.useCaseOne.id, {
-        additionalDescription: dummyObjects.useCaseOne.additionalDescription
-      });
-
       reporter.suiteStarted({
         id: dummyObjects.useCaseOne.id,
         description: dummyObjects.useCaseOne.description
-      });
-
-      // this would be set by dsl ("describeScenario")
-      store.updateScenario(dummyObjects.scenarioOne.description, {
-        additionalDescription: dummyObjects.scenarioOne.additionalDescription
       });
 
       reporter.specStarted({
@@ -241,19 +226,9 @@ describe('scenariooJasmineReporter', function () {
 
       // --- second useCase with one succeeding spec
 
-      // this would be set by dsl ("describeUseCase")
-      store.updateUseCase(dummyObjects.useCaseTwo.id, {
-        additionalDescription: dummyObjects.useCaseTwo.additionalDescription
-      });
-
       reporter.suiteStarted({
         id: dummyObjects.useCaseTwo.id,
         description: dummyObjects.useCaseTwo.description
-      });
-
-      // this would be set by dsl ("describeScenario")
-      store.updateScenario(dummyObjects.scenarioTwo.description, {
-        additionalDescription: dummyObjects.scenarioTwo.additionalDescription
       });
 
       reporter.specStarted({

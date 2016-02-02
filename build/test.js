@@ -5,7 +5,7 @@ var
   del = require('del');
 
 gulp.task('test', ['cleanTestOut'], function () {
-  return gulp.src('./test/unit/*.js', {read: false})
+  return gulp.src('./test/unit/**/*.js', {read: false})
     .pipe(mocha({reporter: 'spec'}));
 });
 
@@ -19,8 +19,8 @@ gulp.task('pre-coverage', function () {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test-coverage', ['cleanTestOut', 'pre-coverage'], function () {
-  return gulp.src('./test/unit/*.js', {read: false})
+gulp.task('test-coverage', ['cleanTestOut', 'cleanCoverageReport', 'pre-coverage'], function () {
+  return gulp.src('./test/unit/**/*.js', {read: false})
     .pipe(mocha({reporter: 'spec'}))
     .pipe(istanbul.writeReports({
       dir: './coverage-report',
@@ -31,4 +31,8 @@ gulp.task('test-coverage', ['cleanTestOut', 'pre-coverage'], function () {
 
 gulp.task('cleanTestOut', function () {
   return del('test/out/*');
+});
+
+gulp.task('cleanCoverageReport', function () {
+  return del('./coverage-report/*');
 });

@@ -2,7 +2,7 @@ var
   assert = require('assert'),
   store = require('../../lib/scenariooStore');
 
-describe('scenariooSTore', function () {
+describe('scenariooSore', function () {
 
   beforeEach(function () {
     store.init({
@@ -45,11 +45,7 @@ describe('scenariooSTore', function () {
           passedUseCases: 0,
           failedUseCases: 0,
           skippedUseCases: 0
-        },
-        currentScenario: undefined,
-        currentUseCase: undefined,
-        useCases: {},
-        scenarios: {}
+        }
       });
     });
 
@@ -79,76 +75,56 @@ describe('scenariooSTore', function () {
     });
   });
 
-  describe('#updateUseCase()', function () {
+  describe('#updateCurrentUseCase()', function () {
 
     it('should create usecase if not yet present ', function () {
-      store.updateUseCase('uc-super');
-      assert.deepEqual(store.getUseCase('uc-super'), {id: 'uc-super'});
+      store.updateCurrentUseCase({name: 'testCaseOne'});
+      assert.deepEqual(store.getCurrentUseCase(), {name: 'testCaseOne'});
     });
 
     it('should update usecase', function () {
-      store.updateUseCase('uc-super'); // create it
-      store.updateUseCase('uc-super', {additional: 'stuff'}); // update it
-      assert.deepEqual(store.getUseCase('uc-super'), {
-        id: 'uc-super',
-        additional: 'stuff'
-      });
+      store.updateCurrentUseCase({name: 'testCaseOne'}); // creates it
+      store.updateCurrentUseCase({additional: 'property'}); // updates it
+      assert.deepEqual(store.getCurrentUseCase(), {name: 'testCaseOne', additional: 'property'});
     });
 
   });
 
-  describe('current use case setting', function () {
+  describe('#resetCurrentUseCase()', function () {
 
-    it('should return undefined if no use case is set', function () {
-      assert.equal(store.getCurrentUseCase(), undefined);
-    });
+    it('should reset', function () {
+      store.getCurrentUseCase(); // creates it
+      assert(store.dump().currentUseCase);
 
-    it('should return undefined if use case id is set to unknown useCase', function () {
-      store.setCurrentUseCaseId('uc-not-in-the-store');
-      assert.equal(store.getCurrentUseCase(), undefined);
-    });
-
-    it('should return current usecase if correctly set', function () {
-      store.updateUseCase('uc1'); // creates useCase "uc1"
-      store.setCurrentUseCaseId('uc1');
-      assert.deepEqual(store.getCurrentUseCase(), {id: 'uc1'});
+      store.resetCurrentUseCase();
+      assert(!store.dump().currentUseCase);
     });
 
   });
 
-  describe('#updateScenario()', function () {
+  describe('#updateCurrentScenario()', function () {
 
     it('should create scenario if not yet present ', function () {
-      store.updateScenario('top-sc');
-      assert.deepEqual(store.getScenario('top-sc'), {id: 'top-sc'});
+      store.updateCurrentScenario({name: 'scone'});
+      assert.deepEqual(store.getCurrentScenario(), {name: 'scone'});
     });
 
     it('should update scenario', function () {
-      store.updateScenario('top-sc'); // create it
-      store.updateScenario('top-sc', {additional: 'stuff'}); // update it
-      assert.deepEqual(store.getScenario('top-sc'), {
-        id: 'top-sc',
-        additional: 'stuff'
-      });
+      store.updateCurrentScenario({name: 'scOne'}); // creates it
+      store.updateCurrentScenario({additional: 'property'}); // updates it
+      assert.deepEqual(store.getCurrentScenario(), {name: 'scOne', additional: 'property'});
     });
 
   });
 
-  describe('current scenario setting', function () {
+  describe('#resetCurrentScenario()', function () {
 
-    it('should return undefined if no scenario is set', function () {
-      assert.equal(store.getCurrentScenario(), undefined);
-    });
+    it('should reset', function () {
+      store.getCurrentScenario(); // creates it
+      assert(store.dump().currentScenario);
 
-    it('should return undefined if scenario id is set to unknown scenario', function () {
-      store.setCurrentScenarioId('sc-not-in-the-store');
-      assert.equal(store.getCurrentScenario(), undefined);
-    });
-
-    it('should return current scenario if correctly set', function () {
-      store.updateScenario('sc1'); // creates scenario "sc1"
-      store.setCurrentScenarioId('sc1');
-      assert.deepEqual(store.getCurrentScenario(), {id: 'sc1'});
+      store.resetCurrentScenario();
+      assert(!store.dump().currentScenario);
     });
 
   });
@@ -156,25 +132,22 @@ describe('scenariooSTore', function () {
   describe('#incrementStepCounter()', function () {
 
     it('should increment if current scenario set', function () {
-      store.updateScenario('sc1');
-      store.setCurrentScenarioId('sc1');
+      store.getCurrentScenario();
+      store.incrementStepCounter();
+      assert.equal(store.getCurrentScenario().stepCounter, 0);
+    });
+
+    it('should increment if current scenario not yet set (will create currentScenario object)', function () {
       store.incrementStepCounter();
       assert.equal(store.getCurrentScenario().stepCounter, 0);
     });
 
     it('should increment multiple times', function () {
-      store.updateScenario('sc1');
-      store.setCurrentScenarioId('sc1');
+      store.getCurrentScenario();
       store.incrementStepCounter();
       store.incrementStepCounter();
       store.incrementStepCounter();
       assert.equal(store.getCurrentScenario().stepCounter, 2);
-    });
-
-    it('should throw if no current scenario set', function () {
-      assert.throws(function () {
-        store.incrementStepCounter();
-      }, /Cannot increment step counter. No Current Scenario set/);
     });
 
   });
