@@ -2,7 +2,12 @@ var scenarioo = require('../../lib/scenarioo-js');
 
 
 describe('Example Usecase failing', function exampleFailingUseCase() {
-  scenarioo.getUseCaseContext().setDescription('An optional description for a failing useCase');
+
+  beforeAll(function () {
+    // setting useCase context properties must be done in a beforeAll block because of the way jasmine
+    // executes the tests.
+    scenarioo.getUseCaseContext().setDescription('An optional description for a failing useCase');
+  });
 
   it('Example Scenario failing', function exampleFailingScenario() {
     scenarioo.getScenarioContext().setDescription('An optional description for a failing scenario');

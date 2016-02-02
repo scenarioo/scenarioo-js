@@ -42,6 +42,12 @@ var exportsConfig = {
       }
     });
     jasmine.getEnv().addReporter(scenariooReporter);
+
+
+    // this demonstrates how to include your own dsl ("describeScenario", "describeUseCase")
+    // you do not need this in a basic setup.
+    require('./test/customDsl');
+    require('./test/customExtendedDsl');
   },
 
   params: {

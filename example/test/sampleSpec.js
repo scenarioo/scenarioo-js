@@ -52,5 +52,4 @@ describe('Example Usecase', function exampleUseCase() {
 
   });
 
-})
-;
+});

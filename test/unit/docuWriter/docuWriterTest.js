@@ -84,7 +84,7 @@ describe('docuWriter', function () {
           testHelper.assertXmlContent(expectedFilePath, {
             build: {
               name: ['save_build_test'],
-              date: [buildDate.toString()],
+              date: [buildDate.toISOString()],
               status: ['failed']
             }
           }, done);

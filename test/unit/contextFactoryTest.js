@@ -12,7 +12,7 @@ describe('contextFactory', function () {
       assert(context);
       assert(context.setDescription);
       assert(context.addLabels);
-    })
+    });
   });
 
   describe('setting data', function () {
@@ -49,12 +49,19 @@ describe('contextFactory', function () {
       assert.deepEqual(store.getCurrentUseCase().labels, ['green', 'blue', 'red']);
     });
 
-    it('should throw on onvalid label', function () {
+    it('should not add undefined labels', function () {
+      var context = contextFactory('useCase');
+      context.addLabels('green');
+      context.addLabels();
+      assert.deepEqual(store.getCurrentUseCase().labels, ['green']);
+    });
+
+    it('should throw on invalid label', function () {
       // see https://github.com/scenarioo/scenarioo/wiki/Labels
       var context = contextFactory('useCase');
       assert.throws(function () {
         context.addLabels('this * is not allowed');
-      }, /does not adhere to format/)
+      }, /does not adhere to format/);
     });
 
 
