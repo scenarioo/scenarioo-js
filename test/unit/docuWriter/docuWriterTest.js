@@ -43,19 +43,15 @@ describe('docuWriter', function () {
         });
     });
 
-    it('should write branch.xml on start() with all attributes', function (done) {
-      docuWriter.start(dummyBranch, 'some build name', targetDir)
+    it('should write branch.xml on start() with all attributes', function () {
+      return docuWriter.start(dummyBranch, 'some build name', targetDir)
         .then(function () {
           var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/branch.xml');
-
-          testHelper.assertXmlContent(expectedFilePath, {
-            branch: {
-              name: ['my unsafe branch name, will'],
-              description: ['my safe description']
-            }
-          }, done);
-        })
-        .catch(done);
+          return testHelper.assertXmlContent(expectedFilePath, [
+            '<branch><name>my unsafe branch name, will</name>',
+            '<description>my safe description</description>'
+          ]);
+        });
     });
   });
 
@@ -69,7 +65,7 @@ describe('docuWriter', function () {
         .catch(done);
     });
 
-    it('should save mandatory fields correctly build.xml', function (done) {
+    it('should save mandatory fields correctly build.xml', function () {
       var buildDate = new Date();
       var build = {
         name: 'save_build_test',
@@ -77,19 +73,15 @@ describe('docuWriter', function () {
         status: 'failed'
       };
 
-      docuWriter.saveBuild(build, targetDir)
+      return docuWriter.saveBuild(build, targetDir)
         .then(function () {
           var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/save_build_test/build.xml');
-
-          testHelper.assertXmlContent(expectedFilePath, {
-            build: {
-              name: ['save_build_test'],
-              date: [buildDate.toISOString()],
-              status: ['failed']
-            }
-          }, done);
-        })
-        .catch(done);
+          return testHelper.assertXmlContent(expectedFilePath, [
+            '<build><name>save_build_test</name>',
+            '<date>' + buildDate.toISOString() + '</date>',
+            '<status>failed</status>'
+          ]);
+        });
     });
 
   });
@@ -109,22 +101,18 @@ describe('docuWriter', function () {
         });
     });
 
-    it('should create usecase.xml', function (done) {
-      docuWriter.saveUseCase(dummyUseCase)
+    it('should create usecase.xml', function () {
+      return docuWriter.saveUseCase(dummyUseCase)
         .then(function () {
           var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll!/usecase.xml');
+          return testHelper.assertXmlContent(expectedFilePath, [
+            '<name>use case name, toll!</name>',
+            '<description>some description with special chars ;) %&amp;</description>',
+            '<status>success</status>'
+          ]);
+        });
 
-          testHelper.assertXmlContent(expectedFilePath, {
-            useCase: {
-              name: ['use case name, toll!'],
-              description: ['some description with special chars ;) %&'],
-              status: ['success']
-            }
-          }, done);
-        })
-        .catch(done);
     });
-
   });
 
   describe('#saveScenario()', function () {
@@ -142,21 +130,16 @@ describe('docuWriter', function () {
         });
     });
 
-    it('should save scenario.xml', function (done) {
-      docuWriter.saveScenario(dummyScenario, 'a use case')
+    it('should save scenario.xml', function () {
+      return docuWriter.saveScenario(dummyScenario, 'a use case')
         .then(function () {
           var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name/scenario.xml');
-
-          testHelper.assertXmlContent(expectedFilePath, {
-            scenario: {
-              name: [' some cool scenario name'],
-              description: ['scenario description'],
-              status: ['success']
-            }
-          }, done);
-
-        })
-        .catch(done);
+          return testHelper.assertXmlContent(expectedFilePath, [
+            '<name> some cool scenario name</name>',
+            '<description>scenario description</description>',
+            '<status>success</status>'
+          ]);
+        });
     });
 
   });

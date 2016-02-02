@@ -1,29 +1,25 @@
 'use strict';
 
 var
+  _ = require('lodash'),
   assert = require('assert'),
-  xml2js = require('xml2js'),
   Q = require('q'),
   fs = require('fs');
 
-function assertXmlContent(filePath, content, done) {
-  fs.readFile(filePath, function (err, data) {
-    if (err) {
-      done(err);
-      return;
-    }
+function assertXmlContent(filePath, expectedContents) {
+  return Q.nfcall(fs.readFile, filePath, 'utf-8')
+    .then(function (xmlContent) {
 
-    var parser = new xml2js.Parser();
-    parser.parseString(data, function (err, result) {
-      if (err) {
-        done(err);
-        return;
+      xmlContent = xmlContent.replace(/(?:\r\n|\r|\n|\t)/g, '');
+
+      if (!_.isArray(expectedContents)) {
+        expectedContents = [expectedContents];
       }
-      assert.deepEqual(result, content);
 
-      done();
+      expectedContents.forEach(function (expectedContent) {
+        assert(xmlContent.indexOf(expectedContent) > -1, 'Given xml is expected to contain "' + expectedContent + '"\n' + xmlContent);
+      })
     });
-  });
 }
 
 function assertFileExists(filePath) {

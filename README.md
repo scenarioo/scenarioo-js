@@ -8,10 +8,10 @@ Scenarioo API for Javascript to generate Scenarioo Documentations in WebDriverJS
 This is a subproject of Scenarioo, for more information on scenarioo, check http://www.scenarioo.org.
 
 
-# Use
+## Use
 
 
-## Installation
+### Installation
 
 Install scenarioo-js via npm
 
@@ -25,9 +25,9 @@ Make sure to also install protractor (v3.x)
 $ npm install -D protractor
 ```
 
-## Configuration
+### Configuration
 
-Configure scenarioo-js in your protractor config file. 
+Configure scenarioo-js in your protractor config file.
 Usually, you'd want to fetch information about the current branch + build from your environment (via `process.env`).
 
 ```javascript
@@ -48,7 +48,7 @@ Usually, you'd want to fetch information about the current branch + build from y
 ```
 
 
-## Tests
+### Tests
 
 Write your e2e tests in your normal jasmine/protractor style.
 
@@ -73,28 +73,30 @@ describe('Example Usecase failing', function() {
 scenarioo-js will report a useCase for every "describe" and a scenario for every "it" function in your test.
 Currently, steps are reported by manually calling `scenarioo.saveStep('stepName');`
 
-
 See the **example** folder for more information.
 
 
+## API
 
-# Migration (Subject to change)
+You can run `$ gulp docu` in order to create a browseable jsDoc API documentation.
 
-## Jasmine2 Support
+## Migration (Subject to change)
+
+### Jasmine2 Support
 
 The next release of scenarioo-js will depend on jasmine2.  jasmine 1.x support will be dropped.
 The current develop branch already includes this switch. Check the **example** for a working example.
 
 
-## scenarioo-specific DSL
+### scenarioo-specific DSL
 
 The "describeScenarioo" and "describeUseCase" functions were removed.
 Since we introduced `scenarioo.getScenarioContext()...`, we no longer need wrapper functions around "describe" and "it".
 If you still want to use this, it's really simple to add custom wrapper functions yourself. See the **example** for more information.
 
- 
 
-## Protractor configuration
+
+### Protractor configuration
 
 scenarioo.reporter is now a factory function. (omit the "new" keyword)
 
@@ -116,7 +118,7 @@ onPrepare: function () {
 }
 ```
 
-## saveStep
+### saveStep
 
 The "saveStep" function is now directly exposed on scenario.
 
@@ -130,4 +132,3 @@ scenarioo.describeUseCase('Example Usecase', function () {
 
 });
 ```
-
