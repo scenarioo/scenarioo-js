@@ -6,6 +6,8 @@ describe('Example Usecase failing', function exampleFailingUseCase() {
 
   it('Example Scenario failing', function exampleFailingScenario() {
     scenarioo.getScenarioContext().setDescription('An optional description for a failing scenario');
+    scenarioo.getScenarioContext().addLabels('green'); // you can add a single label
+    scenarioo.getScenarioContext().addLabels(['red', 'blue']); // you can add multiple labels
 
     browser.get('/index.html');
     scenarioo.saveStep('start');
