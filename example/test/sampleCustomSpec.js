@@ -1,5 +1,9 @@
 var scenarioo = require('../../lib/scenarioo-js');
 
+/**
+ * An example for a simple dsl that simply wraps jasmine's "describe" and "it".
+ * It makes the usecase -> scenario hierarchy more explicit
+ */
 describeUseCase('Example Usecase custom', function exampleUseCase() {
 
   beforeAll(function () {
@@ -18,7 +22,10 @@ describeUseCase('Example Usecase custom', function exampleUseCase() {
 
 });
 
-
+/**
+ * An extended custom dsl that takes more arguments in order to save the additional "beforeAll" in every test.
+ *
+ */
 describeUseCaseE('Example Usecase custom-extended', {
   description: 'An optional description for custom-extended useCase',
   labels: ['green', 'red']
@@ -37,3 +44,25 @@ describeUseCaseE('Example Usecase custom-extended', {
   });
 
 });
+
+/**
+ *  If this style suits you more...
+ */
+useCase('Example UseCase with custom chained dsl')
+  .description('some description for the useCase')
+  .labels(['red', 'blue'])
+  .has(function () {
+
+    scenario('Example Scenario with custom chained dsl')
+      .description('some description for the scenario')
+      .labels(['green'])
+      .has(function () {
+
+        browser.get('/index.html');
+
+        scenarioo.getScenarioContext().addLabels(['blue']);
+
+        scenarioo.saveStep('start');
+      });
+
+  });

@@ -35,7 +35,7 @@ var exportsConfig = {
       targetDirectory: './scenariodocu',
       branchName: 'master',
       branchDescription: 'the master branch',
-      buildName: 'build_' + new Date(),
+      buildName: 'build_' + new Date().getTime(),
       revision: '1.0.0',
       pageNameExtractor: function (url) {
         return url.pathname.substring(1);
@@ -44,10 +44,12 @@ var exportsConfig = {
     jasmine.getEnv().addReporter(scenariooReporter);
 
 
+
     // this demonstrates how to include your own dsl ("describeScenario", "describeUseCase")
     // you do not need this in a basic setup.
     require('./test/customDsl');
     require('./test/customExtendedDsl');
+    require('./test/chainedDsl');
   },
 
   params: {
