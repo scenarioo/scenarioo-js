@@ -96,7 +96,7 @@ describe('docuWriter', function () {
     it('should create useCase directory', function () {
       return docuWriter.saveUseCase(dummyUseCase)
         .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll!');
+          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll%21');
           return testHelper.assertFileExists(expectedFilePath);
         });
     });
@@ -104,7 +104,7 @@ describe('docuWriter', function () {
     it('should create usecase.xml', function () {
       return docuWriter.saveUseCase(dummyUseCase)
         .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll!/usecase.xml');
+          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll%21/usecase.xml');
           return testHelper.assertXmlContent(expectedFilePath, [
             '<name>use case name, toll!</name>',
             '<description>some description with special chars ;) %&amp;</description>',

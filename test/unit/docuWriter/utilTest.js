@@ -35,5 +35,12 @@ describe('util', function () {
       var result = util.encodeFileName(input);
       assert.equal(result, 'This+is+my+branch+name');
     });
+
+    it('should correctly replace specialChars', function () {
+      var input = '~ \' ! ( )';
+      var result = util.encodeFileName(input);
+      assert.equal(result, '%7E+%27+%21+%28+%29');
+    });
+
   });
 });
