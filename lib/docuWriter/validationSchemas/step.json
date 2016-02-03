@@ -16,21 +16,53 @@
       },
       "required": [
         "name"
-      ]
+      ],
+      "additionalProperties": false
     },
     "stepDescription": {
       "type": "object",
       "properties": {
+        "index": {
+          "type": "integer"
+        },
+        "screenshotFileName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
         "labels": {
           "$ref": "labels"
+        },
+        "details": {
+          "$ref": "details"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "html": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "htmlSource": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     },
     "metadata": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "visibleText": {
+          "type": "string"
+        },
+        "details": {
+          "$ref": "details"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

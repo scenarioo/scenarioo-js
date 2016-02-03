@@ -160,7 +160,9 @@ describe('entityValidator', function () {
           details: {'some': 'object'},
           labels: ['one', 'two']
         },
-        html: '<html><body>bla</body></html>',
+        html: {
+          htmlSource: '<html><body>bla</body></html>'
+        },
         metadata: {
           visibleText: 'bla',
           details: {'some': 'object'}

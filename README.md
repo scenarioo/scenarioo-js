@@ -78,7 +78,7 @@ See the **example** folder for more information.
 
 ## API
 
-You can run `$ gulp docu` in order to create a browseable jsDoc API documentation.
+You can run `$ gulp docu` in order to create a browseable JSDoc API documentation.
 
 ## Migration (Subject to change)
 

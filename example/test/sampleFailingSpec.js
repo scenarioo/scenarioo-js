@@ -15,7 +15,9 @@ describe('Example Usecase failing', function exampleFailingUseCase() {
     scenarioo.getScenarioContext().addLabels(['red', 'blue']); // you can add multiple labels
 
     browser.get('/index.html');
-    scenarioo.saveStep('start');
+    scenarioo.saveStep('start', {
+      labels: ['salmon', 'purple']
+    });
 
     element(by.css('li#item_is_not_present')).click();
     scenarioo.saveStep('one is displayed');

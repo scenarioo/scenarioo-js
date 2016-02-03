@@ -166,20 +166,20 @@ describe('docuWriter', function () {
       docuWriter.registerPageNameFunction(undefined);
 
       return docuWriter.saveStep('my step')
-        .then(function (stepData) {
-          assert.equal(stepData[0].page.name, '#_somepage');
-          assert.equal(stepData[0].stepDescription.index, 0);
+        .then(function (result) {
+          assert.equal(result.step.page.name, '#_somepage');
+          assert.equal(result.step.stepDescription.index, 0);
         });
     });
 
     it('should increase stepCounter', function () {
       var firstSave = docuWriter.saveStep('my step 1')
-        .then(function (stepData) {
-          assert.equal(stepData[0].stepDescription.index, 0);
+        .then(function (result) {
+          assert.equal(result.step.stepDescription.index, 0);
         });
       var secondSave = docuWriter.saveStep('my step 2')
-        .then(function (stepData) {
-          assert.equal(stepData[0].stepDescription.index, 1);
+        .then(function (result) {
+          assert.equal(result.step.stepDescription.index, 1);
         });
 
       return Q.all([firstSave, secondSave]);
@@ -196,41 +196,22 @@ describe('docuWriter', function () {
       });
 
       return docuWriter.saveStep('my step')
-        .then(function (stepData) {
-          assert.equal(stepData[0].page.name, '_somepage');
+        .then(function (result) {
+          assert.equal(result.step.page.name, '_somepage');
         });
     });
 
-    it('should save a step with additional misc data ("details")', function () {
-      var dummyDetailData = {
-        first: {
-          arbitrary: 1,
-          additional: 'data',
-          that: 'should be stored'
-        },
-        second: {
-          arbitrary: 2,
-          additional: 'data2',
-          that: 'should be stored2'
-        }
-      };
+    it('should save a step with additional information (labels)', function () {
+      return docuWriter.saveStep('my step', {
+        labels: ['red']
+      })
+        .then(function (result) {
+          var stepDescriptionLabels = result.step.stepDescription.labels;
+          assert.deepEqual(stepDescriptionLabels, ['red']);
 
-      return docuWriter.saveStep('my step', dummyDetailData)
-        .then(function (savedStepData) {
-          var stepDescriptionDetails = savedStepData[0].metadata.details;
-          assert(stepDescriptionDetails);
-          assert.equal(stepDescriptionDetails.entry[0].key, 'first');
-          assert.deepEqual(stepDescriptionDetails.entry[0].value, {
-            arbitrary: 1,
-            additional: 'data',
-            that: 'should be stored'
-          });
-          assert.equal(stepDescriptionDetails.entry[1].key, 'second');
-          assert.deepEqual(stepDescriptionDetails.entry[1].value, {
-            arbitrary: 2,
-            additional: 'data2',
-            that: 'should be stored2'
-          });
+          return testHelper.assertXmlContent(result.xmlPath, [
+            '<labels><label>red</label></labels></stepDescription>'
+          ]);
         });
     });
 
@@ -256,25 +237,14 @@ describe('docuWriter', function () {
         ]
       };
 
-      return docuWriter.saveStep('my step', dummyDetailData)
-        .then(function (savedStepData) {
-          var stepDescriptionDetails = savedStepData[0].metadata.details;
-          assert(stepDescriptionDetails);
+      return docuWriter.saveStep('my step', {
+        details: dummyDetailData
+      })
+        .then(function (result) {
+          assert(result.step.stepDescription.details);
         });
     });
 
-    it('should fail if step metadata details is not an object', function (done) {
-      var dummyDetailData = [];
-      docuWriter.saveStep('my step', dummyDetailData)
-        .then(function () {
-          done('should not be successful!');
-        }, function (err) {
-          assert(err.message.indexOf('Step metadata details must be an object') > -1);
-          done();
-        })
-        .catch(done);
-    });
   });
-
 
 });

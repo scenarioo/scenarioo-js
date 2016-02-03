@@ -2,9 +2,6 @@ var Q = require('q');
 
 function registerMockGlobals() {
 
-  // define our mock jasmine object that contains dummy scenarioo environment (state about current useCases/scenarios)
-  global.jasmine = {};
-
   global.browser = {
     getCurrentUrl: function () {
       var deferred = Q.defer();
