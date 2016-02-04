@@ -61,7 +61,7 @@ function ScenariooJasmineReporter(options) {
   function specDone(spec) {
     if (spec.failedExpectations) {
       spec.failedExpectations.forEach(fail=> {
-        console.error(fail.message + '\n' + fail.stack);
+        console.error(`${fail.message}\n${fail.stack}`);
       });
     }
 
@@ -91,7 +91,7 @@ function jasmineStatusToScenariooStatus(jasmineStatus) {
   };
   var mapped = map[jasmineStatus];
   if (!mapped) {
-    throw new Error('Cannot map ' + jasmineStatus + ' to a scenarioo status!');
+    throw new Error(`Cannot map ${jasmineStatus} to a scenarioo status!`);
   }
   return mapped;
 }

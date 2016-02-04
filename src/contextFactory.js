@@ -12,8 +12,8 @@ import store from './scenariooStore';
 function contextFactory(objectName) {
 
   objectName = capitalizeFirstLetter(objectName);
-  const updateContextObject = store['updateCurrent' + objectName];
-  const getContextObject = store['getCurrent' + objectName];
+  const updateContextObject = store[`updateCurrent${objectName}`];
+  const getContextObject = store[`getCurrent${objectName}`];
 
 
   /**
@@ -70,7 +70,7 @@ const LABEL_PATTERN = /^[ a-zA-Z0-9_-]+$/;
 function assertLabelFormat(labels) {
   labels.forEach(label => {
     if (!LABEL_PATTERN.test(label)) {
-      throw new Error('Given label "' + label + '" does not adhere to format');
+      throw new Error(`Given label "${label}" does not adhere to format`);
     }
   });
 }

@@ -223,7 +223,7 @@ function writeStepXml(stepName, currentScenario, absScenarioPath, additionalProp
         stepDescription: {
           index: currentScenario.stepCounter,
           title: stepName,
-          screenshotFileName: currentStepCounter + '.png'
+          screenshotFileName: `${currentStepCounter}.png`
         },
         html: {
           htmlSource: browserData.source

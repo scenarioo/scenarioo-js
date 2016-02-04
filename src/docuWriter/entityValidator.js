@@ -26,7 +26,7 @@ tv4.addSchema(entitySchemas.labels);
 
 function toMessage(validationResult) {
   const messageParts = validationResult.errors.map(error => {
-    return error.message + ' (' + error.dataPath + ', ' + error.schemaPath + ')';
+    return `${error.message} (${error.dataPath}, ${error.schemaPath})`;
   });
   return messageParts.join(' | ');
 }
@@ -34,12 +34,12 @@ function toMessage(validationResult) {
 function validate(schemaName, entity) {
   const schema = entitySchemas[schemaName];
   if (!schema) {
-    throw new Error('No Schema for ' + schemaName);
+    throw new Error(`No Schema for ${schemaName}`);
   }
 
   const result = tv4.validateMultiple(entity, schema);
   if (!result.valid) {
-    throw new Error(schemaName + ': ' + toMessage(result));
+    throw new Error(`${schemaName}: ${toMessage(result)}`);
   }
 }
 

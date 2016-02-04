@@ -7,7 +7,7 @@
  * @returns {string}
  */
 export function leadingZeros(n) {
-  return ('00' + n).slice(-3);
+  return (`00${n}`).slice(-3);
 }
 
 /**

@@ -8,14 +8,15 @@ gulp.task('cleanLib', function () {
 });
 
 gulp.task('copyJsons', ['cleanLib'], function () {
-  gulp.src('src/**/*.json')
+  return gulp.src('src/**/*.json')
     .pipe(gulp.dest('lib'));
 });
 
 gulp.task('build', ['copyJsons', 'lint', 'test'], function () {
-  return gulp.src(['src/**/*.js'])
+  return gulp.src('src/**/*.js')
     .pipe(babel({
       presets: ['es2015']
     }))
     .pipe(gulp.dest('lib'));
 });
+

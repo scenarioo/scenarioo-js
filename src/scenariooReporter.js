@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import { format } from 'util';
 import path from 'path';
 import store from './scenariooStore';
 import docuWriter from './docuWriter/docuWriter';
@@ -53,7 +52,7 @@ function runStarted(options) {
   store.setBuildDate(new Date());
   docuWriter.start(store.getBranch(), store.getBuild().name, absoluteTargetDir);
 
-  console.log('Reporting scenarios for scenarioo. Writing to "' + absoluteTargetDir + '"');
+  console.log(`Reporting scenarios for scenarioo. Writing to "${absoluteTargetDir}"`);
 }
 
 /**
@@ -123,12 +122,7 @@ function useCaseEnded() {
     useCaseStatus = SKIPPED;
   }
 
-  console.log(format('useCase :: %s :: %s (%d passed, %d failed, %d skipped)',
-    useCase.name,
-    translateStatusForLogMessages(useCaseStatus),
-    useCase.passedScenarios,
-    useCase.failedScenarios,
-    useCase.skippedScenarios));
+  console.log(`useCase :: ${useCase.name} :: ${translateStatusForLogMessages(useCaseStatus)} (${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.skippedScenarios} skipped)`);
 
   docuWriter.saveUseCase(merge({
     status: useCaseStatus
@@ -173,10 +167,10 @@ function scenarioEnded(status) {
       });
       break;
     default:
-      throw new Error('Unknown status ' + status);
+      throw new Error(`Unknown status ${status}`);
   }
 
-  console.log(format('scenario :: %s :: %s', scenario.name, translateStatusForLogMessages(status)));
+  console.log(`scenario :: ${scenario.name} :: ${translateStatusForLogMessages(status)}`);
 
   docuWriter.saveScenario(merge({
     status: status
