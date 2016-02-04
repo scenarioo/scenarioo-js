@@ -1,19 +1,19 @@
 import assert from 'assert';
 import pageNameExtractor from '../../../src/docuWriter/pageNameExtractor';
 
-describe('pageNameExtractor', function () {
+describe('pageNameExtractor', () => {
 
-  describe('#getPageNameFromUrl', function () {
+  describe('#getPageNameFromUrl', () => {
 
-    describe('default extraction', function () {
+    describe('default extraction', () => {
 
-      beforeEach(function () {
+      beforeEach(() => {
         // do not use a custom extraction function.
         pageNameExtractor.registerCustomExtractionFunction(undefined);
       });
 
-      it('should return default page name from simple Url', function () {
-        var pageName;
+      it('should return default page name from simple Url', () => {
+        let pageName;
 
         pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/index.html');
         assert.equal(pageName, 'index.html');
@@ -27,8 +27,8 @@ describe('pageNameExtractor', function () {
         assert.equal(pageName, 'home/#/profile/details');
       });
 
-      it('should return default page name from url with query params', function () {
-        var pageName;
+      it('should return default page name from url with query params', () => {
+        let pageName;
 
         pageName = pageNameExtractor.getPageNameFromUrl('http://some-domain.com/index.php?action=some');
         assert.equal(pageName, 'index.php');
@@ -38,16 +38,16 @@ describe('pageNameExtractor', function () {
         assert.equal(pageName, '#/step/Donate/find_donate_page/startSearch.jsp/0/0');
       });
 
-      it('should return whole input if invalid url', function () {
-        var pageName = pageNameExtractor.getPageNameFromUrl('this-.is a malformed url/with\\no sense');
+      it('should return whole input if invalid url', () => {
+        const pageName = pageNameExtractor.getPageNameFromUrl('this-.is a malformed url/with\\no sense');
         assert.equal(pageName, 'this-.is a malformed url/with\\no sense');
       });
 
     });
 
-    describe('user custom extraction', function () {
+    describe('user custom extraction', () => {
 
-      var customFunctionArguments;
+      let customFunctionArguments;
 
       function customExtractionFunction(url) {
         customFunctionArguments.push(Array.prototype.splice.call(arguments, 0));
@@ -55,12 +55,12 @@ describe('pageNameExtractor', function () {
         return url;
       }
 
-      beforeEach(function () {
+      beforeEach(() => {
         customFunctionArguments = [];
         pageNameExtractor.registerCustomExtractionFunction(customExtractionFunction);
       });
 
-      it('should invoke custom function with parsed url object', function () {
+      it('should invoke custom function with parsed url object', () => {
         pageNameExtractor.getPageNameFromUrl('http://some-domain.com/index.php?action=some');
         assert.equal(customFunctionArguments.length, 1);
         assert.equal(customFunctionArguments[0][0].pathname, '/index.php');

@@ -6,186 +6,157 @@ import mockWebdriver from '../../utils/mockWebdriver';
 import docuWriter from '../../../src/docuWriter/docuWriter';
 import store from '../../../src/scenariooStore';
 
-before(function () {
+before(() => {
   mockWebdriver.registerMockGlobals();
 });
 
-describe('docuWriter', function () {
+describe('docuWriter', () => {
 
   /** let's set up some dummy objects **/
-  var targetDir = './test/out/docu';
+  const targetDir = './test/out/docu';
 
-  var dummyBranch = {
+  const dummyBranch = {
     name: 'my unsafe branch name, will',
     description: 'my safe description'
   };
 
-  var dummyUseCase = {
+  const dummyUseCase = {
     name: 'use case name, toll!',
     description: 'some description with special chars ;) %&',
     status: 'success'
   };
 
-  var dummyScenario = {
+  const dummyScenario = {
     name: ' some cool scenario name',
     description: 'scenario description',
     status: 'success'
   };
 
-  describe('#start()', function () {
+  describe('#start()', () => {
 
-    it('should write branch directory on start()', function () {
+    it('should write branch directory on start()', () => {
       docuWriter.start(dummyBranch, 'some build name', targetDir)
-        .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will');
-          return testHelper.assertFileExists(expectedFilePath);
-        });
+        .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will')));
     });
 
-    it('should write branch.xml on start() with all attributes', function () {
+    it('should write branch.xml on start() with all attributes', () => {
       return docuWriter.start(dummyBranch, 'some build name', targetDir)
-        .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/branch.xml');
-          return testHelper.assertXmlContent(expectedFilePath, [
-            '<branch><name>my unsafe branch name, will</name>',
-            '<description>my safe description</description>'
-          ]);
-        });
+        .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/branch.xml'), [
+          '<branch><name>my unsafe branch name, will</name>',
+          '<description>my safe description</description>'
+        ]));
     });
   });
 
-  describe('#saveBuild()', function () {
+  describe('#saveBuild()', () => {
 
-    beforeEach(function (done) {
-      docuWriter.start(dummyBranch, 'save_build_test', targetDir)
-        .then(function () {
-          done();
-        })
-        .catch(done);
+    beforeEach(()  => {
+      return docuWriter.start(dummyBranch, 'save_build_test', targetDir);
     });
 
-    it('should save mandatory fields correctly build.xml', function () {
-      var buildDate = new Date();
-      var build = {
+    it('should save mandatory fields correctly build.xml', () => {
+      const buildDate = new Date();
+      const build = {
         name: 'save_build_test',
         date: buildDate,
         status: 'failed'
       };
 
       return docuWriter.saveBuild(build, targetDir)
-        .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/save_build_test/build.xml');
-          return testHelper.assertXmlContent(expectedFilePath, [
-            '<build><name>save_build_test</name>',
-            '<date>' + buildDate.toISOString() + '</date>',
-            '<status>failed</status>'
-          ]);
-        });
+        .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/save_build_test/build.xml'), [
+          '<build><name>save_build_test</name>',
+          '<date>' + buildDate.toISOString() + '</date>',
+          '<status>failed</status>'
+        ]));
     });
 
   });
 
 
-  describe('#saveUseCase()', function () {
+  describe('#saveUseCase()', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       docuWriter.start(dummyBranch, 'some build name', targetDir);
     });
 
-    it('should create useCase directory', function () {
+    it('should create useCase directory', () => {
       return docuWriter.saveUseCase(dummyUseCase)
-        .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll%21');
-          return testHelper.assertFileExists(expectedFilePath);
-        });
+        .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll%21')));
     });
 
-    it('should create usecase.xml', function () {
+    it('should create usecase.xml', () => {
       return docuWriter.saveUseCase(dummyUseCase)
-        .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll%21/usecase.xml');
-          return testHelper.assertXmlContent(expectedFilePath, [
-            '<name>use case name, toll!</name>',
-            '<description>some description with special chars ;) %&amp;</description>',
-            '<status>success</status>'
-          ]);
-        });
-
+        .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll%21/usecase.xml'), [
+          '<name>use case name, toll!</name>',
+          '<description>some description with special chars ;) %&amp;</description>',
+          '<status>success</status>'
+        ]));
     });
   });
 
-  describe('#saveScenario()', function () {
+  describe('#saveScenario()', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       docuWriter.start(dummyBranch, 'some build name', targetDir);
       return docuWriter.saveUseCase(dummyUseCase);
     });
 
-    it('should save scenario directory', function () {
+    it('should save scenario directory', () => {
       return docuWriter.saveScenario(dummyScenario, 'a use case')
-        .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name');
-          return testHelper.assertFileExists(expectedFilePath);
-        });
+        .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name')));
     });
 
-    it('should save scenario.xml', function () {
+    it('should save scenario.xml', () => {
       return docuWriter.saveScenario(dummyScenario, 'a use case')
-        .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name/scenario.xml');
-          return testHelper.assertXmlContent(expectedFilePath, [
-            '<name> some cool scenario name</name>',
-            '<description>scenario description</description>',
-            '<status>success</status>'
-          ]);
-        });
+        .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name/scenario.xml'), [
+          '<name> some cool scenario name</name>',
+          '<description>scenario description</description>',
+          '<status>success</status>'
+        ]));
     });
 
   });
 
-  describe('#saveStep()', function () {
+  describe('#saveStep()', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       docuWriter.start(dummyBranch, 'myBuildName', targetDir);
       store.init(dummyBranch.name, dummyBranch.description, 'myBuildName');
       store.updateCurrentUseCase({name: 'UseCaseDescription'});
       store.updateCurrentScenario({name: 'ScenarioDescription'});
     });
 
-    it('should save a step', function () {
+    it('should save a step', () => {
       return docuWriter.saveStep('my step')
-        .then(function () {
-          var expectedFilePath = path.join(targetDir, 'my+unsafe+branch+name%2C+will/myBuildName/UseCaseDescription/ScenarioDescription/steps/000.xml');
-          return testHelper.assertFileExists(expectedFilePath);
-        });
+        .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will/myBuildName/UseCaseDescription/ScenarioDescription/steps/000.xml')));
     });
 
-    it('should save a step with default pagename', function () {
+    it('should save a step with default pagename', () => {
 
       docuWriter.registerPageNameFunction(undefined);
 
       return docuWriter.saveStep('my step')
-        .then(function (result) {
+        .then(result => {
           assert.equal(result.step.page.name, '#_somepage');
           assert.equal(result.step.stepDescription.index, 0);
         });
     });
 
-    it('should increase stepCounter', function () {
+    it('should increase stepCounter', () => {
       var firstSave = docuWriter.saveStep('my step 1')
-        .then(function (result) {
+        .then(result => {
           assert.equal(result.step.stepDescription.index, 0);
         });
       var secondSave = docuWriter.saveStep('my step 2')
-        .then(function (result) {
+        .then(result => {
           assert.equal(result.step.stepDescription.index, 1);
         });
 
       return Q.all([firstSave, secondSave]);
     });
 
-    it('should save a step with custom pagename function', function () {
-      docuWriter.registerPageNameFunction(function (url) {
+    it('should save a step with custom pagename function', () => {
+      docuWriter.registerPageNameFunction(url => {
         var pos = url.href.indexOf('#');
         if (pos > -1) {
           return url.href.substring(pos + 1);
@@ -195,16 +166,16 @@ describe('docuWriter', function () {
       });
 
       return docuWriter.saveStep('my step')
-        .then(function (result) {
+        .then(result => {
           assert.equal(result.step.page.name, '_somepage');
         });
     });
 
-    it('should save a step with additional information (labels)', function () {
+    it('should save a step with additional information (labels)', () => {
       return docuWriter.saveStep('my step', {
         labels: ['red']
       })
-        .then(function (result) {
+        .then(result => {
           var stepDescriptionLabels = result.step.stepDescription.labels;
           assert.deepEqual(stepDescriptionLabels, ['red']);
 
@@ -214,18 +185,18 @@ describe('docuWriter', function () {
         });
     });
 
-    it('should save a step without name but additional attributes', function () {
+    it('should save a step without name but additional attributes', () => {
       return docuWriter.saveStep({
         labels: ['red']
       })
-        .then(function (result) {
+        .then(result => {
           return testHelper.assertXmlContent(result.xmlPath, [
             '<labels><label>red</label></labels>'
           ]);
         });
     });
 
-    it('should save a step with additional information (screen annotations)', function () {
+    it('should save a step with additional information (screen annotations)', () => {
       return docuWriter.saveStep('my step', {
         screenAnnotations: [{
           x: 758,
@@ -238,7 +209,7 @@ describe('docuWriter', function () {
           description: 'User clicked on button'
         }]
       })
-        .then(function (result) {
+        .then(result => {
           var screenAnnotations = result.step.screenAnnotations;
           assert.deepEqual(screenAnnotations, [
             {

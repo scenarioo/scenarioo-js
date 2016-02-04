@@ -5,20 +5,16 @@ import jasmineReporter from '../../../src/reporters/jasmine';
 import store from '../../../src/scenariooStore';
 import docuWriter from '../../../src/docuWriter/docuWriter';
 
-describe('scenariooJasmineReporter', function () {
+describe('scenariooJasmineReporter', () => {
   var reporter;
 
-  beforeEach(function () {
-    store.clear();
-  });
-  afterEach(function () {
-    store.clear();
-  });
+  beforeEach(() => store.clear());
+  afterEach(() => store.clear());
 
   // all of these hook functions get invoked by jasmine. let's assert that our scenarioo state is correctly manipulated
-  describe('state manipulation', function () {
+  describe('state manipulation', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       reporter = jasmineReporter({
         targetDirectory: './test/out/docu',
         branchName: 'reporterTest-state-manipulation',
@@ -30,26 +26,25 @@ describe('scenariooJasmineReporter', function () {
       reporter.jasmineStarted();
     });
 
-    it('#jasmineStarted()', function () {
-      var state = store.dump();
+    it('#jasmineStarted()', () => {
+      const state = store.dump();
       assert(state.branch);
       assert(state.build);
       assert(state.build.date);
     });
 
-    it('#suiteStarted()', function () {
-
+    it('#suiteStarted()', () => {
       reporter.suiteStarted({
         id: 'suite1',
         description: 'The useCase'
       });
-      var state = store.dump();
+      const state = store.dump();
       assert(state.currentUseCase);
       assert.equal(state.currentUseCase.name, 'The useCase');
 
     });
 
-    it('#specStarted()', function () {
+    it('#specStarted()', () => {
       // prepare
       reporter.suiteStarted({
         id: 'suite1',
@@ -57,18 +52,18 @@ describe('scenariooJasmineReporter', function () {
       });
 
       // now invoke specStarted
-      var spec = {
+      const spec = {
         id: 'spec1',
         description: 'SC 1'
       };
       reporter.specStarted(spec);
 
-      var state = store.dump();
+      const state = store.dump();
       assert(state.currentScenario);
       assert.equal(state.currentScenario.name, 'SC 1');
     });
 
-    it('#specDone() pending', function () {
+    it('#specDone() pending', () => {
       // prepare
       reporter.suiteStarted({
         id: 'suite1',
@@ -86,12 +81,12 @@ describe('scenariooJasmineReporter', function () {
         description: 'My Super Spec',
         _suite: {id: 'suite1'}
       });
-      var state = store.dump();
+      const state = store.dump();
       assert(!state.currentScenario, 'currentScenario must be reset');
       assert.equal(state.currentUseCase.skippedScenarios, 1);
     });
 
-    it('#specDone() success', function () {
+    it('#specDone() success', () => {
       // prepare
       reporter.suiteStarted({
         id: 'suite1',
@@ -110,12 +105,12 @@ describe('scenariooJasmineReporter', function () {
         _suite: {id: 'suite1'}
       });
 
-      var state = store.dump();
+      const state = store.dump();
       assert(!state.currentScenario, 'currentScenario must be reset');
       assert.equal(state.currentUseCase.passedScenarios, 1);
     });
 
-    it('#specDone() failed', function () {
+    it('#specDone() failed', () => {
       // prepare
       reporter.suiteStarted({
         id: 'suite1',
@@ -134,7 +129,7 @@ describe('scenariooJasmineReporter', function () {
         _suite: {id: 'suite1'}
       });
 
-      var state = store.dump();
+      const state = store.dump();
       assert(!state.currentScenario, 'currentScenario must be reset');
       assert.equal(state.currentUseCase.failedScenarios, 1);
     });
@@ -142,9 +137,9 @@ describe('scenariooJasmineReporter', function () {
   });
 
 
-  describe('whole lifecylce', function () {
+  describe('whole lifecylce', () => {
 
-    before(function () {
+    before(() => {
       // let's wrap docuWriter's methods with sinon spies
       // this allows us to assert jasmineReporter calls docuWriter in an expected way
       sinon.spy(docuWriter, 'start');
@@ -153,7 +148,7 @@ describe('scenariooJasmineReporter', function () {
       sinon.spy(docuWriter, 'saveBuild');
     });
 
-    after(function () {
+    after(() => {
       // make sure to remove our spies
       docuWriter.start.restore();
       docuWriter.saveScenario.restore();
@@ -161,7 +156,7 @@ describe('scenariooJasmineReporter', function () {
       docuWriter.saveBuild.restore();
     });
 
-    it('should invoke docuWriter as expected', function () {
+    it('should invoke docuWriter as expected', () => {
 
       reporter = jasmineReporter({
         targetDirectory: './test/out/docu',
@@ -171,7 +166,7 @@ describe('scenariooJasmineReporter', function () {
         revision: '0.0.1'
       });
 
-      var dummyObjects = {
+      const dummyObjects = {
         useCaseOne: {
           id: 'suite1',
           description: 'useCase will fail',

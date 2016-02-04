@@ -2,31 +2,29 @@ import assert from 'assert';
 import fs from 'fs';
 import xmlWriter from '../../../src/docuWriter/xmlWriter';
 
-describe('xmlWriter: simpleFile', function () {
+describe('xmlWriter: simpleFile', () => {
 
   function doSave(dummyObjectToWrite) {
     return xmlWriter.writeXmlFile('rootElement', dummyObjectToWrite, './test/out/testfile.xml');
   }
 
-  it('should serialize simple object', function (done) {
+  it('should serialize simple object', () => {
 
     var dummyObjectToWrite = {
       name: 'sergio',
       lastName: 'trentini'
     };
 
-    doSave(dummyObjectToWrite).then(function () {
-      done();
-    });
+    return doSave(dummyObjectToWrite);
   });
 
-  it('should serialize object with labels array', function (done) {
+  it('should serialize object with labels array', done => {
 
-    var dummyObjectToWrite = {
+    const dummyObjectToWrite = {
       labels: ['one', 'two', 'three']
     };
 
-    doSave(dummyObjectToWrite).then(function (filePath) {
+    doSave(dummyObjectToWrite).then(filePath => {
 
       fs.readFile(filePath, 'utf-8', (err, fileContent) => {
         if (err) {
@@ -39,13 +37,13 @@ describe('xmlWriter: simpleFile', function () {
     });
   });
 
-  it('should serialize object with Date  ', function (done) {
+  it('should serialize object with Date  ', done => {
 
-    var dummyObjectToWrite = {
+    const dummyObjectToWrite = {
       date: new Date(0)
     };
 
-    doSave(dummyObjectToWrite).then(function (filePath) {
+    doSave(dummyObjectToWrite).then(filePath => {
 
       fs.readFile(filePath, 'utf-8', (err, fileContent) => {
         if (err) {

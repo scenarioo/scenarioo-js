@@ -1,35 +1,33 @@
 import assert from 'assert';
 import validator from '../../../src/docuWriter/entityValidator';
 
-describe('entityValidator', function () {
+describe('entityValidator', () => {
 
-  describe('#validateBranch()', function () {
+  describe('#validateBranch()', () => {
 
-    it('should not throw on valid minimal branch', function () {
+    it('should not throw on valid minimal branch', () => {
       validator.validateBranch({
         name: 'Some branch name'
       });
     });
 
-    it('should not throw on valid full branch', function () {
+    it('should not throw on valid full branch', () => {
       validator.validateBranch({
         name: 'Some branch name',
         description: 'branch description'
       });
     });
 
-    it('should throw on invalid branch: missing required properties', function () {
-      assert.throws(function () {
-        validator.validateBranch({});
-      }, /Missing required property: name/);
+    it('should throw on invalid branch: missing required properties', () => {
+      assert.throws(() => validator.validateBranch({}), /Missing required property: name/);
     });
 
   });
 
 
-  describe('#validateBuild()', function () {
+  describe('#validateBuild()', () => {
 
-    it('should not throw on valid minimal build', function () {
+    it('should not throw on valid minimal build', () => {
       validator.validateBuild({
         name: 'Some Build name',
         status: 'success',
@@ -37,7 +35,7 @@ describe('entityValidator', function () {
       });
     });
 
-    it('should not throw on valid full build', function () {
+    it('should not throw on valid full build', () => {
       validator.validateBuild({
         name: 'Some build name',
         revision: '123',
@@ -46,34 +44,30 @@ describe('entityValidator', function () {
       });
     });
 
-    it('should throw on invalid build: missing required properties', function () {
-      assert.throws(function () {
-        validator.validateBuild({});
-      }, /Missing required property: name .* Missing required property: status .* Missing required property: date/);
+    it('should throw on invalid build: missing required properties', () => {
+      assert.throws(() => validator.validateBuild({}), /Missing required property: name .* Missing required property: status .* Missing required property: date/);
     });
 
-    it('should throw on invalid build: status attribute not "failed" or "success"', function () {
-      assert.throws(function () {
-        validator.validateBuild({
-          name: 'Some Build name',
-          status: 'someThingElse',
-          date: new Date().toISOString()
-        });
-      }, /build: No enum match for: "someThingElse"/);
+    it('should throw on invalid build: status attribute not "failed" or "success"', () => {
+      assert.throws(() => validator.validateBuild({
+        name: 'Some Build name',
+        status: 'someThingElse',
+        date: new Date().toISOString()
+      }), /build: No enum match for: "someThingElse"/);
     });
 
   });
 
-  describe('#validateUseCase()', function () {
+  describe('#validateUseCase()', () => {
 
-    it('should not throw on valid minimal useCase', function () {
+    it('should not throw on valid minimal useCase', () => {
       validator.validateUseCase({
         name: 'Some use case name',
         status: 'success'
       });
     });
 
-    it('should not throw on valid full useCase', function () {
+    it('should not throw on valid full useCase', () => {
       validator.validateUseCase({
         name: 'Some use case name',
         description: 'some use case description',
@@ -82,33 +76,29 @@ describe('entityValidator', function () {
       });
     });
 
-    it('should throw on invalid useCase: missing required properties', function () {
-      assert.throws(function () {
-        validator.validateUseCase({});
-      }, /Missing required property: name .* Missing required property: status/);
+    it('should throw on invalid useCase: missing required properties', () => {
+      assert.throws(() => validator.validateUseCase({}), /Missing required property: name .* Missing required property: status/);
     });
 
-    it('should throw on invalid useCase: status attribute not "failed" or "success"', function () {
-      assert.throws(function () {
-        validator.validateUseCase({
-          name: 'Some use case name',
-          status: 'not...'
-        });
-      }, /useCase: No enum match for: "not..."/);
+    it('should throw on invalid useCase: status attribute not "failed" or "success"', () => {
+      assert.throws(() => validator.validateUseCase({
+        name: 'Some use case name',
+        status: 'not...'
+      }), /useCase: No enum match for: "not..."/);
     });
 
   });
 
-  describe('#validateScenario()', function () {
+  describe('#validateScenario()', () => {
 
-    it('should not throw on valid minimal scenario', function () {
+    it('should not throw on valid minimal scenario', () => {
       validator.validateScenario({
         name: 'Some scenario name',
         status: 'success'
       });
     });
 
-    it('should not throw on valid full scenario', function () {
+    it('should not throw on valid full scenario', () => {
       validator.validateScenario({
         name: 'Some scemario name',
         description: 'some scenario description',
@@ -117,30 +107,26 @@ describe('entityValidator', function () {
       });
     });
 
-    it('should throw on invalid scenario: missing required properties', function () {
-      assert.throws(function () {
-        validator.validateScenario({});
-      }, /Missing required property: name .* Missing required property: status/);
+    it('should throw on invalid scenario: missing required properties', () => {
+      assert.throws(() => validator.validateScenario({}), /Missing required property: name .* Missing required property: status/);
     });
 
-    it('should throw on invalid scenario: status attribute not "failed" or "success"', function () {
-      assert.throws(function () {
-        validator.validateScenario({
-          name: 'Some scenario name',
-          status: 'not...'
-        });
-      }, /scenario: No enum match for: "not..."/);
+    it('should throw on invalid scenario: status attribute not "failed" or "success"', () => {
+      assert.throws(() => validator.validateScenario({
+        name: 'Some scenario name',
+        status: 'not...'
+      }), /scenario: No enum match for: "not..."/);
     });
 
   });
 
-  describe('#validateStep()', function () {
+  describe('#validateStep()', () => {
 
-    it('should not throw on valid minimal step', function () {
+    it('should not throw on valid minimal step', () => {
       validator.validateStep({});
     });
 
-    it('should not throw on valid step with screenAnnotations', function () {
+    it('should not throw on valid step with screenAnnotations', () => {
       validator.validateStep({
         screenAnnotations: [{
           region: {x: 758, y: 462, width: 55, height: 28},
@@ -155,7 +141,7 @@ describe('entityValidator', function () {
       });
     });
 
-    it('should not throw on valid full scenario', function () {
+    it('should not throw on valid full scenario', () => {
       validator.validateStep({
         page: {
           name: 'some page name',
@@ -182,16 +168,14 @@ describe('entityValidator', function () {
       });
     });
 
-    it('should throw on invalid step: invalid page', function () {
+    it('should throw on invalid step: invalid page', () => {
 
-      assert.throws(function () {
-        validator.validateStep({
-          page: {
-            // name is missing
-            labels: 'other'    // must be an array
-          }
-        });
-      }, /Missing required property: name .* Invalid type: string \(expected array\) \(\/page\/labels, \/properties\/page\/properties\/labels\/type\)/);
+      assert.throws(() => validator.validateStep({
+        page: {
+          // name is missing
+          labels: 'other'    // must be an array
+        }
+      }), /Missing required property: name .* Invalid type: string \(expected array\) \(\/page\/labels, \/properties\/page\/properties\/labels\/type\)/);
 
     });
 

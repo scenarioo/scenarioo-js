@@ -1,9 +1,9 @@
 import assert from 'assert';
 import store from '../../src/scenariooStore';
 
-describe('scenariooStore', function () {
+describe('scenariooStore', () => {
 
-  beforeEach(function () {
+  beforeEach(() => {
     store.init({
       branchName: 'develop',
       branchDescription: 'The develop branch',
@@ -12,18 +12,18 @@ describe('scenariooStore', function () {
     });
   });
 
-  describe('#isInitialized()', function () {
-    it('should return true after init', function () {
+  describe('#isInitialized()', () => {
+    it('should return true after init', () => {
       assert(store.isInitialized());
     });
-    it('should return false after clear', function () {
+    it('should return false after clear', () => {
       store.clear();
       assert(!store.isInitialized());
     });
   });
 
-  describe('#getBranch()', function () {
-    it('should return branch after init', function () {
+  describe('#getBranch()', () => {
+    it('should return branch after init', () => {
       assert.deepEqual(store.getBranch(), {
         description: 'The develop branch',
         name: 'develop'
@@ -31,8 +31,8 @@ describe('scenariooStore', function () {
     });
   });
 
-  describe('#dump()', function () {
-    it('should return plain pojo of whole state', function () {
+  describe('#dump()', () => {
+    it('should return plain pojo of whole state', () => {
       assert.deepEqual(store.dump(), {
         branch: {
           name: 'develop',
@@ -48,17 +48,15 @@ describe('scenariooStore', function () {
       });
     });
 
-    it('cannot dump when not initialized', function () {
+    it('cannot dump when not initialized', () => {
       store.clear();
-      assert.throws(function () {
-        store.dump();
-      }, /Store is not initialized/);
+      assert.throws(() => store.dump(), /Store is not initialized/);
     });
   });
 
-  describe('#updateBuild()', function () {
+  describe('#updateBuild()', () => {
 
-    it('should update build ', function () {
+    it('should update build ', () => {
       store.updateBuild({
         someAdditional: 'property'
       });
@@ -67,21 +65,21 @@ describe('scenariooStore', function () {
     });
   });
 
-  describe('#setBuildDate()', function () {
-    it('should set build date ', function () {
+  describe('#setBuildDate()', () => {
+    it('should set build date ', () => {
       store.setBuildDate(new Date());
       assert(store.getBuild().date);
     });
   });
 
-  describe('#updateCurrentUseCase()', function () {
+  describe('#updateCurrentUseCase()', () => {
 
-    it('should create usecase if not yet present ', function () {
+    it('should create usecase if not yet present ', () => {
       store.updateCurrentUseCase({name: 'testCaseOne'});
       assert.deepEqual(store.getCurrentUseCase(), {name: 'testCaseOne'});
     });
 
-    it('should update usecase', function () {
+    it('should update usecase', () => {
       store.updateCurrentUseCase({name: 'testCaseOne'}); // creates it
       store.updateCurrentUseCase({additional: 'property'}); // updates it
       assert.deepEqual(store.getCurrentUseCase(), {name: 'testCaseOne', additional: 'property'});
@@ -89,9 +87,9 @@ describe('scenariooStore', function () {
 
   });
 
-  describe('#resetCurrentUseCase()', function () {
+  describe('#resetCurrentUseCase()', () => {
 
-    it('should reset', function () {
+    it('should reset', () => {
       store.getCurrentUseCase(); // creates it
       assert(store.dump().currentUseCase);
 
@@ -101,14 +99,14 @@ describe('scenariooStore', function () {
 
   });
 
-  describe('#updateCurrentScenario()', function () {
+  describe('#updateCurrentScenario()', () => {
 
-    it('should create scenario if not yet present ', function () {
+    it('should create scenario if not yet present ', () => {
       store.updateCurrentScenario({name: 'scone'});
       assert.deepEqual(store.getCurrentScenario(), {name: 'scone'});
     });
 
-    it('should update scenario', function () {
+    it('should update scenario', () => {
       store.updateCurrentScenario({name: 'scOne'}); // creates it
       store.updateCurrentScenario({additional: 'property'}); // updates it
       assert.deepEqual(store.getCurrentScenario(), {name: 'scOne', additional: 'property'});
@@ -116,9 +114,9 @@ describe('scenariooStore', function () {
 
   });
 
-  describe('#resetCurrentScenario()', function () {
+  describe('#resetCurrentScenario()', () => {
 
-    it('should reset', function () {
+    it('should reset', () => {
       store.getCurrentScenario(); // creates it
       assert(store.dump().currentScenario);
 
@@ -128,20 +126,20 @@ describe('scenariooStore', function () {
 
   });
 
-  describe('#incrementStepCounter()', function () {
+  describe('#incrementStepCounter()', () => {
 
-    it('should increment if current scenario set', function () {
+    it('should increment if current scenario set', () => {
       store.getCurrentScenario();
       store.incrementStepCounter();
       assert.equal(store.getCurrentScenario().stepCounter, 0);
     });
 
-    it('should increment if current scenario not yet set (will create currentScenario object)', function () {
+    it('should increment if current scenario not yet set (will create currentScenario object)', () => {
       store.incrementStepCounter();
       assert.equal(store.getCurrentScenario().stepCounter, 0);
     });
 
-    it('should increment multiple times', function () {
+    it('should increment multiple times', () => {
       store.getCurrentScenario();
       store.incrementStepCounter();
       store.incrementStepCounter();

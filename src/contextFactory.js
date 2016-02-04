@@ -29,9 +29,7 @@ function contextFactory(objectName) {
    * @param {string} description
    */
   function setDescription(description) {
-    updateContextObject({
-      description: description
-    });
+    updateContextObject({description});
   }
 
   /**
