@@ -1,6 +1,5 @@
-var
-  assert = require('assert'),
-  identifierSanitizer = require('../../../src/docuWriter/identifierSanitizer');
+import assert from 'assert';
+import identifierSanitizer from '../../../src/docuWriter/identifierSanitizer';
 
 describe('identifierSanitizer', function () {
 

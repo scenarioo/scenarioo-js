@@ -1,4 +1,4 @@
-var scenarioo = require('../../lib/scenarioo-js');
+var scenarioo = require('../../lib');
 
 
 describe('Example Usecase failing', function exampleFailingUseCase() {

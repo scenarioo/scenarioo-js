@@ -1,11 +1,29 @@
-var
-  fs = require('fs'),
-  _ = require('lodash'),
-  path = require('path'),
-  Q = require('q'),
-  mkdirp = require('mkdirp'),
-  js2xmlparser = require('js2xmlparser');
+import fs from 'fs';
+import cloneDeep from 'lodash/cloneDeep';
+import path from 'path';
+import Q from 'q';
+import mkdirp from 'mkdirp';
+import js2xmlparser from 'js2xmlparser';
 
+/**
+ * writes the given data object as xml file
+ * @ignore
+ * @param rootElement
+ * @param data
+ * @param targetFilePath
+ * @returns {Promise} Returns a promise that resolves to the given targetFilePath
+ */
+export function writeXmlFile(rootElement, data, targetFilePath) {
+
+  const xml = serialize(rootElement, data);
+
+  createDirsForFilePath(targetFilePath);
+
+  return Q.nfcall(fs.writeFile, targetFilePath, xml, 'UTF-8')
+    .then(() => {
+      return targetFilePath;
+    });
+}
 
 /**
  * resolves the given path (to absolute),
@@ -20,7 +38,7 @@ function createDirsForFilePath(filePath) {
 
 function serialize(rootElement, data) {
   // clone incoming data, since we change some properties!
-  var dataClone = _.cloneDeep(data);
+  const dataClone = cloneDeep(data);
 
   // see https://github.com/michaelkourlas/node-js2xmlparser
   return js2xmlparser(rootElement, dataClone, {
@@ -32,32 +50,14 @@ function serialize(rootElement, data) {
       }
     },
 
-    // we want the array property "labels" to be represented as <labels><label>....</label></labels>
     arrayMap: {
+      // we want the array property "labels" to be represented as <labels><label>....</label></labels>
       labels: 'label',
+      // we want the array property "screenAnnotations" to be represented as <screenAnnotations><screenAnnotation>....</screenAnnotation></screenAnnotations>
       screenAnnotations: 'screenAnnotation'
     }
   });
 }
 
-function writeXmlFile(rootElement, data, targetFilePath) {
 
-  var xml = serialize(rootElement, data);
-
-  createDirsForFilePath(targetFilePath);
-
-  var deferred = Q.defer();
-  fs.writeFile(targetFilePath, xml, 'UTF-8', function (err) {
-    if (err) {
-      deferred.reject(err);
-    } else {
-      deferred.resolve(targetFilePath);
-    }
-  });
-  return deferred.promise;
-}
-
-
-module.exports = {
-  writeXmlFile: writeXmlFile
-};
+export default {writeXmlFile};

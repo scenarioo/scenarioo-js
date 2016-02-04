@@ -1,28 +1,11 @@
-/* scenarioo-js
- * Copyright (C) 2014, scenarioo.org Development Team
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-var
-  contextFactory = require('./contextFactory'),
-  docuWriter = require('./docuWriter/docuWriter');
+import contextFactory from './contextFactory';
+import docuWriter from './docuWriter/docuWriter';
+import jasmineReporter from './reporters/jasmine';
 
 /**
  * @namespace scenarioo
  */
-var scenariooJs = {
+const scenarioo = {
 
   // TODO: in the future, when we support different reporters for different testing-frameworks, the user would want to configure which reporter to use.
 
@@ -40,7 +23,7 @@ var scenariooJs = {
    * @param {function} [options.pageNameExtractor] - A custom function to extract the pageName from the url. Scenarioo will pass in a node.js url object.
    *
    */
-  reporter: require('./reporters/jasmine'),
+  reporter: jasmineReporter,
 
   /**
    * will return the context for the current useCase.
@@ -71,7 +54,6 @@ var scenariooJs = {
    * @param {string} [stepName]
    * @param {object} [additionalProperties]
    * @param {string[]} [additionalProperties.labels]
-   * @param {object} [additionalProperties.details]
    * @param {object[]} [additionalProperties.screenAnnotations]
    * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
    */
@@ -79,12 +61,12 @@ var scenariooJs = {
     // make sure that "scenarioo.saveStep()" gets added to the protractor controlFlow
     // this ensures that the save operation is not invoked immediately, but in-sync with the flow.
     // We do this wrapping here in order to keep docuWriter simple (not another dependency to protractor)
-    var stepArguments = arguments;
-    browser.controlFlow().execute(function () {
+    const stepArguments = arguments;
+    browser.controlFlow().execute(() => {
       docuWriter.saveStep.apply(docuWriter, stepArguments);
     });
   }
 
 };
 
-module.exports = scenariooJs;
+export default scenarioo;

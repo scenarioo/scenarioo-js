@@ -23,9 +23,6 @@
     },
     "revision": {
       "type": "string"
-    },
-    "details": {
-      "$ref": "details"
     }
   },
   "required": [

@@ -1,9 +1,9 @@
-var
-  assert = require('assert'),
-  _ = require('lodash'),
-  sinon = require('sinon'),
-  store = require('../../../src/scenariooStore'),
-  jasmineReporter = require('../../../src/reporters/jasmine');
+import assert from 'assert';
+import _ from 'lodash';
+import sinon from 'sinon';
+import jasmineReporter from '../../../src/reporters/jasmine';
+import store from '../../../src/scenariooStore';
+import docuWriter from '../../../src/docuWriter/docuWriter';
 
 describe('scenariooJasmineReporter', function () {
   var reporter;
@@ -143,8 +143,6 @@ describe('scenariooJasmineReporter', function () {
 
 
   describe('whole lifecylce', function () {
-
-    var docuWriter = require('../../../src/docuWriter/docuWriter');
 
     before(function () {
       // let's wrap docuWriter's methods with sinon spies

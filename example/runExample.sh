@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# MAKE SURE TO FIRST RUN "gulp build" in order to produce ES5 sources (to ./lib folder)
+
 echo "Starting http-server..."
 node_modules/http-server/bin/http-server -p 8081 . &
 serverPID=$!

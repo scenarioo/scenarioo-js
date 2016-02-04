@@ -1,4 +1,4 @@
-var scenarioo = require('../../lib/scenarioo-js');
+var scenarioo = require('../../lib');
 
 function useCase(name) {
   var description, labels;

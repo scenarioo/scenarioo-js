@@ -1,11 +1,11 @@
-var
-  url = require('url'),
-  _ = require('lodash');
+import url from 'url';
+import isNull from 'lodash/isNull';
+import isFunction from 'lodash/isFunction';
 
-var customExtractionFunction;
+let customExtractionFunction;
 
 function buildDefaultPageName(urlObject) {
-  var pageName = urlObject.pathname.substring(1);
+  let pageName = urlObject.pathname.substring(1);
 
   if (urlObject.hash) {
     pageName += removeEveryhtingAfterQuestionMark(urlObject.hash);
@@ -14,7 +14,7 @@ function buildDefaultPageName(urlObject) {
 }
 
 function removeEveryhtingAfterQuestionMark(href) {
-  var pos = href.indexOf('?');
+  const pos = href.indexOf('?');
   if (pos > -1) {
     return href.substring(0, pos);
   } else {
@@ -23,7 +23,7 @@ function removeEveryhtingAfterQuestionMark(href) {
 }
 
 function isValidUrlObject(urlObject) {
-  return !_.isNull(urlObject.hostname) && !_.isNull(urlObject.protocol);
+  return !isNull(urlObject.hostname) && !isNull(urlObject.protocol);
 }
 
 /**
@@ -34,9 +34,9 @@ function isValidUrlObject(urlObject) {
  *
  * @ignore
  */
-function getPageNameFromUrl(urlString) {
-  var urlObject = url.parse(urlString);
-  if (_.isFunction(customExtractionFunction)) {
+export function getPageNameFromUrl(urlString) {
+  const urlObject = url.parse(urlString);
+  if (isFunction(customExtractionFunction)) {
     return customExtractionFunction(urlObject);
   } else if (!isValidUrlObject(urlObject)) {
     return urlString;
@@ -45,11 +45,8 @@ function getPageNameFromUrl(urlString) {
   }
 }
 
-function registerCustomExtractionFunction(_customExtractionFunction) {
-  customExtractionFunction = _customExtractionFunction;
+export function registerCustomExtractionFunction(extractionFunction) {
+  customExtractionFunction = extractionFunction;
 }
 
-module.exports = {
-  getPageNameFromUrl: getPageNameFromUrl,
-  registerCustomExtractionFunction: registerCustomExtractionFunction
-};
+export default {getPageNameFromUrl, registerCustomExtractionFunction};

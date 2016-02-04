@@ -5,7 +5,7 @@
  * describeUseCase and describeScenario take an additional argument in order to
  * eliminate boilerplate code in your tests.
  */
-var scenarioo = require('../../lib/scenarioo-js');
+var scenarioo = require('../../lib');
 
 function describeUseCaseE(jasmineDescribeFunction, useCaseName, additionalProperties, callback) {
   if (!callback) {

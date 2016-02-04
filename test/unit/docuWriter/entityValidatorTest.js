@@ -1,6 +1,5 @@
-var
-  assert = require('assert'),
-  validator = require('../../../src/docuWriter/entityValidator');
+import assert from 'assert';
+import validator from '../../../src/docuWriter/entityValidator';
 
 describe('entityValidator', function () {
 
@@ -15,8 +14,7 @@ describe('entityValidator', function () {
     it('should not throw on valid full branch', function () {
       validator.validateBranch({
         name: 'Some branch name',
-        description: 'branch description',
-        details: {'some': 'object'}
+        description: 'branch description'
       });
     });
 
@@ -44,8 +42,7 @@ describe('entityValidator', function () {
         name: 'Some build name',
         revision: '123',
         date: new Date().toISOString(),
-        status: 'success',
-        details: {'some': 'object'}
+        status: 'success'
       });
     });
 
@@ -62,7 +59,7 @@ describe('entityValidator', function () {
           status: 'someThingElse',
           date: new Date().toISOString()
         });
-      }, /Build: No enum match for: "someThingElse"/);
+      }, /build: No enum match for: "someThingElse"/);
     });
 
   });
@@ -81,7 +78,6 @@ describe('entityValidator', function () {
         name: 'Some use case name',
         description: 'some use case description',
         status: 'success',
-        details: {'some': 'object'},
         labels: ['one', 'two']
       });
     });
@@ -98,7 +94,7 @@ describe('entityValidator', function () {
           name: 'Some use case name',
           status: 'not...'
         });
-      }, /UseCase: No enum match for: "not..."/);
+      }, /useCase: No enum match for: "not..."/);
     });
 
   });
@@ -117,7 +113,6 @@ describe('entityValidator', function () {
         name: 'Some scemario name',
         description: 'some scenario description',
         status: 'success',
-        details: {'some': 'object'},
         labels: ['one', 'two']
       });
     });
@@ -134,7 +129,7 @@ describe('entityValidator', function () {
           name: 'Some scenario name',
           status: 'not...'
         });
-      }, /Scenario: No enum match for: "not..."/);
+      }, /scenario: No enum match for: "not..."/);
     });
 
   });
@@ -164,7 +159,6 @@ describe('entityValidator', function () {
       validator.validateStep({
         page: {
           name: 'some page name',
-          details: {'some': 'object'},
           labels: ['one', 'two']
         },
         stepDescription: {
@@ -172,15 +166,18 @@ describe('entityValidator', function () {
           title: 'stepTitle',
           status: 'failed',
           screenshotFileName: 'someFileName.png',
-          details: {'some': 'object'},
           labels: ['one', 'two']
         },
         html: {
           htmlSource: '<html><body>bla</body></html>'
         },
+        screenAnnotations: [
+          {
+            region: {x: 1, y: 2, width: 100, height: 100}
+          }
+        ],
         metadata: {
-          visibleText: 'bla',
-          details: {'some': 'object'}
+          visibleText: 'bla'
         }
       });
     });
@@ -191,11 +188,10 @@ describe('entityValidator', function () {
         validator.validateStep({
           page: {
             // name is missing
-            details: 'some',   // must be valid "details"
             labels: 'other'    // must be an array
           }
         });
-      }, /Missing required property: name .* Invalid type: string .* Invalid type: string \(expected array\) \(\/page\/labels, \/properties\/page\/properties\/labels\/type\)/);
+      }, /Missing required property: name .* Invalid type: string \(expected array\) \(\/page\/labels, \/properties\/page\/properties\/labels\/type\)/);
 
     });
 

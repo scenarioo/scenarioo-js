@@ -1,7 +1,6 @@
-var
-  assert = require('assert'),
-  store = require('../../src/scenariooStore'),
-  contextFactory = require('../../src/contextFactory');
+import assert from 'assert';
+import contextFactory from '../../src/contextFactory';
+import store from '../../src/scenariooStore';
 
 describe('contextFactory', function () {
 

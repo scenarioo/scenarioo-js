@@ -1,6 +1,5 @@
-var
-  store = require('../scenariooStore'),
-  scenariooReporter = require('../scenariooReporter');
+import store from  '../scenariooStore';
+import scenariooReporter from '../scenariooReporter';
 
 /**
  * This is the jasmine reporter that is registered in your protractor config.
@@ -18,12 +17,12 @@ function ScenariooJasmineReporter(options) {
   store.init(options);
 
   return {
-    jasmineStarted: jasmineStarted,
-    suiteStarted: suiteStarted,
-    specStarted: specStarted,
-    specDone: specDone,
-    suiteDone: suiteDone,
-    jasmineDone: jasmineDone
+    jasmineStarted,
+    suiteStarted,
+    specStarted,
+    specDone,
+    suiteDone,
+    jasmineDone
   };
 
   /**
@@ -61,7 +60,7 @@ function ScenariooJasmineReporter(options) {
    */
   function specDone(spec) {
     if (spec.failedExpectations) {
-      spec.failedExpectations.forEach(function (fail) {
+      spec.failedExpectations.forEach(fail=> {
         console.error(fail.message + '\n' + fail.stack);
       });
     }
@@ -97,4 +96,4 @@ function jasmineStatusToScenariooStatus(jasmineStatus) {
   return mapped;
 }
 
-module.exports = ScenariooJasmineReporter;
+export default ScenariooJasmineReporter;

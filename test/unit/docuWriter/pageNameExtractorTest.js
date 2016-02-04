@@ -1,6 +1,5 @@
-var
-  assert = require('assert'),
-  pageNameExtractor = require('../../../src/docuWriter/pageNameExtractor');
+import assert from 'assert';
+import pageNameExtractor from '../../../src/docuWriter/pageNameExtractor';
 
 describe('pageNameExtractor', function () {
 

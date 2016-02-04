@@ -1,38 +1,23 @@
-var
-  fs = require('fs'),
-  Q = require('q'),
-  path = require('path'),
-  mkdirp = require('mkdirp'),
-  utils = require('./util.js');
+import fs from 'fs';
+import path from 'path';
+import Q from 'q';
+import mkdirp from 'mkdirp';
+import { leadingZeros } from './utils';
 
-function saveScreenshot(stepCounter, absScenarioPath) {
-  var screenShotDir = path.resolve(absScenarioPath, 'screenshots');
-  var screenShotFileName = path.resolve(screenShotDir, utils.leadingZeros(stepCounter) + '.png');
+export function saveScreenshot(stepCounter, absScenarioPath) {
+  const screenShotDir = path.resolve(absScenarioPath, 'screenshots');
+  const screenShotFileName = path.resolve(screenShotDir, leadingZeros(stepCounter) + '.png');
 
-  var deferred = Q.defer();
-  browser.takeScreenshot()
-    .then(function (data) {
-
+  return browser.takeScreenshot()
+    .then(data => (
       // recursively create the directory for our new screenshot
-      mkdirp(screenShotDir, function (mkdirError) {
-        if (mkdirError) {
-          return deferred.reject(mkdirError);
-        }
-
-        fs.writeFile(screenShotFileName, data, 'base64', function (err) {
-          if (err) {
-            deferred.reject(err);
-          } else {
-            deferred.resolve(screenShotFileName);
-          }
-        });
-      });
-
-    }, deferred.reject);
-
-  return deferred.promise;
+      Q.nfcall(mkdirp, screenShotDir)
+        .then(() => (
+          // then save screenshot file
+          Q.nfcall(fs.writeFile, screenShotFileName, data, 'base64')
+            .then(() => screenShotFileName)
+        ))
+    ));
 }
 
-module.exports = {
-  saveScreenshot: saveScreenshot
-};
+export default {saveScreenshot};
