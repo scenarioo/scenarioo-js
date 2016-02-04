@@ -145,6 +145,21 @@ describe('entityValidator', function () {
       validator.validateStep({});
     });
 
+    it('should not throw on valid step with screenAnnotations', function () {
+      validator.validateStep({
+        screenAnnotations: [{
+          region: {x: 758, y: 462, width: 55, height: 28},
+          style: 'CLICK',
+          screenText: 'a text',
+          title: 'Clicked Button',
+          description: 'User clicked on button',
+          clickAction: 'TO_NEXT_STEP',
+          clickActionUrl: 'http://somewhere',
+          clickActionText: 'User clicked on button'
+        }]
+      });
+    });
+
     it('should not throw on valid full scenario', function () {
       validator.validateStep({
         page: {
