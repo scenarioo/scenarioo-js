@@ -1,7 +1,7 @@
 var
   assert = require('assert'),
   fs = require('fs'),
-  xmlWriter = require('../../../lib/docuWriter/xmlWriter.js');
+  xmlWriter = require('../../../src/docuWriter/xmlWriter.js');
 
 describe('xmlWriter: simpleFile', function () {
 

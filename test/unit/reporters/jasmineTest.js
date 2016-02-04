@@ -2,8 +2,8 @@ var
   assert = require('assert'),
   _ = require('lodash'),
   sinon = require('sinon'),
-  store = require('../../../lib/scenariooStore'),
-  jasmineReporter = require('../../../lib/reporters/jasmine');
+  store = require('../../../src/scenariooStore'),
+  jasmineReporter = require('../../../src/reporters/jasmine');
 
 describe('scenariooJasmineReporter', function () {
   var reporter;
@@ -144,7 +144,7 @@ describe('scenariooJasmineReporter', function () {
 
   describe('whole lifecylce', function () {
 
-    var docuWriter = require('../../../lib/docuWriter/docuWriter');
+    var docuWriter = require('../../../src/docuWriter/docuWriter');
 
     before(function () {
       // let's wrap docuWriter's methods with sinon spies

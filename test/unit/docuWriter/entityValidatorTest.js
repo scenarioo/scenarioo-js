@@ -1,6 +1,6 @@
 var
   assert = require('assert'),
-  validator = require('../../../lib/docuWriter/entityValidator');
+  validator = require('../../../src/docuWriter/entityValidator');
 
 describe('entityValidator', function () {
 

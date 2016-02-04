@@ -1,8 +1,8 @@
 var
   assert = require('assert'),
   _ = require('lodash'),
-  store = require('../../lib/scenariooStore'),
-  reporter = require('../../lib/scenariooReporter');
+  store = require('../../src/scenariooStore'),
+  reporter = require('../../src/scenariooReporter');
 
 describe('ScenariooReporter', function () {
 

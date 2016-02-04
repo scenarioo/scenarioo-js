@@ -1,6 +1,6 @@
 var
   assert = require('assert'),
-  store = require('../../lib/scenariooStore');
+  store = require('../../src/scenariooStore');
 
 describe('scenariooSore', function () {
 

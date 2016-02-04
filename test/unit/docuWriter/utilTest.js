@@ -1,6 +1,6 @@
 var
   assert = require('assert'),
-  util = require('../../../lib/docuWriter/util');
+  util = require('../../../src/docuWriter/util');
 
 describe('util', function () {
 

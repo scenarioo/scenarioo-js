@@ -1,7 +1,7 @@
 var
   assert = require('assert'),
-  store = require('../../lib/scenariooStore'),
-  contextFactory = require('../../lib/contextFactory');
+  store = require('../../src/scenariooStore'),
+  contextFactory = require('../../src/contextFactory');
 
 describe('contextFactory', function () {
 

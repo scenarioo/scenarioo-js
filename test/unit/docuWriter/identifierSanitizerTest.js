@@ -1,6 +1,6 @@
 var
   assert = require('assert'),
-  identifierSanitizer = require('../../../lib/docuWriter/identifierSanitizer');
+  identifierSanitizer = require('../../../src/docuWriter/identifierSanitizer');
 
 describe('identifierSanitizer', function () {
 

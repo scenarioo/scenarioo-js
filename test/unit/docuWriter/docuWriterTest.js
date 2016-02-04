@@ -4,8 +4,8 @@ var
   assert = require('assert'),
   testHelper = require('../../utils/testHelper'),
   mockWebdriver = require('../../utils/mockWebdriver'),
-  store = require('../../../lib/scenariooStore'),
-  docuWriter = require('../../../lib/docuWriter/docuWriter');
+  store = require('../../../src/scenariooStore'),
+  docuWriter = require('../../../src/docuWriter/docuWriter');
 
 before(function () {
   mockWebdriver.registerMockGlobals();
