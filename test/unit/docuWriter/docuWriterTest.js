@@ -215,6 +215,51 @@ describe('docuWriter', function () {
         });
     });
 
+    it('should save a step without name but additional attributes', function () {
+      return docuWriter.saveStep({
+        labels: ['red']
+      })
+        .then(function (result) {
+          return testHelper.assertXmlContent(result.xmlPath, [
+            '<labels><label>red</label></labels>'
+          ]);
+        });
+    });
+
+    it('should save a step with additional information (screen annotations)', function () {
+      return docuWriter.saveStep('my step', {
+        screenAnnotations: [{
+          x: 758,
+          y: 462,
+          width: 55,
+          height: 28,
+          style: 'CLICK',
+          screenText: 'a text',
+          title: 'Clicked Button',
+          description: 'User clicked on button'
+        }]
+      })
+        .then(function (result) {
+          var screenAnnotations = result.step.screenAnnotations;
+          assert.deepEqual(screenAnnotations, [
+            {
+              region: {x: 758, y: 462, width: 55, height: 28},
+              style: 'CLICK',
+              screenText: 'a text',
+              title: 'Clicked Button',
+              description: 'User clicked on button'
+            }
+          ]);
+
+          return testHelper.assertXmlContent(result.xmlPath, [
+            '<screenAnnotations><screenAnnotation>',
+            '<style>CLICK</style>',
+            '<region><x>758</x><y>462</y><width>55</width><height>28</height></region>',
+            '<screenText>a text</screenText><title>Clicked Button</title><description>User clicked on button</description>'
+          ]);
+        });
+    });
+
     /**
      * At the moment, this does not work as expected.
      * //TODO: Discuss this with the scenarioo core team.

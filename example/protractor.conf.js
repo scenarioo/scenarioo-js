@@ -31,7 +31,8 @@ var exportsConfig = {
   onPrepare: function () {
     // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
     // pass in the current branch of your VCS you are testing, an arbitrary build name and the current revision you are testing.
-    var scenariooReporter = require('../lib/scenarioo-js').reporter({
+    var scenarioo = require('../lib/scenarioo-js');
+    var scenariooReporter = scenarioo.reporter({
       targetDirectory: './scenariodocu',
       branchName: 'master',
       branchDescription: 'the master branch',
@@ -44,12 +45,12 @@ var exportsConfig = {
     jasmine.getEnv().addReporter(scenariooReporter);
 
 
-
     // this demonstrates how to include your own dsl ("describeScenario", "describeUseCase")
     // you do not need this in a basic setup.
     require('./test/customDsl');
     require('./test/customExtendedDsl');
     require('./test/chainedDsl');
+
   },
 
   params: {

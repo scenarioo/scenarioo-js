@@ -78,7 +78,7 @@ describe('ScenariooReporter', function () {
       reporter.runStarted(this.defaultOptions);
       reporter.useCaseStarted('Some UseCase');
       reporter.scenarioStarted('Some Scenario');
-      reporter.scenarioEnded(reporter.SUCCESSFUL);
+      reporter.scenarioEnded(reporter.SUCCESS);
 
       // parent useCase must be updated
       var useCase = store.getCurrentUseCase();
@@ -118,7 +118,7 @@ describe('ScenariooReporter', function () {
       reporter.runStarted(this.defaultOptions);
       reporter.useCaseStarted('Some UseCase');
       reporter.scenarioStarted('Some Scenario');
-      reporter.scenarioEnded(reporter.SUCCESSFUL);
+      reporter.scenarioEnded(reporter.SUCCESS);
       reporter.useCaseEnded();
 
       // build must be updated and marked as success

@@ -10,7 +10,8 @@
     "status": {
       "enum": [
         "success",
-        "failed"
+        "failed",
+        "skipped"
       ]
     },
     "labels": {
