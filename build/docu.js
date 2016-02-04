@@ -4,7 +4,7 @@ var
   del = require('del');
 
 gulp.task('docu', ['cleanDocuOut'], function (done) {
-  exec('./node_modules/.bin/jsdoc lib -r -d docu --readme ./README.md', done);
+  exec('./node_modules/.bin/jsdoc src -r -d docu --readme ./README.md', done);
 });
 
 gulp.task('cleanDocuOut', function () {

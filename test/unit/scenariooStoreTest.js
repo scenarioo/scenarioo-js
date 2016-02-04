@@ -1,8 +1,7 @@
-var
-  assert = require('assert'),
-  store = require('../../src/scenariooStore');
+import assert from 'assert';
+import store from '../../src/scenariooStore';
 
-describe('scenariooSore', function () {
+describe('scenariooStore', function () {
 
   beforeEach(function () {
     store.init({

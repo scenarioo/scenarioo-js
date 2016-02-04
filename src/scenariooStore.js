@@ -1,4 +1,4 @@
-var Immutable = require('immutable');
+import Immutable from 'immutable';
 
 /**
  * The Scenarioo Store holds information about the current test run.
@@ -11,7 +11,7 @@ var Immutable = require('immutable');
  * @namespace scenariooStore
  */
 
-var state;
+let state;
 
 /**
  * initializes the store (resets state)
@@ -58,7 +58,7 @@ function clear() {
 function incrementStepCounter() {
   getCurrentScenario(); // make sure currentScenario exists
 
-  state = state.updateIn(['currentScenario', 'stepCounter'], -1, function (stepCounter) {
+  state = state.updateIn(['currentScenario', 'stepCounter'], -1, stepCounter => {
     return stepCounter + 1;
   });
 
@@ -74,7 +74,7 @@ function getBranch() {
 }
 
 function updateBuild(build) {
-  state = state.update('build', function (originalBuild) {
+  state = state.update('build', originalBuild => {
     return originalBuild.merge(build);
   });
 }
@@ -91,7 +91,7 @@ function getCurrentUseCase() {
 }
 
 function updateCurrentUseCase(useCase) {
-  state = state.update('currentUseCase', new Immutable.Map(), function (originalUseCase) {
+  state = state.update('currentUseCase', new Immutable.Map(), originalUseCase => {
     return originalUseCase.merge(useCase);
   });
 }
@@ -108,7 +108,7 @@ function getCurrentScenario() {
 }
 
 function updateCurrentScenario(scenario) {
-  state = state.update('currentScenario', new Immutable.Map(), function (originalScenario) {
+  state = state.update('currentScenario', new Immutable.Map(), originalScenario => {
     return originalScenario.merge(scenario);
   });
 }
@@ -135,7 +135,7 @@ function isInitialized() {
   return !!state;
 }
 
-module.exports = {
+export default {
   init: init,
   isInitialized: isInitialized,
   clear: clear,
@@ -155,3 +155,4 @@ module.exports = {
 
   incrementStepCounter: incrementStepCounter
 };
+

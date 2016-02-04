@@ -1,7 +1,6 @@
-var
-  assert = require('assert'),
-  fs = require('fs'),
-  xmlWriter = require('../../../src/docuWriter/xmlWriter.js');
+import assert from 'assert';
+import fs from 'fs';
+import xmlWriter from '../../../src/docuWriter/xmlWriter';
 
 describe('xmlWriter: simpleFile', function () {
 
@@ -29,7 +28,7 @@ describe('xmlWriter: simpleFile', function () {
 
     doSave(dummyObjectToWrite).then(function (filePath) {
 
-      fs.readFile(filePath, 'utf-8', function (err, fileContent) {
+      fs.readFile(filePath, 'utf-8', (err, fileContent) => {
         if (err) {
           return done(err);
         }
@@ -48,7 +47,7 @@ describe('xmlWriter: simpleFile', function () {
 
     doSave(dummyObjectToWrite).then(function (filePath) {
 
-      fs.readFile(filePath, 'utf-8', function (err, fileContent) {
+      fs.readFile(filePath, 'utf-8', (err, fileContent) => {
         if (err) {
           return done(err);
         }

@@ -6,9 +6,6 @@
     },
     "description": {
       "type": "string"
-    },
-    "details": {
-      "$ref": "details"
     }
   },
   "required": [

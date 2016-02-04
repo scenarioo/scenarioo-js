@@ -1,4 +1,4 @@
-var scenarioo = require('../../lib/scenarioo-js');
+var scenarioo = require('../../lib');
 
 /**
  * An example for a simple dsl that simply wraps jasmine's "describe" and "it".

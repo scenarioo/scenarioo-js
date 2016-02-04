@@ -3,6 +3,13 @@
   "env": {
     "node": true
   },
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "objectLiteralShorthandProperties": true,
+    "destructuring": true,
+    "modules": true
+  },
   "rules": {
     "curly": 2,
     "semi": 2,
@@ -20,8 +27,12 @@
     "describe": false,
     "fdescribe": false,
     "it": false,
+    "by": false,
     "fit": false,
     "element": false,
-    "by": false
+    "afterEach": false,
+    "beforeEach": false,
+    "before": false,
+    "after": false
   }
 }

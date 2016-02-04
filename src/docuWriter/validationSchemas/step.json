@@ -7,9 +7,6 @@
         "name": {
           "type": "string"
         },
-        "details": {
-          "$ref": "details"
-        },
         "labels": {
           "$ref": "labels"
         }
@@ -36,9 +33,6 @@
         },
         "labels": {
           "$ref": "labels"
-        },
-        "details": {
-          "$ref": "details"
         }
       },
       "additionalProperties": false
@@ -73,6 +67,12 @@
                 "type": "integer"
               }
             },
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ],
             "additionalProperties": false
           },
           "style": {
@@ -118,9 +118,6 @@
       "properties": {
         "visibleText": {
           "type": "string"
-        },
-        "details": {
-          "$ref": "details"
         }
       },
       "additionalProperties": false

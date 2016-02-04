@@ -1,11 +1,8 @@
-var
-  _ = require('lodash'),
-  store = require('./scenariooStore');
-
-module.exports = contextFactory;
+import isArray from 'lodash/isArray';
+import store from './scenariooStore';
 
 /**
- * Since useCase and scenario both can have additional properties like "description", "labels" and "details,
+ * Since useCase and scenario both can have additional properties like "description" and "labels",
  * we can reuse the same code for setting these properties.
  *
  * @ignore
@@ -15,8 +12,17 @@ module.exports = contextFactory;
 function contextFactory(objectName) {
 
   objectName = capitalizeFirstLetter(objectName);
-  var updateContextObject = store['updateCurrent' + objectName];
-  var getContextObject = store['getCurrent' + objectName];
+  const updateContextObject = store['updateCurrent' + objectName];
+  const getContextObject = store['getCurrent' + objectName];
+
+
+  /**
+   * @namespace context
+   */
+  return {
+    setDescription,
+    addLabels
+  };
 
   /**
    * @func context#setDescription
@@ -38,9 +44,9 @@ function contextFactory(objectName) {
       return;
     }
 
-    var currentContext = getContextObject();
-    var mergedLabels = currentContext.labels || [];
-    if (!_.isArray(labels)) {
+    const currentContext = getContextObject();
+    let mergedLabels = currentContext.labels || [];
+    if (!isArray(labels)) {
       mergedLabels.push(labels);
     } else {
       mergedLabels = mergedLabels.concat(labels);
@@ -53,13 +59,6 @@ function contextFactory(objectName) {
     });
   }
 
-  /**
-   * @namespace context
-   */
-  return {
-    setDescription: setDescription,
-    addLabels: addLabels
-  };
 
 }
 
@@ -69,11 +68,14 @@ function capitalizeFirstLetter(string) {
 
 // labels must match the following pattern.
 // see https://github.com/scenarioo/scenarioo/wiki/Labels
-var LABEL_PATTERN = /^[ a-zA-Z0-9_-]+$/;
+const LABEL_PATTERN = /^[ a-zA-Z0-9_-]+$/;
 function assertLabelFormat(labels) {
-  labels.forEach(function (label) {
+  labels.forEach(label => {
     if (!LABEL_PATTERN.test(label)) {
       throw new Error('Given label "' + label + '" does not adhere to format');
     }
   });
 }
+
+
+export default contextFactory;

@@ -31,7 +31,7 @@ var exportsConfig = {
   onPrepare: function () {
     // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
     // pass in the current branch of your VCS you are testing, an arbitrary build name and the current revision you are testing.
-    var scenarioo = require('../lib/scenarioo-js');
+    var scenarioo = require('../lib');
     var scenariooReporter = scenarioo.reporter({
       targetDirectory: './scenariodocu',
       branchName: 'master',

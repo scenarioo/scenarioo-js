@@ -16,9 +16,6 @@
     },
     "labels": {
       "$ref": "labels"
-    },
-    "details": {
-      "$ref": "details"
     }
   },
   "required": [

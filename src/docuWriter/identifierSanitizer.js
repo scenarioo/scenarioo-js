@@ -1,4 +1,4 @@
-var _ = require('lodash');
+import isUndefined from 'lodash/isUndefined';
 
 /**
  * replaces forward and backward slashes with underscores
@@ -6,14 +6,12 @@ var _ = require('lodash');
  * @ignore
  * @param identifier
  */
-function sanitize(identifier) {
-  if (_.isUndefined(identifier) || identifier === null) {
+export function sanitize(identifier) {
+  if (isUndefined(identifier) || identifier === null) {
     return undefined;
   }
 
   return identifier.replace(/[\/|\\]/g, '_');
 }
 
-module.exports = {
-  sanitize: sanitize
-};
+export default {sanitize};

@@ -1,11 +1,10 @@
-var
-  path = require('path'),
-  Q = require('q'),
-  assert = require('assert'),
-  testHelper = require('../../utils/testHelper'),
-  mockWebdriver = require('../../utils/mockWebdriver'),
-  store = require('../../../src/scenariooStore'),
-  docuWriter = require('../../../src/docuWriter/docuWriter');
+import path from 'path';
+import assert from 'assert';
+import Q from 'q';
+import testHelper from '../../utils/testHelper';
+import mockWebdriver from '../../utils/mockWebdriver';
+import docuWriter from '../../../src/docuWriter/docuWriter';
+import store from '../../../src/scenariooStore';
 
 before(function () {
   mockWebdriver.registerMockGlobals();
@@ -257,36 +256,6 @@ describe('docuWriter', function () {
             '<region><x>758</x><y>462</y><width>55</width><height>28</height></region>',
             '<screenText>a text</screenText><title>Clicked Button</title><description>User clicked on button</description>'
           ]);
-        });
-    });
-
-    /**
-     * At the moment, this does not work as expected.
-     * //TODO: Discuss this with the scenarioo core team.
-     */
-    it('should save a step with additional misc data ("details") including arrays', function () {
-      var dummyDetailData = {
-        complexCustomInfo: [
-          'this is a more complex example of metadata',
-          'We expect this to end up in valid "entry/key/value" xml'
-        ],
-        moreComplexCustomInfo: [
-          {
-            attributeOne: 'valueOne',
-            attributeTwo: 'valueTwo'
-          },
-          {
-            attributeOne: 'valueOneOne',
-            attributeTwo: 'valueTwoTwo'
-          }
-        ]
-      };
-
-      return docuWriter.saveStep('my step', {
-        details: dummyDetailData
-      })
-        .then(function (result) {
-          assert(result.step.stepDescription.details);
         });
     });
 

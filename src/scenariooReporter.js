@@ -1,33 +1,43 @@
-var
-  _ = require('lodash'),
-  format = require('util').format,
-  path = require('path'),
-  store = require('./scenariooStore'),
-  docuWriter = require('./docuWriter/docuWriter');
+import merge from 'lodash/merge';
+import { format } from 'util';
+import path from 'path';
+import store from './scenariooStore';
+import docuWriter from './docuWriter/docuWriter';
 
-var SUCCESS = 'success', FAILED = 'failed', SKIPPED = 'skipped';
+const SUCCESS = 'success';
+const FAILED = 'failed';
+const SKIPPED = 'skipped';
 
 /**
  * This is the base reporter that pulls information from the store and the calling (framework-dependant) reporter
  * and invokes docuWriter in order to create the scenarioo documentation.
  *
  * This base reporter is testing-framework agnostic!
+ *
+ * @namespace scenariooReporter
  */
-module.exports = {
-  runStarted: runStarted,
-  runEnded: runEnded,
+export default {
+  runStarted,
+  runEnded,
 
-  useCaseStarted: useCaseStarted,
-  useCaseEnded: useCaseEnded,
+  useCaseStarted,
+  useCaseEnded,
 
-  scenarioStarted: scenarioStarted,
-  scenarioEnded: scenarioEnded,
+  scenarioStarted,
+  scenarioEnded,
 
-  SUCCESS: SUCCESS,
-  FAILED: FAILED,
-  SKIPPED: SKIPPED
+  /** @constant {string} scenariooReporter#SUCCESS*/
+  SUCCESS,
+  /** @constant {string} scenariooReporter#FAILED*/
+  FAILED,
+  /** @constant {string} scenariooReporter#SKIPPED*/
+  SKIPPED
 };
 
+/**
+ * @func scenariooReporter#runStarted
+ * @param {object} options
+ */
 function runStarted(options) {
   // some reporters (jasmine) need to initialize the store even before the run starts
   // so at this point here, the store might already be set up and good to go.
@@ -39,20 +49,23 @@ function runStarted(options) {
     docuWriter.registerPageNameFunction(options.pageNameExtractor);
   }
 
-  var absoluteTargetDir = path.resolve(options.targetDirectory);
+  const absoluteTargetDir = path.resolve(options.targetDirectory);
   store.setBuildDate(new Date());
   docuWriter.start(store.getBranch(), store.getBuild().name, absoluteTargetDir);
 
   console.log('Reporting scenarios for scenarioo. Writing to "' + absoluteTargetDir + '"');
 }
 
+/**
+ * @func scenariooReporter#runEnded
+ */
 function runEnded() {
   if (!store.isInitialized()) {
     throw new Error('Cannot end test run. No test run was started');
   }
 
-  var build = store.getBuild();
-  var status = (build.failedUseCases === 0) ? 'success' : 'failed';
+  const build = store.getBuild();
+  const status = (build.failedUseCases === 0) ? 'success' : 'failed';
 
   docuWriter.saveBuild({
     status: status,
@@ -66,6 +79,10 @@ function runEnded() {
   console.log('All done!');
 }
 
+/**
+ * @func scenariooReporter#useCaseStarted
+ * @param {string} useCaseName
+ */
 function useCaseStarted(useCaseName) {
   if (!store.isInitialized()) {
     throw new Error('Cannot start useCase, run was not started!');
@@ -78,14 +95,17 @@ function useCaseStarted(useCaseName) {
   });
 }
 
+/**
+ * @func scenariooReporter#useCaseEnded
+ */
 function useCaseEnded() {
-  var useCase = store.getCurrentUseCase();
-  var build = store.getBuild();
+  const useCase = store.getCurrentUseCase();
+  const build = store.getBuild();
 
-  var hasFailingScenarios = useCase.failedScenarios > 0;
-  var hasPassedScenarios = useCase.passedScenarios > 0;
-  var hasSkippedScenarios = useCase.skippedScenarios > 0;
-  var useCaseStatus;
+  const hasFailingScenarios = useCase.failedScenarios > 0;
+  const hasPassedScenarios = useCase.passedScenarios > 0;
+  const hasSkippedScenarios = useCase.skippedScenarios > 0;
+  let useCaseStatus;
   if (hasFailingScenarios) {
     store.updateBuild({
       failedUseCases: build.failedUseCases + 1
@@ -110,13 +130,17 @@ function useCaseEnded() {
     useCase.failedScenarios,
     useCase.skippedScenarios));
 
-  docuWriter.saveUseCase(_.merge({
+  docuWriter.saveUseCase(merge({
     status: useCaseStatus
   }, useCase));
 
   store.resetCurrentUseCase();
 }
 
+/**
+ * @func scenariooReporter#scenarioStarted
+ * @param {string} scenarioName
+ */
 function scenarioStarted(scenarioName) {
   store.updateCurrentScenario({
     stepCounter: -1,
@@ -124,9 +148,13 @@ function scenarioStarted(scenarioName) {
   });
 }
 
+/**
+ * @func scenariooReporter#scenarioEnded
+ * @param {string} status one of {@link scenariooReporter#SUCCESS}, {@link scenariooReporter#FAILED}, {@link scenariooReporter#SKIPPED}
+ */
 function scenarioEnded(status) {
-  var scenario = store.getCurrentScenario();
-  var useCase = store.getCurrentUseCase();
+  const scenario = store.getCurrentScenario();
+  const useCase = store.getCurrentUseCase();
 
   switch (status) {
     case SUCCESS:
@@ -150,7 +178,7 @@ function scenarioEnded(status) {
 
   console.log(format('scenario :: %s :: %s', scenario.name, translateStatusForLogMessages(status)));
 
-  docuWriter.saveScenario(_.merge({
+  docuWriter.saveScenario(merge({
     status: status
   }, scenario), useCase.name);
 
@@ -163,11 +191,11 @@ function translateStatusForLogMessages(status) {
     return 'n/a';
   }
 
-  var map = {};
+  const map = {};
   map[SUCCESS] = 'suceeded';
   map[FAILED] = 'failed';
   map[SKIPPED] = 'skipped';
-  var mapped = map[status];
+  const mapped = map[status];
   if (!mapped) {
     return 'n/a';
   }

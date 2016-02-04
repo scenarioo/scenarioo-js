@@ -1,8 +1,7 @@
-var
-  assert = require('assert'),
-  _ = require('lodash'),
-  store = require('../../src/scenariooStore'),
-  reporter = require('../../src/scenariooReporter');
+import assert from 'assert';
+import _ from 'lodash';
+import reporter from '../../src/scenariooReporter';
+import store from '../../src/scenariooStore';
 
 describe('ScenariooReporter', function () {
 

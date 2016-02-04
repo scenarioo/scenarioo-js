@@ -6,7 +6,7 @@
  * @param n
  * @returns {string}
  */
-function leadingZeros(n) {
+export function leadingZeros(n) {
   return ('00' + n).slice(-3);
 }
 
@@ -20,7 +20,7 @@ function leadingZeros(n) {
  * @ignore
  * @param inputString
  */
-function encodeFileName(inputString) {
+export function encodeFileName(inputString) {
   var encodedString = encodeURIComponent(inputString);
 
   // scenarioo java api uses java.net.URLEncoder which encodes strings differently
@@ -43,9 +43,4 @@ function encodeFileName(inputString) {
   return encodedString;
 }
 
-var util = {
-  leadingZeros: leadingZeros,
-  encodeFileName: encodeFileName
-};
-
-module.exports = util;
+export default {encodeFileName, leadingZeros};

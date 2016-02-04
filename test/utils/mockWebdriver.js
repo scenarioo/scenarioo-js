@@ -1,4 +1,4 @@
-var Q = require('q');
+import Q from 'q';
 
 function registerMockGlobals() {
 
@@ -31,6 +31,6 @@ function registerMockGlobals() {
   };
 }
 
-module.exports = {
+export default {
   registerMockGlobals: registerMockGlobals
 };
