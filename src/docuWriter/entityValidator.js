@@ -5,7 +5,7 @@ import glob from 'glob';
 
 const entitySchemas = loadSchemas();
 
-function loadSchemas() {
+export function loadSchemas() {
   // load json files in-sync. otherwise we'd have to make "validate" also async...!
   const schemas = {};
   const schemaRootDirPath = path.resolve(__dirname, './validationSchemas');
@@ -49,4 +49,4 @@ export const validateStep = validate.bind(undefined, 'step');
 export const validateScenario = validate.bind(undefined, 'scenario');
 export const validateUseCase = validate.bind(undefined, 'useCase');
 
-export default {validateBuild, validateBranch, validateUseCase, validateStep, validateScenario};
+export default {validateBuild, validateBranch, validateUseCase, validateStep, validateScenario, loadSchemas};
