@@ -5,4 +5,3 @@ test-reports
 *.orig
 npm_dependencies_report.md
 docu
-lib

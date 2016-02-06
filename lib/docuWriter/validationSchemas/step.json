@@ -1,0 +1,127 @@
+{
+  "type": "object",
+  "properties": {
+    "page": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "labels": {
+          "$ref": "labels"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "stepDescription": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer"
+        },
+        "screenshotFileName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "labels": {
+          "$ref": "labels"
+        }
+      },
+      "additionalProperties": false
+    },
+    "html": {
+      "type": "object",
+      "properties": {
+        "htmlSource": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "screenAnnotations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ],
+            "additionalProperties": false
+          },
+          "style": {
+            "enum": [
+              "CLICK",
+              "KEYBOARD",
+              "EXPECTED",
+              "NAVIGATE_TO_URL",
+              "ERROR",
+              "WARN",
+              "INFO",
+              "HIGHLIGHT",
+              "DEFAULT"
+            ]
+          },
+          "screenText": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "clickAction": {
+            "enum": [
+              "TO_NEXT_STEP",
+              "TO_URL"
+            ]
+          },
+          "clickActionUrl": {
+            "type": "string"
+          },
+          "clickActionText": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "visibleText": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
