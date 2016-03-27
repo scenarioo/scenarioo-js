@@ -1,5 +1,5 @@
 /**
- * An example for a custom dls in order to make 1 useCase -> N scenarios hierarchy more explicit.
+ * An example for a custom dsl in order to make 1 useCase -> N scenarios hierarchy more explicit.
  */
 
 function describeUseCase(jasmineDescribeFunction, useCaseName, callback) {
