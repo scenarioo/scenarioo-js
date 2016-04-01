@@ -75,7 +75,7 @@ Currently, steps are reported by manually calling `scenarioo.saveStep('stepName'
 
 You could also hook it into protractor or your page objects to ensure that on every important action (e.g. every click) a step is reported automatically.
 
-See the **example** folder for more information.
+See [Examples](/example) for more information on how to use it.
 
 
 ### Generating and Browsing Documentation
@@ -94,7 +94,9 @@ The current develop branch already includes this switch. Check the **example** f
 
 The "describeScenarioo" and "describeUseCase" functions were removed.
 Since we introduced `scenarioo.getScenarioContext()...`, we no longer need wrapper functions around "describe" and "it".
-If you still want to use this, it's really simple to add custom wrapper functions yourself. See the **example** for more information.
+If you still want to use this, it's really simple to add custom wrapper functions yourself.
+
+See the **example** for more information.
 
 
 
