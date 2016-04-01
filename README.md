@@ -1,9 +1,9 @@
 # scenarioo-js
-> Scenarioo API for [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs) e2e tests!
+> Scenarioo writer library for javascript to document your protractor or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs) e2e tests!
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
-Scenarioo API for Javascript to generate Scenarioo Documentations in WebDriverJS (and protractor) e2e tests.
+Scenarioo writer library for javascript to generate documentations out of your protractor (or pure WebriverJS) e2e tests.
 
 This is a subproject of Scenarioo, for more information on scenarioo, check http://www.scenarioo.org.
 
@@ -73,12 +73,14 @@ describe('Example Usecase failing', function() {
 scenarioo-js will report a useCase for every "describe" and a scenario for every "it" function in your test.
 Currently, steps are reported by manually calling `scenarioo.saveStep('stepName');`
 
+You could also hook it into protractor or your page objects to ensure that on every important action (e.g. every click) a step is reported automatically.
+
 See the **example** folder for more information.
 
 
-## API
+### Generating and Browsing Documentation
 
-You can run `$ gulp docu` in order to create a browseable JSDoc API documentation.
+In the examples you can run `$ gulp docu` in order to run the tests with to generate scenarioo documentation data. This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
 
 ## Migration (Subject to change)
 
