@@ -1,9 +1,9 @@
 # scenarioo-js
-> Scenarioo writer library for javascript to document your protractor or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs) e2e tests!
+> Scenarioo writer library for javascript to document your e2e tests
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
-Scenarioo writer library for javascript to generate documentations out of your protractor (or pure WebriverJS) e2e tests.
+Scenarioo writer library for javascript to generate documentations out of your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests.
 
 This is a subproject of Scenarioo, for more information on scenarioo, check http://www.scenarioo.org.
 
