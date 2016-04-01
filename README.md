@@ -80,7 +80,7 @@ See [Examples](/example) for more information on how to use it.
 
 ### Generating and Browsing Documentation
 
-In the examples you can run `$ gulp docu` in order to run the tests with to generate scenarioo documentation data. This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
+In the examples you can run `$ gulp docu` in order to run the tests and generate scenarioo documentation data. This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
 
 ## Migration (Subject to change)
 
