@@ -102,7 +102,8 @@ Since we introduced `scenarioo.getScenarioContext()...`, we no longer need wrapp
 
 If you still want to use such a more explicit style of defining usecases and scenarios in your tests, it's really simple to add custom wrapper functions yourself.
 
-See [DSL Examples in the Example](/example) for more information on what kind of even more advanced application specific DSLs could be useful in your projects. We recommend to use something like the [Chained DSL Example](/example/test/chainedDsl.js).
+See [DSL Examples in the Example](/example) for more information on what kind of even more advanced application specific DSLs could be useful in your projects. 
+We recommend to use something like the [Fluent DSL Example](/example/test/sampleCustomDslFluent.spec.js).
 
 ### Protractor configuration
 
