@@ -77,10 +77,13 @@ You could also hook it into protractor or your page objects to ensure that on ev
 
 See [Examples](/example) for more information on how to use it.
 
+### Generate and Browse Documentation
 
-### Generating and Browsing Documentation
+In the examples you can run `` in order to run the tests and generate scenarioo documentation data. This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
 
-In the examples you can run `$ gulp docu` in order to run the tests and generate scenarioo documentation data. This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
+## API Documentation
+
+You can run `$ gulp docu` in order to create a browseable JSDoc API documentation of ScenariooJS.
 
 ## Migration (Subject to change)
 
