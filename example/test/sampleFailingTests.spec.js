@@ -1,7 +1,9 @@
 var scenarioo = require('../../lib');
 
-
-describe('Example Usecase failing', function exampleFailingUseCase() {
+/**
+ * Just an example with a failing test to also check that in the scenarioo documentation you can see when a scenario is failing.
+ */
+describe('Example Use Case failing', function exampleFailingUseCase() {
 
   beforeAll(function () {
     // setting useCase context properties must be done in a beforeAll block because of the way jasmine

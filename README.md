@@ -32,13 +32,13 @@ Usually, you'd want to fetch information about the current branch + build from y
 
 ```javascript
  onPrepare: function () {
-    // pass in the current branch of your VCS you are testing, an arbitrary build name and the current revision you are testing.
+    // pass in the current branch of your VCS you are testing, a unique build name and the current revision you are testing.
     var scenariooReporter = require('../lib/scenarioo-js').reporter({
       targetDirectory: './scenariodocu',
       branchName: 'master',
       branchDescription: 'the master branch',
       buildName: 'build_' + new Date(),
-      revision: '1.0.0',
+      revision: '1.0.0', // use e.g. git version here
       pageNameExtractor: function (url) {
         return url.pathname.substring(1);
       }
@@ -54,14 +54,14 @@ Write your e2e tests in your normal jasmine/protractor style.
 
 ```javascript
 
-describe('Example Usecase failing', function() {
+describe('Example Usecase', function() {
 
-  it('Example Scenario failing', function () {
+  it('Example Scenario', function () {
 
     browser.get('/index.html');
     scenarioo.saveStep('start');
 
-    element(by.css('li#item_is_not_present')).click();
+    element(by.css('li#my-item-one')).click();
     scenarioo.saveStep('one is displayed');
 
   });
@@ -71,6 +71,7 @@ describe('Example Usecase failing', function() {
 ```
 
 scenarioo-js will report a useCase for every "describe" and a scenario for every "it" function in your test.
+
 Currently, steps are reported by manually calling `scenarioo.saveStep('stepName');`
 
 See the **example** folder for more information.
@@ -88,10 +89,12 @@ The next release of scenarioo-js will depend on jasmine2.  jasmine 1.x support w
 The current develop branch already includes this switch. Check the **example** for a working example.
 
 
-### scenarioo-specific DSL
+### Application-specific DSL
 
 The "describeScenarioo" and "describeUseCase" functions were removed.
+
 Since we introduced `scenarioo.getScenarioContext()...`, we no longer need wrapper functions around "describe" and "it".
+
 If you still want to use this, it's really simple to add custom wrapper functions yourself. See the **example** for more information.
 
 
@@ -100,7 +103,7 @@ If you still want to use this, it's really simple to add custom wrapper function
 
 scenarioo.reporter is now a factory function. (omit the "new" keyword)
 
-scenarioo.reporter takes now a options object.
+scenarioo.reporter takes now an options object.
 
 ```javascript
 onPrepare: function () {
@@ -120,7 +123,7 @@ onPrepare: function () {
 
 ### saveStep
 
-The "saveStep" function is now directly exposed on scenario.
+The "saveStep" function is now directly exposed on scenarioo.
 
 
 ```javascript

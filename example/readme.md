@@ -15,9 +15,27 @@ Run webdriver-manager (protractor) to download selenium dependencies and chrome 
 ```
 node_modules/protractor/bin/webdriver-manager update
 ```
-Build scenarioo-js by running `gulp build` in the root directory.
 
-Then run 'runExample.sh' in order to start a http server that serves the angularJS application and trigger protractor e2e tests.
-Afterwards you'll find the generated scenarioo documentation in /scenariodocu.
+Build scenarioo-js by running `gulp build` in the root directory:
 
-Don't be alarmed, the second e2e test will fail (in order to have a failing run in scenario documentation).
+```
+gulp build
+```
+
+Start to serve the webapplication under test:
+
+```
+http-server -p 8081 .
+```
+
+Start the protractor tests:
+
+```
+protractor protractor.conf.js
+```
+
+Don't be alarmed, the second e2e test will fail (in order to have a failing run in the scenario documentation).
+
+Afterwards you'll find the generated scenarioo documentation inside `/scenariooReports`.
+
+This generated documentation can be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
