@@ -7,9 +7,7 @@ Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.
 
 This is a subproject of Scenarioo, for more information on scenarioo, check http://www.scenarioo.org.
 
-
 ## Use
-
 
 ### Installation
 
