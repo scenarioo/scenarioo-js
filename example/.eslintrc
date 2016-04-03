@@ -1,0 +1,22 @@
+{
+  "env": {
+    "node": true
+  },
+  "rules": {
+  },
+  "globals": {
+    "beforeAll": false,
+    "afterAll": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "useCaseDescribe": false,
+    "scenarioIt": false,
+    "describe": false,
+    "fdescribe": false,
+    "xdecribe": false,
+    "it": false,
+    "xit": false,
+    "fit": false,
+    "expect": false
+  }
+}
