@@ -31,6 +31,8 @@
     "xdescribeScenario": false,
     "scenario": false,
     "useCase": false,
-    "scenaerioo": false
+    "scenarioo": false,
+    "scenariooDslConfig": false,
+    "fail": false
   }
 }

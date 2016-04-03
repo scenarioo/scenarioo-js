@@ -6,11 +6,20 @@
  *
  *  The example DSL definition can be found in ../dsl/customDslFluent.js and is imported globaly in protractor.conf.js
  */
+
+require('./sampleCustomDslFluentLabelDefinitions');
+
+/**
+ * The use case description
+ */
 useCase('Example Use Case with Fluent Custom DSL')
   .description('An optional but recommended description for the use case')
   .labels(['example-custom-label'])
   .describe(function () {
 
+    /**
+     * A scenario description
+     */
     scenario('Example Scenario with Fluent Custom DSL')
       .description('An optional but recommended description for the scenario')
       .labels(['happy', 'example-label'])
@@ -29,6 +38,10 @@ useCase('Example Use Case with Fluent Custom DSL')
 
       });
 
+    /**
+     * Another scenario ...
+     * This one is set to pending, which means it is a currently not yet working test (=work in progress)
+     */
     scenario('Example Pending Scenario')
       .description('An optional description for the scenario')
       .pending('Put a comment here, why this scenario is currently put to be pending (is recommended to be used in favour of xit!)')

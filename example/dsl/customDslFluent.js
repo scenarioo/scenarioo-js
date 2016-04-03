@@ -8,14 +8,24 @@
  */
 var scenarioo = require('../../lib/index');
 
-var allowedUseCaseLabels = {
-  "example-custom-label": "Just an example label that is defined to be allowed to be set on usecases, define well which labels you want to use in your project here."
-};
+var dslConfig = {
 
-var allowedScenarioLabels = {
-  "happy": "Marker for happy case scenarios",
-  "error": "Marker for error scenarios that test that the system behaves as expected in error cases",
-  "example-label": "Just an example label that can be set on scenarios"
+  /**
+   * Define all the allowed labels that can be applied on use cases, as key value-pairs, undefined labels will fail when set on a use case.
+   *
+   * key: the unique label name
+   * value: a description of the label
+   */
+  useCaseLabels: { },
+
+  /**
+   * Define all the allowed labels that can be applied on scenarios, as key-value-pairs, undefined labels will fail when set on a scenario.
+   *
+   * key: the unique label name
+   * value: a description of the label
+   */
+  scenarioLabels: { }
+
 };
 
 function useCase(name) {
@@ -51,7 +61,7 @@ function useCase(name) {
       }
 
       beforeAll(function () {
-        validateLabels(allowedUseCaseLabels, labels);
+        validateLabels('useCase', dslConfig.useCaseLabels, labels);
         scenarioo.getUseCaseContext().setDescription(description);
         scenarioo.getUseCaseContext().addLabels(labels);
       });
@@ -98,7 +108,7 @@ function scenario(name) {
     }
 
     function executeCallback() {
-      validateLabels(allowedScenarioLabels, labels);
+      validateLabels('scenario', dslConfig.scenarioLabels, labels);
       scenarioo.getScenarioContext().setDescription(description);
       scenarioo.getScenarioContext().addLabels(labels);
       return itCallbackFunction();
@@ -108,9 +118,14 @@ function scenario(name) {
 
 }
 
-function validateLabels(definedLabels, labels) {
-    // TODO ...
+function validateLabels(scopeText, definedLabels, labels) {
+  labels.forEach (function(label) {
+      if (!definedLabels[label]) {
+        fail('Label "' + label + '" is not defined in your project as a valid label for ' + scopeText + '. Please use `scenariooDslConfig.' + scopeText + 'LabelDefinitions` to define your labels. Currently defined labels allowed in a ' + scopeText + ' are: ' + JSON.stringify(definedLabels));
+      }
+  });
 }
 
+global.scenariooDslConfig = dslConfig;
 global.useCase = useCase;
 global.scenario = scenario;
