@@ -10,7 +10,7 @@ var scenarioo = require('../../lib/index');
 
 function describeUseCase(jasmineDescribeFunction, useCaseName, additionalUseCasePropertiesOrDescribeFunction, describeFunction) {
   var additionalUseCaseProperties = describeFunction ? additionalUseCasePropertiesOrDescribeFunction : null;
-  var describeFunction = describeFunction ? describeFunction : additionalUseCasePropertiesOrDescribeFunction;
+  describeFunction = describeFunction ? describeFunction : additionalUseCasePropertiesOrDescribeFunction;
   return jasmineDescribeFunction(useCaseName, function () {
 
     beforeAll(function () {
@@ -28,7 +28,7 @@ function describeUseCase(jasmineDescribeFunction, useCaseName, additionalUseCase
 
 function describeScenario(jasmineItFunction, scenarioName, additionalScenarioPropertiesOrItFunction, itFunction) {
   var additionalScenarioProperties = itFunction ? additionalScenarioPropertiesOrItFunction : null;
-  var itFunction = itFunction ? itFunction : additionalScenarioPropertiesOrItFunction;
+  itFunction = itFunction ? itFunction : additionalScenarioPropertiesOrItFunction;
 
   jasmineItFunction(scenarioName, function () {
     if (additionalScenarioProperties) {
