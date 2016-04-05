@@ -132,7 +132,9 @@ export function saveScenario(currentScenario, useCaseName) {
 
 /**
  * Saves a step (xml plus screenshot)
- * To be invoked in your e2e tests.
+ *
+ * This method can be used in protractor tests directly to define a step explicitly and will be invoked asynchronous in the event queue.
+ * To be invoked in your e2e tests or in your page objects or somehow hooked into protractors click and other important interaction functions.
  *
  * @func docuWriter#saveStep
  * @param {string} [stepName]
@@ -142,6 +144,7 @@ export function saveScenario(currentScenario, useCaseName) {
  * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
  */
 export function saveStep(stepName, additionalProperties) {
+
   if (!isString(stepName)) {
     additionalProperties = stepName;
     stepName = '';
@@ -192,7 +195,8 @@ function getStepDataFromWebpage() {
   return browser
     .getCurrentUrl()
     .then(currentUrl => {
-      return element(by.css('body')).getOuterHtml()
+
+      return browser.getPageSource()
         .then(pageHtmlSource => {
           return {
             url: currentUrl,
@@ -208,12 +212,14 @@ function getPageNameFromUrl(urlString) {
 
 /**
  * writes step xml file (000.xml, 001.xml, etc.)
- * @ignore
  */
 function writeStepXml(stepName, currentScenario, absScenarioPath, additionalProperties) {
 
   return getStepDataFromWebpage()
     .then(browserData => {
+
+
+
       const currentStepCounter = leadingZeros(currentScenario.stepCounter);
       const pageName = getPageNameFromUrl(browserData.url);
       const stepData = {
@@ -269,7 +275,10 @@ function saveScreenshot(stepCounter, absScenarioPath) {
         .then(() => (
           // then save screenshot file
           Q.nfcall(fs.writeFile, screenShotFileName, data, 'base64')
-            .then(() => screenShotFileName)
+            .then(() => {
+              console.log('==== screenshot');
+              return screenShotFileName;
+            })
         ))
     ));
 }

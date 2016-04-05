@@ -3,6 +3,11 @@ import Q from 'q';
 function registerMockGlobals() {
 
   global.browser = {
+    getPageSource: function() {
+      var outerHtmlDeferred = Q.defer();
+      outerHtmlDeferred.resolve('<html></html>');
+      return outerHtmlDeferred.promise;
+    },
     getCurrentUrl: function () {
       var deferred = Q.defer();
       deferred.resolve('http://example.url.com/#/somepage');
@@ -15,20 +20,6 @@ function registerMockGlobals() {
     }
   };
 
-  global.by = {
-    css: function () {
-    }
-  };
-
-  global.element = function () {
-    return {
-      getOuterHtml: function () {
-        var outerHtmlDeferred = Q.defer();
-        outerHtmlDeferred.resolve('<html></html>');
-        return outerHtmlDeferred.promise;
-      }
-    };
-  };
 }
 
 export default {
