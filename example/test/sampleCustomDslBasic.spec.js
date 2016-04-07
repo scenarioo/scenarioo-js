@@ -25,6 +25,12 @@ useCaseDescribe('Example Usecase with Basic Custom DSL', function exampleUseCase
   });
 
   /**
+   * This is needed in any case (!!) to ensure that the last step (whatever is configured to be saved as last step)
+   * is properly written before the spec execution ends.
+   */
+  afterEach(scenarioo.saveLastStep);
+
+  /**
    * An example scenario description using basic custom DSLs scenarioIt function
    */
   scenarioIt('Example Scenario with Basic Custom DSL', function exampleScenario() {

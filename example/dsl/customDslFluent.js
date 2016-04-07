@@ -4,10 +4,18 @@
  *
  * This is the most powerful DSL that is most easy to extend to additional scenarioo features and most easy to use in your e2e-tests.
  *
+ * This DSL provides the following additional features:
+ * - more easy to set additional information on scenarios and usecases (descriptions, labels, ...)
+ * - ensure to write step with screenshot at end of each scenario (on passed and failed tests, which is configurable)
+ * - ensure to validate labels against defined labels in configuration
+ *
  * That is why we propose to use this DSL in real projects as a blueprint starting point for your own e2e-test DSL.
  */
 var scenarioo = require('../../lib/index');
 
+/**
+ * Global configuration 'scenariooDslConfig' to define config for fluent DSL with default values.
+ */
 var dslConfig = {
 
   /**
@@ -66,6 +74,12 @@ function useCase(name) {
         scenarioo.getUseCaseContext().addLabels(labels);
       });
 
+      /**
+       * This is needed in any case (!!) to ensure that the last step (whatever is configured to be saved as last step)
+       * is properly written before the spec execution ends.
+       */
+      afterEach(scenarioo.saveLastStep);
+
       return describeCallbackFunction();
 
     });
@@ -118,14 +132,23 @@ function scenario(name) {
 
 }
 
+
+function step(title, additionalProperties) {
+  // TODO #18: verify allowed states and labels here
+  scenarioo.saveStep(title, additionalProperties);
+}
+
 function validateLabels(scopeText, definedLabels, labels) {
-  labels.forEach (function(label) {
+  if (labels) {
+    labels.forEach(function (label) {
       if (!definedLabels[label]) {
         fail('Label "' + label + '" is not defined in your project as a valid label for ' + scopeText + '. Please use `scenariooDslConfig.' + scopeText + 'LabelDefinitions` to define your labels. Currently defined labels allowed in a ' + scopeText + ' are: ' + JSON.stringify(definedLabels));
       }
-  });
+    });
+  }
 }
 
 global.scenariooDslConfig = dslConfig;
 global.useCase = useCase;
 global.scenario = scenario;
+global.step = step;

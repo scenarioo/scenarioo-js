@@ -11,6 +11,12 @@ describe('Example Use Case failing', function exampleFailingUseCase() {
     scenarioo.getUseCaseContext().setDescription('An optional description for a failing use case');
   });
 
+  /**
+   * This is needed in any case (!!) to ensure that the last step (whatever is configured to be saved as last step)
+   * is properly written before the spec execution ends.
+   */
+  afterEach(scenarioo.saveLastStep);
+
   it('Example Scenario failing', function exampleFailingScenario() {
     scenarioo.getScenarioContext().setDescription('An optional description for a failing scenario');
     scenarioo.getScenarioContext().addLabels('error'); // you can add a single label

@@ -29,6 +29,12 @@ describe('Example Use Case', function exampleUseCase() {
   });
 
   /**
+   * This is needed in any case (!!) to ensure that the last step (whatever is configured to be saved as last step)
+   * is properly written before the spec execution ends.
+   */
+  afterEach(scenarioo.saveLastStep);
+
+  /**
    * This defines a sample scenario to test with protractor and document in Scenarioo.
    * ScenariooJS will generate the appropriate report files (xml) for all it blocks as a scenario inside the usecase.
    */

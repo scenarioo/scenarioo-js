@@ -23,6 +23,14 @@ Make sure to also install protractor (v3.x)
 $ npm install -D protractor
 ```
 
+Since protractor comes with command line tools, it is also recommend (for simplicity) to install protractor globaly.
+
+```
+npm install -g protractor
+webdriver-manager update
+```
+
+
 ### Configuration
 
 Configure scenarioo-js in your protractor config file.
@@ -78,7 +86,8 @@ See [Examples](/example) for more information on how to use it.
 
 ### Generate and Browse Documentation
 
-In the examples you can run `` in order to run the tests and generate scenarioo documentation data. This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
+Run your protractor tests (e.g. as explained in [Examples Readme](/example/readme.md)) to run the tests and generate scenarioo documentation data. 
+This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
 
 ## API Documentation
 

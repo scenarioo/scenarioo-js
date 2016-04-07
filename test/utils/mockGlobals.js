@@ -2,6 +2,20 @@ import Q from 'q';
 
 function registerMockGlobals() {
 
+  global.jasmine = {
+    Spec: {
+      prototype: {
+        /**
+         * Jasmine reporter overwrites and calls this prototype method to hook into jasmine for getting expectation results
+         *
+         */
+        addExpectationResult: function (/* passed, expectation*/) {
+        }
+      }
+    }
+  };
+
+
   global.browser = {
     getPageSource: function() {
       var outerHtmlDeferred = Q.defer();

@@ -38,6 +38,29 @@ useCase('Example Use Case with Fluent Custom DSL')
 
       });
 
+    scenario('Example Failing Scenario with several expectation failures')
+      .description('This scenario should demonstrate that also for each failed expectation a screenshot is taken')
+      .it(function exampleScenarioWithMultipleExpectationsFailingAndNoLabels() {
+
+        browser.get('/index.html');
+        expect(element.all(by.css('.element-not-existing')).count()).toBe(78); // will fail --> expectation failed step
+
+        element(by.css('li#item_one')).click();
+        expect(element.all(by.css('.another-element-not-existing')).count()).toEqual(13); // will fail --> expectation failed step
+
+        element(by.css('li#item_is_not_present')).click(); // will fail the scenario --> scenario failed step
+        expect(element.all(by.css('.another-element-not-existing-after-scenario-failed')).count()).toEqual(6); // will not be executed (no step)
+
+      });
+
+    scenario('Example Failing Scenario that throws an Error')
+      .description('This scenario just tests that thwoing an Error in a scenario is reported nicely')
+      .it(function exampleScenarioWhichThrowsError() {
+
+        throw Error('Something went wrong in a test (this is expected test failure, just for demonstration purposes!)');
+
+      });
+
     /**
      * Another scenario ...
      * This one is set to pending, which means it is a currently not yet working test (=work in progress)

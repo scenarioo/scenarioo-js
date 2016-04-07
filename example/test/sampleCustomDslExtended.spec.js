@@ -9,6 +9,12 @@ describeUseCase('Example Use Case with Extended Custom DSL', {
   labels: ['example-custom-label']
 }, function exampleUseCase() {
 
+  /**
+   * This is needed in any case (!!) to ensure that the last step (whatever is configured to be saved as last step)
+   * is properly written before the spec execution ends.
+   */
+  afterEach(scenarioo.saveLastStep);
+
   describeScenario('Example Scenario with Extended Custom DSL', {
     description: 'an optional description for example scenario',
     labels: ['happy', 'example-label']
