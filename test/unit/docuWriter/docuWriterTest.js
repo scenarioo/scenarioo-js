@@ -2,7 +2,7 @@ import path from 'path';
 import assert from 'assert';
 import Q from 'q';
 import testHelper from '../../utils/testHelper';
-import mockWebdriver from '../../utils/mockWebdriver';
+import mockWebdriver from '../../utils/mockGlobals';
 import docuWriter from '../../../src/docuWriter/docuWriter';
 import store from '../../../src/scenariooStore';
 

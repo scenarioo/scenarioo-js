@@ -11,10 +11,10 @@ npm install
 gulp build
 ```
 
-build and serve the example app (in scenarioo-js root)
+serve the example application
+by calling following in directory scenarioo-js root
  
 ```
-npm install
 http-server -p 8081 example
 ```
 
@@ -28,10 +28,16 @@ webdriver-manager update
 Start the protractor tests:
 
 ```
-protractor example/protractor.conf.js
+cd example
+protractor protractor.conf.js
 ```
 
-Don't be alarmed, the second e2e test will fail (in order to have a failing run in the scenario documentation).
+Don't be alarmed when some of the tests failed.
+
+You should see:
+ 11 specs, 3 failures, 4 pending specs
+
+This is for testing and demonstrating how test failures and also pending tests are reported in scenarioo.
 
 Afterwards you'll find the generated scenarioo documentation inside `/scenariooReports`.
 

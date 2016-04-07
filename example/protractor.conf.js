@@ -23,7 +23,7 @@ var exportsConfig = {
     // instead in your real project use: global.scenarioo = require('scenarioo-js');
 
     // Configure the ScenariooJS reporter
-    var scenariooReporter = scenarioo.reporter({
+    scenarioo.setupJasmineReporter(jasmine, {
 
       // target directory: where the scenarioo documentation data is generated
       targetDirectory: './scenariooReports',
@@ -48,10 +48,24 @@ var exportsConfig = {
       // by generating a unique page name from current URL (usually a part of the URL, without special page content parameters)
       pageNameExtractor: function (url) {
         return url.pathname.substring(1);
+      },
+
+      /**
+       * Turn on saving a step with screenshot for each expectation failure
+       */
+      reportStepOnExpectationFailed: true,
+
+      /**
+       * Enable or disable taking screenshots and saving a step at end of tests, can be turned on and off for failed and successfull tests separately.
+       *
+       * Consider scenarioo jasmine reporter config option '', to also take a screenshot for every failed expectation separately, which is recommended.
+       */
+      recordStepAfterTestForStatus: {
+        failed: true,
+        success: true
       }
 
     });
-    jasmine.getEnv().addReporter(scenariooReporter);
 
     // Include your DSL that you want to use to describe your tests (if any)
     // the following DSLs are included in this example to demonstrate example custom DSLs ("describeScenario", "describeUseCase")
@@ -66,7 +80,7 @@ var exportsConfig = {
      */
     function readVersionFromGit() {
       var execSync = require('child_process').execSync;
-      var version = "" + execSync('git describe --always');
+      var version = '' + execSync('git describe --always');
       console.log('git version: ' + version);
       return version.substring(0,version.length - 1);
     }

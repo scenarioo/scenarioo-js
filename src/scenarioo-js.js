@@ -10,10 +10,16 @@ const scenarioo = {
   // TODO: in the future, when we support different reporters for different testing-frameworks, the user would want to configure which reporter to use.
 
   /**
+   * Configuration
+   */
+  options: {},
+
+  /**
    * Instantiates the scenarioo reporter (currently jasmine) that can be registered with the jasmine env `jasmine.getEnv().addReporter(scenarioo.reporter(....));`
    * Usually this is invoked in your protractor config file.
    *
-   * @func scenarioo#reporter
+   * @func scenarioo#setupJasmineReporter
+   * @param {object} pass the jasmine instance to use for setup (usualy the global 'jasmine')
    * @param {object} options
    * @param {string} options.targetDirectory - The path to the target directory
    * @param {string} options.branchName
@@ -23,10 +29,16 @@ const scenarioo = {
    * @param {function} [options.pageNameExtractor] - A custom function to extract the pageName from the url. Scenarioo will pass in a node.js url object.
    *
    */
-  reporter: jasmineReporter,
+  setupJasmineReporter: function (jasmine, options) {
+    if (options) {
+      scenarioo.options = options;
+    }
+    var reporter = jasmineReporter(jasmine, scenarioo.options);
+    jasmine.getEnv().addReporter(reporter);
+  },
 
   /**
-   * will return the context for the current useCase.
+   * Will return the context for the current useCase.
    * Allows you to set additional information like "description" and "labels"
    *
    * @func scenarioo#getUseCaseContext
@@ -63,8 +75,36 @@ const scenarioo = {
     // We do this wrapping here in order to keep docuWriter simple (not another dependency to protractor)
     const stepArguments = arguments;
     browser.controlFlow().execute(() => {
-      docuWriter.saveStep.apply(docuWriter, stepArguments);
+       return docuWriter.saveStep.apply(docuWriter, stepArguments);
     });
+  },
+
+  /**
+   * MUST be called in an afterEach (and only in afterEach!), to ensure that all steps are written before the test is finished.
+   */
+  saveLastStep: function () {
+
+    // ensure to schedule at least one dummy protractor task here (in any case!!)
+    // just to cause protractor to wait for flow to finish, before calling specDone.
+    browser.controlFlow().execute(() => {
+      var status = scenarioo.getScenarioContext().getCurrent().status;
+      status = status || 'success'; // not yet set = assuming success.
+      if (scenarioo.options.recordStepAfterTestForStatus) {
+        if (scenarioo.options.recordStepAfterTestForStatus[status]) {
+
+          // Put a label on failure steps
+          var labels = [];
+          if (status === 'failed') {
+            labels = ['failed'];
+          }
+
+          // Report step with status and failure label
+          scenarioo.saveStep('scenario ' + status, {status: status, labels: labels});
+
+        }
+      }
+    });
+
   }
 
 };

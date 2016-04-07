@@ -2,6 +2,7 @@ import merge from 'lodash/merge';
 import path from 'path';
 import store from './scenariooStore';
 import docuWriter from './docuWriter/docuWriter';
+import scenarioo from './scenarioo-js';
 
 const SUCCESS = 'success';
 const FAILED = 'failed';
@@ -24,6 +25,8 @@ export default {
 
   scenarioStarted,
   scenarioEnded,
+
+  expectationFailed,
 
   /** @constant {string} scenariooReporter#SUCCESS*/
   SUCCESS,
@@ -138,8 +141,16 @@ function useCaseEnded() {
 function scenarioStarted(scenarioName) {
   store.updateCurrentScenario({
     stepCounter: -1,
-    name: scenarioName
+    name: scenarioName,
+    status: undefined
   });
+}
+
+function expectationFailed(options, failureMessage) {
+  store.updateCurrentScenario({ status: 'failed'}); // remember early that it failed allready
+  if (options.reportStepOnExpectationFailed) {
+    scenarioo.saveStep(failureMessage, {status: 'failed', labels: ['error']});
+  }
 }
 
 /**

@@ -21,7 +21,8 @@ function contextFactory(objectName) {
    */
   return {
     setDescription,
-    addLabels
+    addLabels,
+    getCurrent
   };
 
   /**
@@ -55,6 +56,10 @@ function contextFactory(objectName) {
     updateContextObject({
       labels: mergedLabels
     });
+  }
+
+  function getCurrent() {
+    return getContextObject();
   }
 
 

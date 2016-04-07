@@ -135,16 +135,17 @@ export function saveScenario(currentScenario, useCaseName) {
  * To be invoked in your e2e tests.
  *
  * @func docuWriter#saveStep
- * @param {string} [stepName]
+ * @param {string} [stepTitle] A text to display as caption for this step
  * @param {object} [additionalProperties]
+ * @param {string[]} [additionalProperties.state]
  * @param {string[]} [additionalProperties.labels]
  * @param {object[]} [additionalProperties.screenAnnotations]
  * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
  */
-export function saveStep(stepName, additionalProperties) {
-  if (!isString(stepName)) {
-    additionalProperties = stepName;
-    stepName = '';
+export function saveStep(stepTitle, additionalProperties) {
+  if (!isString(stepTitle)) {
+    additionalProperties = stepTitle;
+    stepTitle = '';
   }
 
   // Because this is invoked by the e2e test,
@@ -171,7 +172,7 @@ export function saveStep(stepName, additionalProperties) {
 
 
   const screenshotPromise = saveScreenshot(currentScenario.stepCounter, absScenarioPath);
-  const stepXmlPromise = writeStepXml(stepName, currentScenario, absScenarioPath, additionalProperties);
+  const stepXmlPromise = writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalProperties);
   return Q.all([stepXmlPromise, screenshotPromise]).then(results => {
     return {
       step: results[0].step,
@@ -210,7 +211,7 @@ function getPageNameFromUrl(urlString) {
  * writes step xml file (000.xml, 001.xml, etc.)
  * @ignore
  */
-function writeStepXml(stepName, currentScenario, absScenarioPath, additionalProperties) {
+function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalProperties) {
 
   return getStepDataFromWebpage()
     .then(browserData => {
@@ -222,7 +223,7 @@ function writeStepXml(stepName, currentScenario, absScenarioPath, additionalProp
         },
         stepDescription: {
           index: currentScenario.stepCounter,
-          title: stepName,
+          title: stepTitle,
           screenshotFileName: `${currentStepCounter}.png`
         },
         html: {
@@ -243,6 +244,9 @@ function writeStepXml(stepName, currentScenario, absScenarioPath, additionalProp
               region: pick(annotation, ['x', 'y', 'width', 'height'])
             });
         });
+      }
+      if (additionalProperties && additionalProperties.status) {
+        stepData.stepDescription.status = additionalProperties.status;
       }
 
       const xmlFileName = path.join(absScenarioPath, 'steps', currentStepCounter + '.xml');
