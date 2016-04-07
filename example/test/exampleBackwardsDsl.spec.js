@@ -6,12 +6,12 @@ var scenarioo = require('../../lib');
  *
  * If you start to use ScenariooJS in a new project we recommend to use the new Fluent DSL as you can see in the Fluent DSL Example.
  */
-describeUseCase('Example Use Case with Extended Custom DSL', {
+describeUseCase('Example Use Case with Backwards DSL', {
   description: 'An optional description for the use case',
   labels: ['example-custom-label']
 }, function exampleUseCase() {
 
-  describeScenario('Example Scenario with Extended Custom DSL', {
+  describeScenario('Example Scenario with Backwards DSL', {
     description: 'an optional description for example scenario',
     labels: ['happy', 'example-label']
   }, function exampleScenario() {
@@ -29,7 +29,7 @@ describeUseCase('Example Use Case with Extended Custom DSL', {
 
   });
 
-  xdescribeScenario('Example pending scenario', function examplePendingScenario() {
+  xdescribeScenario('Example pending scenario with Backwards DSL', function examplePendingScenario() {
 
   });
 

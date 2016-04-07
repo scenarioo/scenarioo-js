@@ -19,7 +19,7 @@ require('./exampleFluentDslLabelDefinitions');
 /**
  * The use case description
  */
-useCase('Example Use Case with Fluent Custom DSL')
+useCase('Example Use Case with Fluent DSL')
   .description('An optional but recommended description for the use case')
   .labels(['example-custom-label'])
   .describe(function () {
@@ -27,7 +27,7 @@ useCase('Example Use Case with Fluent Custom DSL')
     /**
      * A scenario description
      */
-    scenario('Example Scenario with Fluent Custom DSL')
+    scenario('Example Scenario with Fluent DSL')
       .description('An optional but recommended description for the scenario')
       .labels(['happy', 'example-label'])
       .it(function () {
@@ -53,6 +53,8 @@ useCase('Example Use Case with Fluent Custom DSL')
         expect(element.all(by.css('.element-not-existing')).count()).toBe(78); // will fail --> expectation failed step
 
         element(by.css('li#item_one')).click();
+        step('item one clicked');
+
         expect(element.all(by.css('.another-element-not-existing')).count()).toEqual(13); // will fail --> expectation failed step
 
         element(by.css('li#item_is_not_present')).click(); // will fail the scenario --> scenario failed step

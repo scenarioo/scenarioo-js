@@ -12,7 +12,7 @@ var scenarioo = require('../../lib');
  *  to make the usecase/scenario-structure more explicit in the e2e tests and also to more easily
  *  add more information (like descriptions, labels, etc.) into the documentation.
  *
- *  Please refer to the fluent DSL example in this same folder to see how to write tests with this DSL.
+ *  Please refer to the Fluent DSL example in this same folder to see how to describe usecases and scenarios in ScenariooJS much simpler.
  */
 describe('Example Use Case', function exampleUseCase() {
 
