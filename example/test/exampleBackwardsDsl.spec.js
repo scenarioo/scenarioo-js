@@ -1,19 +1,15 @@
 var scenarioo = require('../../lib');
 
 /**
- * An extended custom dsl that takes more arguments
- * in order to save the additional "beforeAll" in every test.
+ * A simple example using the special backwards compatibility DSL which is only recommended to be used
+ * if you want migrate fast from using Scenarioo 1.x (which used Jasmine 1.x) to Scenarioo 2.x (which uses Jasmine 2.x)
+ *
+ * If you start to use ScenariooJS in a new project we recommend to use the new Fluent DSL as you can see in the Fluent DSL Example.
  */
 describeUseCase('Example Use Case with Extended Custom DSL', {
   description: 'An optional description for the use case',
   labels: ['example-custom-label']
 }, function exampleUseCase() {
-
-  /**
-   * This is needed in any case (!!) to ensure that the last step (whatever is configured to be saved as last step)
-   * is properly written before the spec execution ends.
-   */
-  afterEach(scenarioo.saveLastStep);
 
   describeScenario('Example Scenario with Extended Custom DSL', {
     description: 'an optional description for example scenario',

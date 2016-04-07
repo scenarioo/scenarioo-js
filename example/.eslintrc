@@ -17,22 +17,17 @@
     "fit": false,
     "pending": false,
     "expect": false,
-    "useCaseDescribe": false,
-    "fuseCaseDescribe": false,
-    "xuseCaseDescribe": false,
-    "scenarioIt": false,
-    "fscenarioIt": false,
-    "xscenarioIt": false,
+    "fail": false,
+    "scenarioo": false,
     "describeUseCase": false,
     "xdescribeUseCase": false,
     "fdescribeUseCase": false,
     "describeScenario": false,
     "fdescribeScenario": false,
     "xdescribeScenario": false,
-    "scenario": false,
-    "useCase": false,
-    "scenarioo": false,
     "scenariooDslConfig": false,
-    "fail": false
+    "useCase": false,
+    "scenario": false,
+    "step": false
   }
 }

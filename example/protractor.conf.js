@@ -4,7 +4,7 @@ var e2eBaseUrl = 'http://localhost:8081';
 
 var exportsConfig = {
 
-  // usual protractor test config
+  // Usual protractor test config
   allScriptsTimeout: 11000,
   specs: ['test/**/*.spec.js'],
   baseUrl: e2eBaseUrl,
@@ -22,7 +22,7 @@ var exportsConfig = {
     global.scenarioo = require('../lib');
     // instead in your real project use: global.scenarioo = require('scenarioo-js');
 
-    // Configure the ScenariooJS reporter
+    // Setup and configure the ScenariooJS jasmine reporter
     scenarioo.setupJasmineReporter(jasmine, {
 
       // target directory: where the scenarioo documentation data is generated
@@ -60,19 +60,17 @@ var exportsConfig = {
        *
        * Consider scenarioo jasmine reporter config option '', to also take a screenshot for every failed expectation separately, which is recommended.
        */
-      recordStepAfterTestForStatus: {
+      recordLastStepForStatus: {
         failed: true,
         success: true
       }
 
     });
 
-    // Include your DSL that you want to use to describe your tests (if any)
-    // the following DSLs are included in this example to demonstrate example custom DSLs ("describeScenario", "describeUseCase")
-    // you do not necessarily need this when you want to simply use describe and it notation of jasmine
-    require('./dsl/customDslBasic');
-    require('./dsl/customDslExtended');
-    require('./dsl/customDslFluent');
+    // one of the following (or both) is only needed when you want to use one of the gloabaly defined scenarioo DSLs
+    // which are helpful to describe your tests for the scenarioo documentation more easily.
+    scenarioo.setupBackwardsDsl();
+    scenarioo.setupFluentDsl();
 
     /**
      * Calling your source control tool to get current revision

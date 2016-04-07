@@ -1,12 +1,20 @@
 /**
- * An example of an extended DSL that also supports setting more documentation data directly through the DSL.
+ * This is a very basic and simple DSL to describe your tests as usecases and scenarios that is only provided for backward compatibility reasons.
  *
- * describeUseCase and describeScenario take an additional argument in order to
- * eliminate boilerplate code in your tests to set additional properties of the usecases and scenarios in your documentation.
+ * If you migrate from an old 1.x ScenariooJS version you can most easily migrate as follows:
  *
- * We recommend to use the even better Fluent Custom DSL example for a more cleaner API to use in your tests.
+ * 1. Setup this DSL by calling following in your protractor onPrepare function:
+ *
+ * scenarioo.setupBackwardsDsl();
+ *
+ * 2. Replace all following calls in your tests accordingly:
+ *
+ * `scenarioo.descibeUseCase(...)` becomes `describeUseCase(...)`
+ * `scenarioo.describeScenario(...)` becomes `describeScenario(...)`
+ *
+ * We recommend to better use the new Fluent DSL of scenarioo in your tests instead of this more backwards compatible DSL.
  */
-var scenarioo = require('../../lib/index');
+var scenarioo = require('../index');
 
 function describeUseCase(jasmineDescribeFunction, useCaseName, additionalUseCasePropertiesOrDescribeFunction, describeFunction) {
   var additionalUseCaseProperties = describeFunction ? additionalUseCasePropertiesOrDescribeFunction : null;
@@ -20,6 +28,12 @@ function describeUseCase(jasmineDescribeFunction, useCaseName, additionalUseCase
         // here you would have to put more code, to support more documentation properties, that you can set on use cases.
       }
     });
+
+    /**
+     * This is needed in any case (!!) to ensure that the last step (whatever is configured to be saved as last step)
+     * is properly written before the spec execution ends.
+     */
+    afterEach(scenarioo.saveLastStep);
 
     return describeFunction();
 

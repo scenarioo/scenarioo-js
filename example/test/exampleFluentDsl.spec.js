@@ -1,13 +1,20 @@
 /**
- *  Example for using a custom DSL to describe your use cases and scenarios with a more fluent DSL.
+ *  Example for using the new scenarioo fluent DSL to test and document the usecases and scenarios
+ *  of your application more explicitly than with jasmine describe and it functions.
  *
- *  This is what we recommend to build for more complex real projects, to define your own language for testing and
- *  documenting the usecases and scenarios of your application.
+ *  This is what we recommend to use for more complex real projects.
  *
- *  The example DSL definition can be found in ../dsl/customDslFluent.js and is imported globaly in protractor.conf.js
+ *  The DSL is included in scenarioo and can be easily extended to application specific stuff,
+ *  by extending the DSL provided by ScenariooJS.
+ *
+ *  Or you could also simply define your own DSL, just look at the file fluentDsl.js in the scenarioo sources,
+ *  to see how easily your own DSL could be defined or how you could extend the existing one
+ *  that you can take as a blueprint.
+ *
+ *  This example only works, when you call scenarioo.setupFluentDsl() in your protractor onPrepare function.
  */
 
-require('./sampleCustomDslFluentLabelDefinitions');
+require('./exampleFluentDslLabelDefinitions');
 
 /**
  * The use case description
@@ -28,7 +35,7 @@ useCase('Example Use Case with Fluent Custom DSL')
         browser.get('/index.html');
 
         // use scenarioo's saveStep method to document interaction steps inside the scenario (with screenshot, etc.)
-        scenarioo.saveStep('browse to start page');
+        step('browse to start page');
         // you could also hook such saveStep method calls into your page objects or even the e2e test toolkit
         // (e.g. by overwriting protractor functions, like click on element)
         // to automatically document a step on each important interaction and not clutter your tests with such calls

@@ -11,7 +11,7 @@
  *
  * That is why we propose to use this DSL in real projects as a blueprint starting point for your own e2e-test DSL.
  */
-var scenarioo = require('../../lib/index');
+var scenarioo = require('../index');
 
 /**
  * Global configuration 'scenariooDslConfig' to define config for fluent DSL with default values.

@@ -4,16 +4,15 @@ var scenarioo = require('../../lib');
  *  Very basic example protractor test with jasmine to test and document one "Use Case" in scenarioo using ScenariooJS.
  *
  *  Eeach "describe" block is by default documented as a usecase by ScenariooJS and it can contain
- *  multiple "scenarios" (each "it" block is documented as a scenario by the ScenariooJS Jasmine reporter).
+ *  multiple "scenarios". Each "it" block is documented as a scenario by the ScenariooJS Jasmine reporter.
  *
  *  ScenariooJS will generate the appropriate report files (xml) for this use case that can be viewed then using the Scenarioo Viewer Webapp.
  *
- *  For more complex real life projects we recommend to introduce a custom DSL in the protractor tests,
+ *  For more complex real life projects we recommend to use the new fluent DSL of scenarioo,
  *  to make the usecase/scenario-structure more explicit in the e2e tests and also to more easily
  *  add more information (like descriptions, labels, etc.) into the documentation.
  *
- *  Please refer to the more advanced DSL examples in this same folder to see how to write tests with your own custom DSL
- *  and also for some example DSLs that you could copy and use in your projects (and change where you need to, for project specific stuff).
+ *  Please refer to the fluent DSL example in this same folder to see how to write tests with this DSL.
  */
 describe('Example Use Case', function exampleUseCase() {
 

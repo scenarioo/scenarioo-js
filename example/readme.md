@@ -35,7 +35,7 @@ protractor protractor.conf.js
 Don't be alarmed when some of the tests failed.
 
 You should see:
- 11 specs, 3 failures, 4 pending specs
+ 9 specs, 3 failures, 3 pending specs
 
 This is for testing and demonstrating how test failures and also pending tests are reported in scenarioo.
 

@@ -38,6 +38,31 @@ const scenarioo = {
   },
 
   /**
+   * Setup the backwards DSL which defines global functions `defineUseCase` and `defineScenario` to replace old
+   * `scenarioo.defineScenario` and `scenarioo.defineUseCase` functions for more easily migrating from tests
+   * using old version 1.x of ScenariooJS.
+   *
+   * Instead of using this DSL for easy migration we recommend to migrate your tests to use the new Fluent DSL
+   * (or it is also possible to use both DSLs in parallel to more easily migrate step by step to using the new DSL).
+   *
+   * See examples for how to use it.
+   */
+  setupBackwardsDsl: function () {
+    require('./dsl/backwardsDsl.js');
+  },
+
+  /**
+   * Setup the new Fluent DSL to write e2e tests with scenarioo more easily.
+   *
+   * This defines global functions `usecase`, `scenario` and `step` to use for describing your e2e tests.
+   *
+   * See examples for how to use it.
+   */
+  setupFluentDsl: function() {
+    require('./dsl/fluentDsl.js');
+  },
+
+  /**
    * Will return the context for the current useCase.
    * Allows you to set additional information like "description" and "labels"
    *
@@ -89,8 +114,8 @@ const scenarioo = {
     browser.controlFlow().execute(() => {
       var status = scenarioo.getScenarioContext().getCurrent().status;
       status = status || 'success'; // not yet set = assuming success.
-      if (scenarioo.options.recordStepAfterTestForStatus) {
-        if (scenarioo.options.recordStepAfterTestForStatus[status]) {
+      if (scenarioo.options.recordLastStepForStatus) {
+        if (scenarioo.options.recordLastStepForStatus[status]) {
 
           // Put a label on failure steps
           var labels = [];
