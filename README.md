@@ -147,7 +147,7 @@ This documentation can then be browsed by using the [Scenarioo Viewer Webapp](ht
 
 You can run `$ gulp docu` in order to create a browseable JSDoc API documentation of ScenariooJS.
 
-## Migration (Subject to change)
+## Migration (Subject to change ... )
 
 ### Jasmine2 Support
 
