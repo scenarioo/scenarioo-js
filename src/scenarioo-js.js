@@ -7,6 +7,8 @@ import jasmineReporter from './reporters/jasmine';
  */
 const scenarioo = {
 
+  reportingEnabled: false,
+
   // TODO: in the future, when we support different reporters for different testing-frameworks, the user would want to configure which reporter to use.
 
   /**
@@ -30,6 +32,7 @@ const scenarioo = {
    *
    */
   setupJasmineReporter: function (jasmine, options) {
+    scenarioo.reportingEnabled = true;
     if (options) {
       scenarioo.options = options;
     }
@@ -95,6 +98,11 @@ const scenarioo = {
    * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
    */
   saveStep: function () {
+
+    if (!scenarioo.reportingEnabled) {
+      return; // just do nothing when scenarioo is disabled.
+    }
+
     // make sure that "scenarioo.saveStep()" gets added to the protractor controlFlow
     // this ensures that the save operation is not invoked immediately, but in-sync with the flow.
     // We do this wrapping here in order to keep docuWriter simple (not another dependency to protractor)
@@ -108,6 +116,10 @@ const scenarioo = {
    * MUST be called in an afterEach (and only in afterEach!), to ensure that all steps are written before the test is finished.
    */
   saveLastStep: function () {
+
+    if (!scenarioo.reportingEnabled) {
+      return; // just do nothing when scenarioo is disabled.
+    }
 
     // ensure to schedule at least one dummy protractor task here (in any case!!)
     // just to cause protractor to wait for flow to finish, before calling specDone.

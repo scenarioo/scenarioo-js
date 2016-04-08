@@ -30,6 +30,10 @@ function contextFactory(objectName) {
    * @param {string} description
    */
   function setDescription(description) {
+    if (!store.isInitialized()) {
+      // init an empty context and try to work on that, assuming that it is just scenarioo not enabled to write reports
+      store.init({});
+    }
     updateContextObject({description});
   }
 
@@ -41,6 +45,11 @@ function contextFactory(objectName) {
   function addLabels(labels) {
     if (!labels) {
       return;
+    }
+
+    if (!store.isInitialized()) {
+      // init an empty context and try to work on that, assuming that it is just scenarioo not enabled to write reports
+      store.init({});
     }
 
     const currentContext = getContextObject();
@@ -59,6 +68,10 @@ function contextFactory(objectName) {
   }
 
   function getCurrent() {
+    if (!store.isInitialized()) {
+      // init an empty context and try to work on that, assuming that it is just scenarioo not enabled to write reports
+      store.init({});
+    }
     return getContextObject();
   }
 
