@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import rimraf from 'rimraf';
 
 import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
@@ -55,7 +56,7 @@ export function registerPageNameFunction(pageNameFunction) {
  * @param {string} scenariooTargetDirectory
  * @returns {Promise}
  */
-export function start(branch, buildname, scenariooTargetDirectory) {
+export function start(branch, buildname, scenariooTargetDirectory, options) {
   entityValidator.validateBranch(branch);
   this.branch = branch;
   this.branch.name = identifierSanitizer.sanitize(branch.name);
@@ -64,7 +65,16 @@ export function start(branch, buildname, scenariooTargetDirectory) {
 
   // generate directories and write branch.xml
   buildOutputDir = path.join(scenariooTargetDirectory, encodeFileName(this.branch.name), buildDirName);
+  if (options && options.cleanBuildOnStart) {
+    cleanBuildDirectory(buildOutputDir);
+  }
+
   return xmlWriter.writeXmlFile('branch', this.branch, path.resolve(path.join(scenariooTargetDirectory, encodeFileName(this.branch.name)), 'branch.xml'));
+}
+
+function cleanBuildDirectory(buildOutputDir) {
+  console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
+  rimraf.sync(buildOutputDir);
 }
 
 /**

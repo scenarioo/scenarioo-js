@@ -35,12 +35,12 @@ describe('docuWriter', () => {
   describe('#start()', () => {
 
     it('should write branch directory on start()', () => {
-      docuWriter.start(dummyBranch, 'some build name', targetDir)
+      docuWriter.start(dummyBranch, 'some build name', targetDir, {})
         .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will')));
     });
 
     it('should write branch.xml on start() with all attributes', () => {
-      return docuWriter.start(dummyBranch, 'some build name', targetDir)
+      return docuWriter.start(dummyBranch, 'some build name', targetDir, {})
         .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/branch.xml'), [
           '<branch><name>my unsafe branch name, will</name>',
           '<description>my safe description</description>'
@@ -51,7 +51,7 @@ describe('docuWriter', () => {
   describe('#saveBuild()', () => {
 
     beforeEach(()  => {
-      return docuWriter.start(dummyBranch, 'save_build_test', targetDir);
+      return docuWriter.start(dummyBranch, 'save_build_test', targetDir, {});
     });
 
     it('should save mandatory fields correctly build.xml', () => {
@@ -76,7 +76,7 @@ describe('docuWriter', () => {
   describe('#saveUseCase()', () => {
 
     beforeEach(() => {
-      docuWriter.start(dummyBranch, 'some build name', targetDir);
+      docuWriter.start(dummyBranch, 'some build name', targetDir, {});
     });
 
     it('should create useCase directory', () => {
@@ -97,7 +97,7 @@ describe('docuWriter', () => {
   describe('#saveScenario()', () => {
 
     beforeEach(() => {
-      docuWriter.start(dummyBranch, 'some build name', targetDir);
+      docuWriter.start(dummyBranch, 'some build name', targetDir, {});
       return docuWriter.saveUseCase(dummyUseCase);
     });
 
@@ -120,7 +120,7 @@ describe('docuWriter', () => {
   describe('#saveStep()', () => {
 
     beforeEach(() => {
-      docuWriter.start(dummyBranch, 'myBuildName', targetDir);
+      docuWriter.start(dummyBranch, 'myBuildName', targetDir, {});
       store.init(dummyBranch.name, dummyBranch.description, 'myBuildName');
       store.updateCurrentUseCase({name: 'UseCaseDescription'});
       store.updateCurrentScenario({name: 'ScenarioDescription'});

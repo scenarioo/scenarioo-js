@@ -28,6 +28,9 @@ var exportsConfig = {
       // target directory: where the scenarioo documentation data is generated
       targetDirectory: './scenariooReports',
 
+      // clean documentation output directory (for this build with same branch and build name only!)
+      cleanBuildOnStart: true,
+
       // branch name: this is usually read from current version control information or set to reflect the major version of your software that you document
       // ("master" and "develop", or "Release 1.0", "Release 1.1", and so on ...)
       // it does not necessarily have to conform to the real development branch names in your source control,

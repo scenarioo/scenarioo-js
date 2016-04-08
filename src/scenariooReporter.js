@@ -51,10 +51,9 @@ function runStarted(options) {
     docuWriter.registerPageNameFunction(options.pageNameExtractor);
   }
 
-  const absoluteTargetDir = path.resolve(options.targetDirectory);
   store.setBuildDate(new Date());
-  docuWriter.start(store.getBranch(), store.getBuild().name, absoluteTargetDir);
-
+  const absoluteTargetDir = path.resolve(options.targetDirectory);
+  docuWriter.start(store.getBranch(), store.getBuild().name, absoluteTargetDir, options);
   console.log(`Reporting scenarios for scenarioo. Writing to "${absoluteTargetDir}"`);
 }
 
