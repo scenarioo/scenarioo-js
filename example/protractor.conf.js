@@ -26,7 +26,7 @@ var exportsConfig = {
     scenarioo.setupJasmineReporter(jasmine, {
 
       // target directory: where the scenarioo documentation data is generated
-      targetDirectory: './scenariooReports',
+      targetDirectory: './target/scenariooReports',
 
       // clean documentation output directory (for this build with same branch and build name only!)
       cleanBuildOnStart: true,
