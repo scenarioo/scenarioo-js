@@ -72,9 +72,11 @@ onPrepare: function () {
   },
 ```
 
-### Tests
+### Testing
 
-Write your e2e tests in your normal jasmine/protractor style.
+#### Using vanila Jasmine style in your tests
+
+Write your e2e tests in your normal Jasmine style with Protractor (or you could also use pure WebdriverJS without protractor, since ScenariooJS does not depend on protractor specific things).
 
 ```javascript
 
@@ -97,14 +99,17 @@ describe('Example Usecase', function() {
 ```
 
 ScenariooJS will report a useCase for every "describe" and a scenario for every "it" function in your test.
-Also a step at the end of each test scenario (on failure or success) will be reported if you configured so.
+
+Also a step at the end of each test scenario (on failure or success) will be reported if you configured so (see configuration possibilities in `example/protractor.conf.js`).
+We allways recommend to turn this on, becasue the last step is one of the most important ones in a test, especially if there are failures.
 
 Additional steps of a scenario can be reported by manually calling `scenarioo.saveStep('stepName');` in your tests.
 
-You could also hook it into protractor or your page objects to ensure that on every important action (e.g. every click) a step is reported.
+You could (and probably should) also hook such step commands into your page objects (or even into protractor) to ensure that on every important action (e.g. every important click) a step is reported.
 
+#### Using scenarioo fluent DSL for your tests and your useCase & scenarios documentation
 
-Or even better: We recommend to use the **New Fluent DSL** to even more easily describe usecases and scenarios in your tests and annotate them with additional important informations for the documentation:
+For a more nicer and clean syntax we recommend to use the **New Fluent DSL** of scenarioo to even more easily describe usecases and scenarios in your tests and annotate them with additional important information for the documentation:
 
 ```javascript
 
@@ -119,8 +124,6 @@ useCase('Example Use Case with Fluent DSL')
       .it(function () {
 
         browser.get('/index.html');
-
-        // use global step method to document interaction steps inside the scenario (with screenshot, etc.)
         step('browse to start page');
         
         // you could also hook such step method calls into your page objects or even the e2e test toolkit
@@ -136,7 +139,14 @@ useCase('Example Use Case with Fluent DSL')
 
 ```
 
-See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs.
+See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs. 
+
+There is also a `Backward DSL` that is only interesting for migrating from old scenarioo 1.x tests to the new scenarioo 2.x with jasmine 2 library more easily, see migration guide below.
+
+#### Defining your own customized application specific test & documentation DSL
+
+In case you want to define your own custom DSL for your specific application under test, to be able to document and test it more easily, you are free to do so, by simply copying our Scenarioo Fluent DSL from this one simple javascript file here as a blueprint for your own DSL:
+[fluentDsl.js](/src/dsl/fluentDsl.js)
 
 ### Generate and Browse Documentation
 

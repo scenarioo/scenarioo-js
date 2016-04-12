@@ -18,7 +18,7 @@ var exportsConfig = {
     // Read current software version that is documented from source control info
     var gitVersion = readVersionFromGit();
 
-    // import scenariooJS as globaly available reporting tool in your ese tests
+    // import scenariooJS as globaly available reporting tool in your e2e tests
     global.scenarioo = require('../lib');
     // instead in your real project use: global.scenarioo = require('scenarioo-js');
 
@@ -41,6 +41,8 @@ var exportsConfig = {
       branchDescription: 'mainline branch',
 
       // unique build name: use a timestamp, or better a build ID of current CI build running
+      // usually fetched from your build server environment (e.g. passed via `process.env`,
+      // e.g. for Jenkins see https://wiki.jenkins-ci.org/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-JenkinsSetEnvironmentVariables)
       buildName: 'build_' + gitVersion + '_' + new Date().getTime(),
 
       // set a revision: you could put your product version in combination with the latest source code revision
