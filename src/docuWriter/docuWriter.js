@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import rimraf from 'rimraf';
+import del from 'del';
 
 import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
@@ -54,6 +54,7 @@ export function registerPageNameFunction(pageNameFunction) {
  * @param {object} branch
  * @param {string} buildname
  * @param {string} scenariooTargetDirectory
+ * @param {object} options
  * @returns {Promise}
  */
 export function start(branch, buildname, scenariooTargetDirectory, options) {
@@ -65,16 +66,25 @@ export function start(branch, buildname, scenariooTargetDirectory, options) {
 
   // generate directories and write branch.xml
   buildOutputDir = path.join(scenariooTargetDirectory, encodeFileName(this.branch.name), buildDirName);
-  if (options && options.cleanBuildOnStart) {
-    cleanBuildDirectory(buildOutputDir);
-  }
 
-  return xmlWriter.writeXmlFile('branch', this.branch, path.resolve(path.join(scenariooTargetDirectory, encodeFileName(this.branch.name)), 'branch.xml'));
+  return cleanBuildDirectory(buildOutputDir, options)
+    .then(() => xmlWriter.writeXmlFile('branch', this.branch, path.resolve(path.join(scenariooTargetDirectory, encodeFileName(this.branch.name)), 'branch.xml')));
 }
 
-function cleanBuildDirectory(buildOutputDir) {
-  console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
-  rimraf.sync(buildOutputDir);
+/**
+ * cleans specified build directory if required by options
+ *
+ * @param buildOutputDir
+ * @param options
+ * @returns {Promise}
+ */
+function cleanBuildDirectory(buildOutputDir, options) {
+  if (options && options.cleanBuildOnStart) {
+    console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
+    return del(buildOutputDir);
+  } else {
+    return Q.when(true);
+  }
 }
 
 /**
@@ -227,7 +237,6 @@ function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalPro
 
   return getStepDataFromWebpage()
     .then(browserData => {
-
 
 
       const currentStepCounter = leadingZeros(currentScenario.stepCounter);
