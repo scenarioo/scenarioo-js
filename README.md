@@ -1,9 +1,9 @@
 # scenarioo-js
-> Scenarioo API for [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs) e2e tests!
+> Scenarioo writer library for javascript to document your e2e tests
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
-Scenarioo API for Javascript to generate Scenarioo Documentations in WebDriverJS (and protractor) e2e tests.
+Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation.
 
 This is a subproject of Scenarioo, for more information on scenarioo, check http://www.scenarioo.org.
 
@@ -73,12 +73,17 @@ describe('Example Usecase failing', function() {
 scenarioo-js will report a useCase for every "describe" and a scenario for every "it" function in your test.
 Currently, steps are reported by manually calling `scenarioo.saveStep('stepName');`
 
-See the **example** folder for more information.
+You could also hook it into protractor or your page objects to ensure that on every important action (e.g. every click) a step is reported automatically.
 
+See [Examples](/example) for more information on how to use it.
 
-## API
+### Generate and Browse Documentation
 
-You can run `$ gulp docu` in order to create a browseable JSDoc API documentation.
+In the examples you can run `` in order to run the tests and generate scenarioo documentation data. This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
+
+## API Documentation
+
+You can run `$ gulp docu` in order to create a browseable JSDoc API documentation of ScenariooJS.
 
 ## Migration (Subject to change)
 
@@ -91,10 +96,12 @@ The current develop branch already includes this switch. Check the **example** f
 ### scenarioo-specific DSL
 
 The "describeScenarioo" and "describeUseCase" functions were removed.
+
 Since we introduced `scenarioo.getScenarioContext()...`, we no longer need wrapper functions around "describe" and "it".
-If you still want to use this, it's really simple to add custom wrapper functions yourself. See the **example** for more information.
 
+If you still want to use such a more explicit style of defining usecases and scenarios in your tests, it's really simple to add custom wrapper functions yourself.
 
+See [DSL Examples in the Example](/example) for more information on what kind of even more advanced application specific DSLs could be useful in your projects. We recommend to use something like the [Chained DSL Example](/example/test/chainedDsl.js).
 
 ### Protractor configuration
 
