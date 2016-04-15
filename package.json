@@ -20,7 +20,8 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "gulp"
+    "test": "gulp",
+    "build": "gulp build"
   },
   "dependencies": {
     "glob": "6.0.4",
