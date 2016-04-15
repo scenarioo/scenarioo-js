@@ -23,17 +23,22 @@
     "no-console": 0
   },
   "globals": {
-    "browser": false,
     "jasmine": false,
+    "beforeAll": false,
+    "afterAll": false,
+    "beforeEach": false,
+    "afterEach": false,
     "describe": false,
     "fdescribe": false,
+    "xdescribe": false,
     "it": false,
-    "by": false,
+    "xit": false,
     "fit": false,
+    "pending": false,
+    "expect": false,
+    "fail": false,
+    "by": false,
     "element": false,
-    "afterEach": false,
-    "beforeEach": false,
-    "before": false,
-    "after": false
+    "browser": false
   }
 }

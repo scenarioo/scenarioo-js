@@ -9,12 +9,13 @@ import scenariooReporter from '../scenariooReporter';
  * It should not invoke docuWriter directly.
  *
  * @ignore
- * @param {object} options Options Object with the following properties: "targetDirectory", "branchName", "branchDescription", "buildName" and "revision"
+ * @param {object} options Options Object with the following properties: "targetDirectory", "branchName", "branchDescription", "buildName" and "revision" and some more (see examples!)
  * @returns {JasmineReporter} a Reporter instance
  */
-function ScenariooJasmineReporter(options) {
+function ScenariooJasmineReporter(jasmine, options) {
 
   store.init(options);
+  registerExpectationResultHandlerToReportExpectationFailures();
 
   return {
     jasmineStarted,
@@ -48,17 +49,43 @@ function ScenariooJasmineReporter(options) {
     scenariooReporter.scenarioStarted(spec.description);
   }
 
+  function registerExpectationResultHandlerToReportExpectationFailures() {
+    var _addExpectationResult = jasmine.Spec.prototype.addExpectationResult;
+    jasmine.Spec.prototype.addExpectationResult = function(passed, expectation) {
+      try {
+        reportExpectationResult(passed, expectation);
+      } catch(e) {
+        console.error('Failed to report expectation result in scenarioo: ' + e.message + ' on  expectation: ' + JSON.stringify(expectation));
+        if (passed) {
+          // propagate failure due to scenarioo reporter when expectation was passed.
+          passed = false;
+          expectation.passed = false;
+          expectation.message = 'Error on reporting passed expectation result in scenarioo: ' + e.message;
+        }
+      }
+      return _addExpectationResult.call(this, passed, expectation);
+    };
+  }
+
   /**
-   * is invoked when all tests are done (at the end of all use cases)
-   */
-  function jasmineDone() {
-    scenariooReporter.runEnded();
+   * Is invoked when expectation is passed or failed, to remember if a scenario has failed,
+   * which is needed to report last step with failure status (in afterEach),
+   * because specDone is too late to report a failure step with scenarioo saveStep.
+   * @param passed
+   * @param expectation
+     */
+  function reportExpectationResult(passed, expectation) {
+    if (!passed) {
+      scenariooReporter.expectationFailed(options, expectation.message);
+    }
   }
 
   /**
    * is invoked at the end of a spec  (i.e. after every scenario)
    */
   function specDone(spec) {
+
+    // TODO #17 log all failures on the scenario also (as text only)
     if (spec.failedExpectations) {
       spec.failedExpectations.forEach(fail=> {
         console.error(`${fail.message}\n${fail.stack}`);
@@ -74,6 +101,14 @@ function ScenariooJasmineReporter(options) {
   function suiteDone() {
     scenariooReporter.useCaseEnded();
   }
+
+  /**
+   * is invoked when all tests are done (at the end of all use cases)
+   */
+  function jasmineDone() {
+    scenariooReporter.runEnded();
+  }
+
 }
 
 

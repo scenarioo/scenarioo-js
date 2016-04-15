@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import del from 'del';
 
 import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
@@ -53,9 +54,10 @@ export function registerPageNameFunction(pageNameFunction) {
  * @param {object} branch
  * @param {string} buildname
  * @param {string} scenariooTargetDirectory
+ * @param {object} options
  * @returns {Promise}
  */
-export function start(branch, buildname, scenariooTargetDirectory) {
+export function start(branch, buildname, scenariooTargetDirectory, options) {
   entityValidator.validateBranch(branch);
   this.branch = branch;
   this.branch.name = identifierSanitizer.sanitize(branch.name);
@@ -64,7 +66,25 @@ export function start(branch, buildname, scenariooTargetDirectory) {
 
   // generate directories and write branch.xml
   buildOutputDir = path.join(scenariooTargetDirectory, encodeFileName(this.branch.name), buildDirName);
-  return xmlWriter.writeXmlFile('branch', this.branch, path.resolve(path.join(scenariooTargetDirectory, encodeFileName(this.branch.name)), 'branch.xml'));
+
+  return cleanBuildDirectory(buildOutputDir, options)
+    .then(() => xmlWriter.writeXmlFile('branch', this.branch, path.resolve(path.join(scenariooTargetDirectory, encodeFileName(this.branch.name)), 'branch.xml')));
+}
+
+/**
+ * cleans specified build directory if required by options
+ *
+ * @param buildOutputDir
+ * @param options
+ * @returns {Promise}
+ */
+function cleanBuildDirectory(buildOutputDir, options) {
+  if (options && options.cleanBuildOnStart) {
+    console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
+    return del(buildOutputDir);
+  } else {
+    return Q.when(true);
+  }
 }
 
 /**
@@ -132,19 +152,22 @@ export function saveScenario(currentScenario, useCaseName) {
 
 /**
  * Saves a step (xml plus screenshot)
- * To be invoked in your e2e tests.
+ *
+ * This method can be used in protractor tests directly to define a step explicitly and will be invoked asynchronous in the event queue.
+ * To be invoked in your e2e tests or in your page objects or somehow hooked into protractors click and other important interaction functions.
  *
  * @func docuWriter#saveStep
- * @param {string} [stepName]
+ * @param {string} [stepTitle] A text to display as caption for this step
  * @param {object} [additionalProperties]
+ * @param {string[]} [additionalProperties.state]
  * @param {string[]} [additionalProperties.labels]
  * @param {object[]} [additionalProperties.screenAnnotations]
  * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
  */
-export function saveStep(stepName, additionalProperties) {
-  if (!isString(stepName)) {
-    additionalProperties = stepName;
-    stepName = '';
+export function saveStep(stepTitle, additionalProperties) {
+  if (!isString(stepTitle)) {
+    additionalProperties = stepTitle;
+    stepTitle = '';
   }
 
   // Because this is invoked by the e2e test,
@@ -171,7 +194,7 @@ export function saveStep(stepName, additionalProperties) {
 
 
   const screenshotPromise = saveScreenshot(currentScenario.stepCounter, absScenarioPath);
-  const stepXmlPromise = writeStepXml(stepName, currentScenario, absScenarioPath, additionalProperties);
+  const stepXmlPromise = writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalProperties);
   return Q.all([stepXmlPromise, screenshotPromise]).then(results => {
     return {
       step: results[0].step,
@@ -192,7 +215,8 @@ function getStepDataFromWebpage() {
   return browser
     .getCurrentUrl()
     .then(currentUrl => {
-      return element(by.css('body')).getOuterHtml()
+
+      return browser.getPageSource()
         .then(pageHtmlSource => {
           return {
             url: currentUrl,
@@ -208,12 +232,13 @@ function getPageNameFromUrl(urlString) {
 
 /**
  * writes step xml file (000.xml, 001.xml, etc.)
- * @ignore
  */
-function writeStepXml(stepName, currentScenario, absScenarioPath, additionalProperties) {
+function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalProperties) {
 
   return getStepDataFromWebpage()
     .then(browserData => {
+
+
       const currentStepCounter = leadingZeros(currentScenario.stepCounter);
       const pageName = getPageNameFromUrl(browserData.url);
       const stepData = {
@@ -222,7 +247,7 @@ function writeStepXml(stepName, currentScenario, absScenarioPath, additionalProp
         },
         stepDescription: {
           index: currentScenario.stepCounter,
-          title: stepName,
+          title: stepTitle,
           screenshotFileName: `${currentStepCounter}.png`
         },
         html: {
@@ -243,6 +268,9 @@ function writeStepXml(stepName, currentScenario, absScenarioPath, additionalProp
               region: pick(annotation, ['x', 'y', 'width', 'height'])
             });
         });
+      }
+      if (additionalProperties && additionalProperties.status) {
+        stepData.stepDescription.status = additionalProperties.status;
       }
 
       const xmlFileName = path.join(absScenarioPath, 'steps', currentStepCounter + '.xml');

@@ -15,7 +15,7 @@ describe('scenariooJasmineReporter', () => {
   describe('state manipulation', () => {
 
     beforeEach(() => {
-      reporter = jasmineReporter({
+      reporter = jasmineReporter(jasmine, {
         targetDirectory: './test/out/docu',
         branchName: 'reporterTest-state-manipulation',
         branchDescription: 'reporterTestBranch',
@@ -158,7 +158,7 @@ describe('scenariooJasmineReporter', () => {
 
     it('should invoke docuWriter as expected', () => {
 
-      reporter = jasmineReporter({
+      reporter = jasmineReporter(jasmine, {
         targetDirectory: './test/out/docu',
         branchName: 'reporterTest-lifecycle',
         branchDescription: 'reporterTestBranch',
