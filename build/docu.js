@@ -1,10 +1,12 @@
 var
   gulp = require('gulp'),
   exec = require('child_process').exec,
-  del = require('del');
+  del = require('del'),
+  run = require('gulp-run');
 
-gulp.task('docu', ['cleanDocuOut'], function (done) {
-  exec('./node_modules/.bin/jsdoc src -r -d docu --readme ./README.md', done);
+
+gulp.task('docu', ['cleanDocuOut'], function () {
+  run('jsdoc src -r -d docu --readme ./README.md').exec().pipe(gulp.dest('output'));
 });
 
 gulp.task('cleanDocuOut', function () {
