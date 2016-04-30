@@ -16,17 +16,26 @@
  */
 var scenarioo = require('../index');
 
-function describeUseCase(jasmineDescribeFunction, useCaseName, additionalUseCasePropertiesOrDescribeFunction, describeFunction) {
-  var additionalUseCaseProperties = describeFunction ? additionalUseCasePropertiesOrDescribeFunction : null;
-  describeFunction = describeFunction ? describeFunction : additionalUseCasePropertiesOrDescribeFunction;
+function describeUseCase(jasmineDescribeFunction, useCaseName, additionalPropertiesOrDescriptionOrDescribeFunction, describeFunction) {
+  var additionalPropertiesOrDescription = describeFunction ? additionalPropertiesOrDescriptionOrDescribeFunction : null;
+  describeFunction = describeFunction ? describeFunction : additionalPropertiesOrDescriptionOrDescribeFunction;
   return jasmineDescribeFunction(useCaseName, function () {
 
     beforeAll(function () {
-      if (additionalUseCaseProperties) {
-        scenarioo.getUseCaseContext().setDescription(additionalUseCaseProperties.description);
-        scenarioo.getUseCaseContext().addLabels(additionalUseCaseProperties.labels);
-        // here you would have to put more code, to support more documentation properties, that you can set on use cases.
+
+      if (additionalPropertiesOrDescription) {
+
+        if (typeof additionalPropertiesOrDescription === 'string') {
+          scenarioo.getUseCaseContext().setDescription(additionalPropertiesOrDescription);
+        }
+        else {
+          scenarioo.getUseCaseContext().setDescription(additionalPropertiesOrDescription.description);
+          scenarioo.getUseCaseContext().addLabels(additionalPropertiesOrDescription.labels);
+          // here you would have to put more code, to support more documentation properties, that you can set on use cases.
+        }
+
       }
+
     });
 
     /**
@@ -40,15 +49,20 @@ function describeUseCase(jasmineDescribeFunction, useCaseName, additionalUseCase
   });
 }
 
-function describeScenario(jasmineItFunction, scenarioName, additionalScenarioPropertiesOrItFunction, itFunction) {
-  var additionalScenarioProperties = itFunction ? additionalScenarioPropertiesOrItFunction : null;
-  itFunction = itFunction ? itFunction : additionalScenarioPropertiesOrItFunction;
+function describeScenario(jasmineItFunction, scenarioName, additionalPropertiesOrDescriptionOrItFunction, itFunction) {
+  var additionalPropertiesOrDescription = itFunction ? additionalPropertiesOrDescriptionOrItFunction : null;
+  itFunction = itFunction ? itFunction : additionalPropertiesOrDescriptionOrItFunction;
 
   jasmineItFunction(scenarioName, function () {
-    if (additionalScenarioProperties) {
-      scenarioo.getScenarioContext().setDescription(additionalScenarioProperties.description);
-      scenarioo.getScenarioContext().addLabels(additionalScenarioProperties.labels);
-      // here you would have to put more code, to support more documentation properties, that you can set on scenarios.
+    if (additionalPropertiesOrDescription) {
+
+      if (typeof additionalPropertiesOrDescription === 'string') {
+        scenarioo.getScenarioContext().setDescription(additionalPropertiesOrDescription);
+      } else {
+        scenarioo.getScenarioContext().setDescription(additionalPropertiesOrDescription.description);
+        scenarioo.getScenarioContext().addLabels(additionalPropertiesOrDescription.labels);
+        // here you would have to put more code, to support more documentation properties, that you can set on scenarios.
+      }
     }
     return itFunction();
   });
