@@ -8,11 +8,7 @@
       "type": "string"
     },
     "status": {
-      "enum": [
-        "success",
-        "failed",
-        "skipped"
-      ]
+      "type": "string"
     },
     "labels": {
       "$ref": "labels"

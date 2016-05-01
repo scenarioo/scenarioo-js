@@ -6,7 +6,7 @@ import scenarioo from './scenarioo-js';
 
 const SUCCESS = 'success';
 const FAILED = 'failed';
-const SKIPPED = 'skipped';
+const PENDING = 'pending';
 
 /**
  * This is the base reporter that pulls information from the store and the calling (framework-dependant) reporter
@@ -32,8 +32,8 @@ export default {
   SUCCESS,
   /** @constant {string} scenariooReporter#FAILED*/
   FAILED,
-  /** @constant {string} scenariooReporter#SKIPPED*/
-  SKIPPED
+  /** @constant {string} scenariooReporter#PENDING*/
+  PENDING
 };
 
 /**
@@ -91,7 +91,7 @@ function useCaseStarted(useCaseName) {
   store.updateCurrentUseCase({
     passedScenarios: 0,
     failedScenarios: 0,
-    skippedScenarios: 0,
+    pendingScenarios: 0,
     name: useCaseName
   });
 }
@@ -105,7 +105,7 @@ function useCaseEnded() {
 
   const hasFailingScenarios = useCase.failedScenarios > 0;
   const hasPassedScenarios = useCase.passedScenarios > 0;
-  const hasSkippedScenarios = useCase.skippedScenarios > 0;
+  const hasPendingScenarios = useCase.pendingScenarios > 0;
   let useCaseStatus;
   if (hasFailingScenarios) {
     store.updateBuild({
@@ -117,14 +117,14 @@ function useCaseEnded() {
       passedUseCases: build.passedUseCases + 1
     });
     useCaseStatus = SUCCESS;
-  } else if (hasSkippedScenarios) {
+  } else if (hasPendingScenarios) {
     store.updateBuild({
-      skippedUseCases: build.skippedUseCases + 1
+      pendingUseCases: build.pendingUseCases + 1
     });
-    useCaseStatus = SKIPPED;
+    useCaseStatus = PENDING;
   }
 
-  console.log(`useCase :: ${useCase.name} :: ${translateStatusForLogMessages(useCaseStatus)} (${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.skippedScenarios} skipped)`);
+  console.log(`useCase :: ${useCase.name} :: ${translateStatusForLogMessages(useCaseStatus)} (${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending)`);
 
   docuWriter.saveUseCase(merge({
     status: useCaseStatus
@@ -154,7 +154,7 @@ function expectationFailed(options, failureMessage) {
 
 /**
  * @func scenariooReporter#scenarioEnded
- * @param {string} status one of {@link scenariooReporter#SUCCESS}, {@link scenariooReporter#FAILED}, {@link scenariooReporter#SKIPPED}
+ * @param {string} status one of {@link scenariooReporter#SUCCESS}, {@link scenariooReporter#FAILED}, {@link scenariooReporter#PENDING}
  */
 function scenarioEnded(status) {
   const scenario = store.getCurrentScenario();
@@ -171,9 +171,9 @@ function scenarioEnded(status) {
         failedScenarios: useCase.failedScenarios + 1
       });
       break;
-    case SKIPPED:
+    case PENDING:
       store.updateCurrentUseCase({
-        skippedScenarios: useCase.skippedScenarios + 1
+        pendingScenarios: useCase.pendingScenarios + 1
       });
       break;
     default:
@@ -198,10 +198,10 @@ function translateStatusForLogMessages(status) {
   const map = {};
   map[SUCCESS] = 'suceeded';
   map[FAILED] = 'failed';
-  map[SKIPPED] = 'skipped';
+  map[PENDING] = 'pending';
   const mapped = map[status];
   if (!mapped) {
-    return 'n/a';
+    return status;
   }
   return mapped;
 }

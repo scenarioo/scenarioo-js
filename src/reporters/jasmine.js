@@ -119,14 +119,13 @@ function jasmineStatusToScenariooStatus(jasmineStatus) {
   }
 
   var map = {
-    pending: scenariooReporter.SKIPPED,
-    disabled: scenariooReporter.SKIPPED,
     passed: scenariooReporter.SUCCESS,
     failed: scenariooReporter.FAILED
   };
   var mapped = map[jasmineStatus];
   if (!mapped) {
-    throw new Error(`Cannot map ${jasmineStatus} to a scenarioo status!`);
+    // all other statuses are not mapped and just passed as is
+    return jasmineStatus;
   }
   return mapped;
 }

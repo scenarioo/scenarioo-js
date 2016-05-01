@@ -43,7 +43,7 @@ describe('scenariooStore', () => {
           revision: '0.1.1-r2333',
           passedUseCases: 0,
           failedUseCases: 0,
-          skippedUseCases: 0
+          pendingUseCases: 0
         }
       });
     });

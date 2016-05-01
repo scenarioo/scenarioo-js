@@ -80,11 +80,11 @@ describe('entityValidator', () => {
       assert.throws(() => validator.validateUseCase({}), /Missing required property: name .* Missing required property: status/);
     });
 
-    it('should throw on invalid useCase: status attribute not "failed" or "success"', () => {
-      assert.throws(() => validator.validateUseCase({
+    it('custom status text is allowed', () => {
+      validator.validateUseCase({
         name: 'Some use case name',
-        status: 'not...'
-      }), /useCase: No enum match for: "not..."/);
+        status: 'my-custom-status'
+      });
     });
 
   });
@@ -111,11 +111,11 @@ describe('entityValidator', () => {
       assert.throws(() => validator.validateScenario({}), /Missing required property: name .* Missing required property: status/);
     });
 
-    it('should throw on invalid scenario: status attribute not "failed" or "success"', () => {
-      assert.throws(() => validator.validateScenario({
+    it('custom status text is allowed on use case', () => {
+      validator.validateScenario({
         name: 'Some scenario name',
-        status: 'not...'
-      }), /scenario: No enum match for: "not..."/);
+        status: 'my-custom-status'
+      });
     });
 
   });
