@@ -34,12 +34,16 @@ useCase('Example Use Case with Fluent DSL')
 
         browser.get('/index.html');
 
-        // use scenarioo's saveStep method to document interaction steps inside the scenario (with screenshot, etc.)
+        // use the step method to document interaction steps inside the scenario (with screenshot, etc.)
         step('browse to start page');
         // you could also hook such saveStep method calls into your page objects or even the e2e test toolkit
         // (e.g. by overwriting protractor functions, like click on element)
         // to automatically document a step on each important interaction and not clutter your tests with such calls
         // (actually that is what we recommend for real projects and can be done easily).
+
+        // A step could also have additional propoerties, like e.g. labels (or screen annotations, as you can see in other examples
+        // (see pure jasmine example for other possibilities in steps)
+        step('a step with labels', ['step-label-example']);
 
         // more steps of this scenario would of course come here ...
 
