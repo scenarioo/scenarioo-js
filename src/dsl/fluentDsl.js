@@ -123,7 +123,9 @@ function scenario(name) {
       // Since there is a known bug with using pending for it blocks and asynchronous protractor tests,
       // we implemented our own pending workaround, still using xit here.
       // See https://github.com/angular/protractor/issues/2454
-      return xit(name, executeCallback);
+      var spec = xit(name, executeCallback);
+      spec.pend(pendingMessage);
+      return spec;
     }
     else {
       jasmineItFunction(name, executeCallback);
