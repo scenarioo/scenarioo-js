@@ -1,7 +1,7 @@
 /**
  * Example for a use case that is currently set to pending
  */
-useCase('Example Use Case with Fluent DSL')
+useCase('Example Pending Use Case with Fluent DSL')
   .description('An optional but recommended description for the use case')
   .labels(['example-custom-label'])
   .pending('example pending use case')
