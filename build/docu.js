@@ -1,6 +1,5 @@
 var
   gulp = require('gulp'),
-  exec = require('child_process').exec,
   del = require('del'),
   run = require('gulp-run');
 
