@@ -43,7 +43,7 @@ useCase('Example Use Case with Fluent DSL')
 
         // A step could also have additional propoerties, like e.g. labels (or screen annotations, as you can see in other examples
         // (see pure jasmine example for other possibilities in steps)
-        step('a step with labels', ['step-label-example']);
+        step('a step with labels', {labels: ['step-label-example']});
 
         // more steps of this scenario would of course come here ...
 
