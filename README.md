@@ -153,55 +153,52 @@ In case you want to define your own custom DSL for your specific application und
 Run your protractor tests (e.g. as explained in [Examples Readme](/example/readme.md)) to run the tests and generate scenarioo documentation data. 
 This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
 
-## API Documentation
+## ScenaeriooJS API Documentation
 
 You can run `$ gulp docu` in order to create a browseable JSDoc API documentation of ScenariooJS.
 
-## Migration (Subject to change ... )
+
+## Migration Guide
+
+This migration guide explains how to switch from SceanriooJS 1.x to ScenariooJS 2.x
 
 ### Jasmine2 Support
 
-The next release of scenarioo-js will depend on jasmine2.  jasmine 1.x support will be dropped.
-The current develop branch already includes this switch. Check the **example** for a working example.
+Version 2.x of scenarioo-js will depend on jasmine 2.  jasmine 1.x support will be dropped.
+Check the [Examples](/example) for a working example.
 
+### Scenarioo Configuration
+
+The configuration of the reporter has become more easier and has to be changed accordingly in the preparation code of your end-2-end tests.
+
+The `scenarioo.reporter` is not available anymore. Instead you just have to call the setup function `scenarioo.setupJasmineReporter` to setup the reporter for you with jasmine 2.
+
+See documenation above for `Configuration` to see how this works now.
 
 ### Application-specific DSL
 
-The "describeScenarioo" and "describeUseCase" functions were removed.
+The `scenarioo.describeScenario` and `scenarioo.describeUseCase` functions are not defined anymore out of the box, 
+and have either to be replaced by pure jasmine, a custom written DSL or by one of the out of the box provided DSLs.
 
-Since we introduced `scenarioo.getScenarioContext()...`, we no longer need wrapper functions around "describe" and "it".
+We recommend to use the new `Fluent DSL` or your own defined Application-Specific DSL 
+but for a fast migration it might be most easy to use the `Backwards DSL`, that is provided only for fast migration.
+ 
+The `Backwards DSL` can be activated as follows:
 
-If you still want to use such a more explicit style of defining usecases and scenarios in your tests, it's really simple to add custom wrapper functions yourself.
-
-See [DSL Examples in the Example](/example) for more information on what kind of even more advanced application specific DSLs could be useful in your projects. 
-We recommend to use something like the [Fluent DSL Example](/example/test/sampleCustomDslFluent.spec.js).
-
-### Protractor configuration
-
-scenarioo.reporter is now a factory function. (omit the "new" keyword)
-
-scenarioo.reporter takes now an options object.
-
-```javascript
-onPrepare: function () {
-   var scenariooReporter = require('scenarioo-js').reporter({
-     targetDirectory: './scenariodocu',
-     branchName: 'master',
-     branchDescription: 'the master branch',
-     buildName: 'build_' + new Date(),
-     revision: '1.0.0',
-     pageNameExtractor: function (url) {
-       return url.pathname.substring(1);
-     }
-   });
-   jasmine.getEnv().addReporter(scenariooReporter);
-}
+```
+// call this in your protractor onPrepare code to activate backwards DSL functions
+scenarioo.setupBackwardsDsl();
 ```
 
-### saveStep
+This brings you the old 1.x style DSL with `describeUseCase` and `describeScenario` functions back, for easier migration
+(with or without `scenarioo.` in front, both works).
 
-The "saveStep" function is now directly exposed on scenarioo.
+You can then later migrate those tests to the new `Fluent DSL` or even your own defined DSL or the purse jasmine 2 syntax.
+We recommend to have a look at the new [Examples](/example) to see what style fits best for your project.
 
+### Save Steps with `scenarioo.saveStep`
+
+The "saveStep" function is now directly exposed on scenarioo:
 
 ```javascript
 scenarioo.describeUseCase('Example Usecase', function () {

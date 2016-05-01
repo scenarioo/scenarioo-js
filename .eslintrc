@@ -39,6 +39,8 @@
     "fail": false,
     "by": false,
     "element": false,
-    "browser": false
+    "browser": false,
+    "describeUseCase": false,
+    "describeScenario": false
   }
 }
