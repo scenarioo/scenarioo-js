@@ -155,7 +155,7 @@ function scenario(name) {
  * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
  **/
 function step(stepCaption, additionalProperties) {
-  if (additionalProperties.labels) {
+  if (additionalProperties && additionalProperties.labels) {
     validateLabels('step', dslConfig.stepLabels, additionalProperties.labels);
   }
   return scenarioo.saveStep(stepCaption, additionalProperties);
