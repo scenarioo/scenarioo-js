@@ -9,6 +9,7 @@ import scenariooReporter from '../scenariooReporter';
  * It should not invoke docuWriter directly.
  *
  * @ignore
+ * @param jasmine
  * @param {object} options Options Object with the following properties: "targetDirectory", "branchName", "branchDescription", "buildName" and "revision" and some more (see examples!)
  * @returns {JasmineReporter} a Reporter instance
  */
@@ -84,8 +85,6 @@ function ScenariooJasmineReporter(jasmine, options) {
    * is invoked at the end of a spec  (i.e. after every scenario)
    */
   function specDone(spec) {
-
-    // TODO #17 log all failures on the scenario also (as text only)
     if (spec.failedExpectations) {
       spec.failedExpectations.forEach(fail=> {
         console.error(`${fail.message}\n${fail.stack}`);

@@ -135,18 +135,6 @@ describe('ScenariooReporter', () => {
       assert.equal(store.dump().currentUseCase, undefined, 'currentUseCase must be set to undefined');
     });
 
-    // TODO:  can a useCase be pending completely (in jasmine or other)?
-    //it('successful (with state pending)', () => {
-    //  reporter.runStarted(defaultOptions);
-    //  reporter.useCaseStarted('uc1');
-    //  reporter.useCaseEnded('uc1');
-    //
-    //  // build must be updated
-    //  var build = store.getBuild();
-    //  assert.equal(build.pendingUseCases, 1);
-    //  assert.equal(store.getCurrentUseCase(), undefined, 'currentUseCase must be set to undefined');
-    //});
-
   });
 
 });
