@@ -83,7 +83,7 @@ describe('scenariooJasmineReporter', () => {
       });
       const state = store.dump();
       assert(!state.currentScenario, 'currentScenario must be reset');
-      assert.equal(state.currentUseCase.skippedScenarios, 1);
+      assert.equal(state.currentUseCase.pendingScenarios, 1);
     });
 
     it('#specDone() success', () => {

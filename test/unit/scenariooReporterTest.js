@@ -93,15 +93,15 @@ describe('ScenariooReporter', () => {
       assert.equal(store.dump().currentScenario, undefined, 'currentScenario must be set to undefined');
     });
 
-    it('successful (with state skipped)', () => {
+    it('successful (with state pending)', () => {
       reporter.runStarted(defaultOptions);
       reporter.useCaseStarted('Some UseCase');
       reporter.scenarioStarted('Some Scenario');
-      reporter.scenarioEnded(reporter.SKIPPED);
+      reporter.scenarioEnded(reporter.PENDING);
 
       // parent useCase must be updated
       const useCase = store.getCurrentUseCase();
-      assert.equal(useCase.skippedScenarios, 1);
+      assert.equal(useCase.pendingScenarios, 1);
       assert.equal(store.dump().currentScenario, undefined, 'currentScenario must be set to undefined');
     });
 
@@ -134,18 +134,6 @@ describe('ScenariooReporter', () => {
       assert.equal(build.failedUseCases, 1);
       assert.equal(store.dump().currentUseCase, undefined, 'currentUseCase must be set to undefined');
     });
-
-    // TODO:  can a useCase be skipped completely (in jasmine or other)?
-    //it('successful (with state skipped)', () => {
-    //  reporter.runStarted(defaultOptions);
-    //  reporter.useCaseStarted('uc1');
-    //  reporter.useCaseEnded('uc1');
-    //
-    //  // build must be updated
-    //  var build = store.getBuild();
-    //  assert.equal(build.skippedUseCases, 1);
-    //  assert.equal(store.getCurrentUseCase(), undefined, 'currentUseCase must be set to undefined');
-    //});
 
   });
 

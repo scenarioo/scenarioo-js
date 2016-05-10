@@ -1,5 +1,5 @@
 /**
- * This example demonstrates how to well define the supported labels in your project's custom DSL.
+ * This example demonstrates how to well define the supported labels for the Fluent DSL.
  */
 
 /**
@@ -16,4 +16,11 @@ scenariooDslConfig.scenarioLabels = {
   'happy': 'Happy case scenarios',
   'error': 'Error scenarios that test that the system behaves as expected in error cases',
   'example-label': 'Just an example dummy label that can be set on scenarios'
+};
+
+/**
+ * Define all the labels that are allowed to be used on steps
+ */
+scenariooDslConfig.stepLabels = {
+  'step-label-example': 'just a dummy example for a label on a step'
 };
