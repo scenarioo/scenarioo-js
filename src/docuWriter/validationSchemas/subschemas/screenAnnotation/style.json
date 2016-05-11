@@ -1,0 +1,15 @@
+{
+  "title": "/subschema/screenAnnotation/style",
+  "type": "string",
+  "enum": [
+    "CLICK",
+    "KEYBOARD",
+    "EXPECTED",
+    "NAVIGATE_TO_URL",
+    "ERROR",
+    "WARN",
+    "INFO",
+    "HIGHLIGHT",
+    "DEFAULT"
+  ]
+}

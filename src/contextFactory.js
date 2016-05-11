@@ -7,7 +7,7 @@ import store from './scenariooStore';
  *
  * @ignore
  * @param {string} objectName  either "scenario" or "useCase"
- * @returns {{setDescription: setDescription, addLabels: addLabels}}
+ * @returns {{setDescription: setDescription, addLabels: addLabels, setId: setId}}
  */
 function contextFactory(objectName) {
 
@@ -22,7 +22,8 @@ function contextFactory(objectName) {
   return {
     setDescription,
     addLabels,
-    getCurrent
+    getCurrent,
+    setId
   };
 
   /**
@@ -75,7 +76,17 @@ function contextFactory(objectName) {
     return getContextObject();
   }
 
+  function setId(id) {
+    if (!id) {
+      return;
+    }
 
+    if (!store.isInitialized()) {
+      // init an empty context and try to work on that, assuming that it is just scenarioo not enabled to write reports
+      store.init({});
+    }
+    updateContextObject({id});
+  }
 }
 
 function capitalizeFirstLetter(string) {

@@ -3,6 +3,8 @@ import fs from 'fs';
 import tv4 from 'tv4';
 import glob from 'glob';
 
+import isDate from 'lodash/isDate';
+
 const entitySchemas = loadSchemas();
 
 export function loadSchemas() {
@@ -23,6 +25,7 @@ export function loadSchemas() {
  * This is used for referencing via "$ref"
  */
 tv4.addSchema(entitySchemas.labels);
+tv4.addFormat('date', dateValidator);
 
 function toMessage(validationResult) {
   const messageParts = validationResult.errors.map(error => {
@@ -42,6 +45,27 @@ function validate(schemaName, entity) {
     throw new Error(`${schemaName}: ${toMessage(result)}`);
   }
 }
+
+var dateValidator = function(data) {
+  // test for Date object
+  if (data && isDate(data)) {
+    return null;
+  }
+
+  const dateTimeRegex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/;
+
+  // test for ISO8601 date time string
+  if (typeof data === 'string') {
+    const matchesFormat = dateTimeRegex.test(data);
+    const canParse = isNaN((new Date(data)).getTime());
+
+    if (matchesFormat && canParse) {
+      return null;
+    }
+  }
+
+  return 'must be a date or an ISO8601 date signature';
+};
 
 export const validateBuild = validate.bind(undefined, 'build');
 export const validateBranch = validate.bind(undefined, 'branch');

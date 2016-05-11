@@ -1,0 +1,5 @@
+{
+  "title": "/subschema/docuObjectList",
+  "type": "array",
+  "items": { "$ref": "/subschema/docuObject" }
+}

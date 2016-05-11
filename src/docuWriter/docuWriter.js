@@ -1,5 +1,4 @@
 import path from 'path';
-import fs from 'fs';
 import del from 'del';
 
 import isUndefined from 'lodash/isUndefined';
@@ -10,14 +9,13 @@ import pick from 'lodash/pick';
 import merge from 'lodash/merge';
 
 import Q from 'q';
-import mkdirp from 'mkdirp';
-import {leadingZeros, encodeFileName} from './utils';
+import { leadingZeros } from './utils';
 import store from '../scenariooStore';
-import identifierSanitizer from './identifierSanitizer';
+import { sanitizeForId, sanitizeLabels } from './identifierSanitizer';
 import entityValidator from './entityValidator';
-import xmlWriter from './xmlWriter';
 import pageNameExtractor from './pageNameExtractor';
 
+import { saveScreenshot, saveHtml, saveJson } from './fileSaver';
 
 let buildOutputDir;
 
@@ -48,7 +46,7 @@ export function registerPageNameFunction(pageNameFunction) {
 }
 
 /**
- * Initializes the writer and also saves the branch.xml file.
+ * Initializes the writer and also saves the branch.json file.
  * Is invoked by the reporter at the beginning of the test run
  *
  * @func docuWriter#start
@@ -61,15 +59,19 @@ export function registerPageNameFunction(pageNameFunction) {
 export function start(branch, buildname, scenariooTargetDirectory, options) {
   entityValidator.validateBranch(branch);
   this.branch = branch;
-  this.branch.name = identifierSanitizer.sanitize(branch.name);
+  this.branch.id = getId(branch);
 
-  const buildDirName = encodeFileName(identifierSanitizer.sanitize(buildname));
+  // TODO: pass id directly instead of build name
+  const buildDirName = sanitizeForId(buildname);
 
-  // generate directories and write branch.xml
-  buildOutputDir = path.join(scenariooTargetDirectory, encodeFileName(this.branch.name), buildDirName);
+  // generate directories and write branch.json
+  buildOutputDir = path.join(scenariooTargetDirectory, this.branch.id, buildDirName);
 
   return cleanBuildOnStartIfEnabled(buildOutputDir, options)
-    .then(() => xmlWriter.writeXmlFile('branch', this.branch, path.resolve(path.join(scenariooTargetDirectory, encodeFileName(this.branch.name)), 'branch.xml')));
+    .then(() => {
+      const branchFilePath = path.resolve(path.join(scenariooTargetDirectory, this.branch.id, 'branch.json'));
+      return saveJson(branchFilePath, this.branch);
+    });
 }
 
 export function cleanBuild(options) {
@@ -107,8 +109,9 @@ function cleanBuildOnStartIfEnabled(buildOutputDir, options) {
  */
 export function saveBuild(build) {
   entityValidator.validateBuild(build);
-  build.name = identifierSanitizer.sanitize(build.name);
-  return xmlWriter.writeXmlFile('build', build, path.join(buildOutputDir, 'build.xml'));
+  build.id = getId(build);
+  const buildFilePath = path.join(buildOutputDir, 'build.json');
+  return saveJson(buildFilePath, build);
 }
 
 /**
@@ -128,9 +131,12 @@ export function saveUseCase(useCase) {
   const useCaseToSave = pick(useCase, ['name', 'description', 'status', 'labels']);
   entityValidator.validateUseCase(useCaseToSave);
 
-  const absUseCasePath = path.resolve(buildOutputDir, encodeFileName(useCaseToSave.name));
-  useCase.name = identifierSanitizer.sanitize(useCaseToSave.name);
-  return xmlWriter.writeXmlFile('useCase', useCaseToSave, path.join(absUseCasePath, 'usecase.xml'));
+  useCaseToSave.id = getId(useCase);
+  useCaseToSave.labels = sanitizeLabels(useCase.labels);
+
+  const absUseCasePath = path.resolve(buildOutputDir, useCaseToSave.id);
+  const useCasePath = path.join(absUseCasePath, 'usecase.json');
+  return saveJson(useCasePath, useCaseToSave);
 }
 
 /**
@@ -139,10 +145,10 @@ export function saveUseCase(useCase) {
  *
  * @func docuWriter#saveScenario
  * @param {object} currentScenario
- * @param {string} useCaseName
+ * @param {string} useCaseIdOrName
  * @returns {Promise}
  */
-export function saveScenario(currentScenario, useCaseName) {
+export function saveScenario(currentScenario, useCaseIdOrName) {
   if (isUndefined(buildOutputDir)) {
     throw 'Cannot save use scenario. No outputDirectory specified. docuWriter.start(branch, build, targetDir) not invoked?';
   }
@@ -151,19 +157,23 @@ export function saveScenario(currentScenario, useCaseName) {
   const scenarioToSave = pick(currentScenario, ['name', 'description', 'status', 'labels']);
   entityValidator.validateScenario(scenarioToSave);
 
+  scenarioToSave.id = getId(scenarioToSave);
+  scenarioToSave.labels = sanitizeLabels(scenarioToSave.labels);
+
+  const useCaseId = sanitizeForId(useCaseIdOrName);
+
   const absScenarioPath = path.resolve(
     buildOutputDir,
-    encodeFileName(useCaseName),
-    encodeFileName(scenarioToSave.name)
+    useCaseId,
+    scenarioToSave.id
   );
 
-  scenarioToSave.name = identifierSanitizer.sanitize(scenarioToSave.name);
-
-  return xmlWriter.writeXmlFile('scenario', scenarioToSave, path.join(absScenarioPath, 'scenario.xml'));
+  const scenarioPath = path.join(absScenarioPath, 'scenario.json');
+  return saveJson(scenarioPath, scenarioToSave);
 }
 
 /**
- * Saves a step (xml plus screenshot)
+ * Saves a step (json plus screenshot plus html)
  *
  * This method can be used in protractor tests directly to define a step explicitly and will be invoked asynchronous in the event queue.
  * To be invoked in your e2e tests or in your page objects or somehow hooked into protractors click and other important interaction functions.
@@ -174,7 +184,7 @@ export function saveScenario(currentScenario, useCaseName) {
  * @param {string[]} [additionalProperties.state]
  * @param {string[]} [additionalProperties.labels]
  * @param {object[]} [additionalProperties.screenAnnotations]
- * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
+ * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step json file, the path to the html file as well as the path to the screenshot file
  */
 export function saveStep(stepTitle, additionalProperties) {
   if (!isString(stepTitle)) {
@@ -193,24 +203,24 @@ export function saveStep(stepTitle, additionalProperties) {
   }
 
   const currentScenario = {
-    useCaseName: store.getCurrentUseCase().name,
-    scenarioName: store.getCurrentScenario().name,
+    useCaseId: getId(store.getCurrentUseCase()),
+    scenarioId: getId(store.getCurrentUseCase()),
     stepCounter: store.incrementStepCounter()
   };
 
   const absScenarioPath = path.resolve(
     buildOutputDir,
-    encodeFileName(currentScenario.useCaseName),
-    encodeFileName(currentScenario.scenarioName)
+    currentScenario.useCaseId,
+    currentScenario.scenarioId
   );
 
-
   const screenshotPromise = saveScreenshot(currentScenario.stepCounter, absScenarioPath);
-  const stepXmlPromise = writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalProperties);
-  return Q.all([stepXmlPromise, screenshotPromise]).then(results => {
+  const stepJsonPromise = writeStepJson(stepTitle, currentScenario, absScenarioPath, additionalProperties);
+  return Q.all([stepJsonPromise, screenshotPromise]).then(results => {
     return {
       step: results[0].step,
-      xmlPath: results[0].file,
+      jsonPath: results[0].file,
+      htmlPath: results[0].htmlPath,
       screenshotPath: results[1]
     };
   });
@@ -249,39 +259,43 @@ function getStepDataFromWebpage() {
 }
 
 function getPageNameFromUrl(urlString) {
-  return identifierSanitizer.sanitize(pageNameExtractor.getPageNameFromUrl(urlString));
+  return sanitizeForId(pageNameExtractor.getPageNameFromUrl(urlString));
 }
 
 /**
- * writes step xml file (000.xml, 001.xml, etc.)
+ * writes step JSON file (000.json, 001.json, etc.)
  */
-function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalProperties) {
+function writeStepJson(stepTitle, currentScenario, absScenarioPath, additionalProperties) {
 
   return getStepDataFromWebpage()
     .then(browserData => {
 
+      // TODO:
+      var stepId, pageId, stepProperties, pageLabels;
+
       const currentStepCounter = leadingZeros(currentScenario.stepCounter);
+      // FIXME: pageName should be specifiable and only be inferred if not set
       const pageName = getPageNameFromUrl(browserData.url);
       const stepData = {
+        index: currentScenario.stepCounter,
+        id: stepId, // can be set by user to customize the url. Cannot be generated in this library if unset.
+        title: stepTitle,
+        // status added below
         page: {
-          name: pageName
+          name: pageName,
+          id: pageId || sanitizeForId(pageName),
+          properties: stepProperties,
+          labels: sanitizeLabels(pageLabels)
         },
-        stepDescription: {
-          index: currentScenario.stepCounter,
-          title: stepTitle,
-          screenshotFileName: `${currentStepCounter}.png`
-        },
-        html: {
-          htmlSource: browserData.source
-        },
-        metadata: {
-          visibleText: browserData.visibleText
-        }
+        // TODO: how can we conveniently set these:
+        sections: [],
+        properties: []
       };
 
       // now let's add additional properties that were passed in by the developer
       if (additionalProperties && additionalProperties.labels) {
-        stepData.stepDescription.labels = additionalProperties.labels;
+        const stepLabels = additionalProperties.labels;
+        stepData.stepDescription.labels = sanitizeLabels(stepLabels);
       }
       if (additionalProperties && additionalProperties.screenAnnotations && isArray(additionalProperties.screenAnnotations)) {
         stepData.screenAnnotations = additionalProperties.screenAnnotations.map(annotation => {
@@ -296,32 +310,22 @@ function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalPro
         stepData.stepDescription.status = additionalProperties.status;
       }
 
-      const xmlFileName = path.join(absScenarioPath, 'steps', currentStepCounter + '.xml');
+      const htmlSource = browserData.source;
+      const jsonFileName = path.join(absScenarioPath, 'steps', currentStepCounter + '.json');
 
-      return xmlWriter.writeXmlFile('step', stepData, xmlFileName)
-        .then(() => {
-          return {
-            file: xmlFileName,
-            step: stepData
-          };
-        });
+      const htmlPromise = saveHtml(currentScenario.stepCounter, absScenarioPath, htmlSource);
+      const jsonPromise = saveJson(jsonFileName, stepData);
+      return Q.all([jsonPromise, htmlPromise])
+          .then((results) => {
+            return {
+              file: results[0].jsonFileName,
+              step: results[0].stepData,
+              htmlPath: results[1]
+            };
+          });
     });
-
 }
 
-function saveScreenshot(stepCounter, absScenarioPath) {
-  const screenShotDir = path.resolve(absScenarioPath, 'screenshots');
-  const screenShotFileName = path.resolve(screenShotDir, leadingZeros(stepCounter) + '.png');
-
-  return browser.takeScreenshot()
-    .then(data => (
-      // recursively create the directory for our new screenshot
-      Q.nfcall(mkdirp, screenShotDir)
-        .then(() => (
-          // then save screenshot file
-          Q.nfcall(fs.writeFile, screenShotFileName, data, 'base64')
-            .then(() => screenShotFileName)
-        ))
-    ));
+function getId(scenarioObject) {
+  return scenarioObject.id || sanitizeForId(scenarioObject.name);
 }
-

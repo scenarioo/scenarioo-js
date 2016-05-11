@@ -1,0 +1,25 @@
+{
+  "title": "/subschema/screenAnnotation/region",
+  "type": "object",
+  "properties": {
+    "x": {
+      "type": "integer"
+    },
+    "y": {
+      "type": "integer"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "height": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "x",
+    "y",
+    "width",
+    "height"
+  ],
+  "additionalProperties": false
+}

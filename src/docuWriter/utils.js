@@ -21,6 +21,7 @@ export function leadingZeros(n) {
  * @param inputString
  */
 export function encodeFileName(inputString) {
+  // TODO: remove!
   var encodedString = encodeURIComponent(inputString);
 
   // scenarioo java api uses java.net.URLEncoder which encodes strings differently

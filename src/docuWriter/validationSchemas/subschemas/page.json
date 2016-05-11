@@ -1,17 +1,12 @@
 {
+  "title": "/subschema/page",
   "type": "object",
   "properties": {
     "id": { "$ref": "/subschema/identifier" },
     "name": { "$ref": "/subschema/name" },
-    "description": { "$ref": "/subschema/description" },
-    "status": { "$ref": "/subschema/status" },
     "labels": { "$ref": "/subschema/labels" },
     "properties": { "$ref": "/subschema/docuObjectList" }
   },
-  "required": [
-    "id",
-    "name",
-    "status"
-  ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "required": [ "name" ]
 }

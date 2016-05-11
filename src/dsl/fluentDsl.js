@@ -47,7 +47,7 @@ export var config = {
 
 export function useCase(name) {
 
-  var description, labels, pendingMessage;
+  var description, labels, properties, pendingMessage;
 
   return {
     description: function (d) {
@@ -56,6 +56,10 @@ export function useCase(name) {
     },
     labels: function (l) {
       labels = l;
+      return this;
+    },
+    properties: function (p) {
+      properties = p;
       return this;
     },
     // here you would have to put more functions to support setting more documentation properties, that you can set on use cases.
@@ -95,9 +99,9 @@ export function useCase(name) {
   }
 }
 
-export function scenario(name) {
+export function scenario(name, id) {
 
-  var description, labels, pendingMessage;
+  var description, labels, properties, pendingMessage;
 
   return {
     description: function (d) {
@@ -106,6 +110,10 @@ export function scenario(name) {
     },
     labels: function (l) {
       labels = l;
+      return this;
+    },
+    properties: function (p) {
+      properties = p;
       return this;
     },
     // here you would have to put more functions to support setting more documentation properties, that you can set on scenarios.
@@ -135,6 +143,9 @@ export function scenario(name) {
     function executeCallback() {
       validateLabels('scenario', config.scenarioLabels, labels);
       scenarioo.getScenarioContext().setDescription(description);
+      if(id) {
+        scenarioo.getScenarioContext().setId(id);
+      }
       scenarioo.getScenarioContext().addLabels(labels);
       return itCallbackFunction();
     }
@@ -150,16 +161,25 @@ export function scenario(name) {
  * or even better, hide this calls in your page objects or hook directly into protractor methods to do a step on each important interaction.
  *
  * @param {string} [stepCaption] - optional description text for the step to be recorded, will be displayed in `title` field of a step in scenarioo.
+ * @param {string} [id] - optional id of the step that is used for filenames and urls. If not provided it is automatically generated from the stepCaption
  * @param {object} [additionalProperties]
  * @param {string[]} [additionalProperties.labels] - array of strings, labels are special keywords to label steps that have something in common.
  * @param {object[]} [additionalProperties.screenAnnotations] - screenAnnotations are special objects to highlight rectangular areas in the screenshot and attach additional documentation data tot his areas (e.g. for clicked elements, or text typed by the user, etc.)
  * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
  **/
-export function step(stepCaption, additionalProperties) {
+
+export function step(stepCaption, id, additionalProperties) {
+  if (id && typeof id === 'object') {
+    // id is optional
+    additionalProperties = id;
+    id = null;
+    // TODO: use id!
+  }
+
   if (additionalProperties && additionalProperties.labels) {
     validateLabels('step', config.stepLabels, additionalProperties.labels);
   }
-  return scenarioo.saveStep(stepCaption, additionalProperties);
+  return scenarioo.saveStep(id || stepCaption, additionalProperties);
 }
 
 function validateLabels(scopeText, definedLabels, labels) {
