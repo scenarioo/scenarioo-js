@@ -3,6 +3,7 @@ import path from 'path';
 import store from './scenariooStore';
 import docuWriter from './docuWriter/docuWriter';
 import scenarioo from './scenarioo-js';
+import process from 'process';
 
 const SUCCESS = 'success';
 const FAILED = 'failed';
@@ -124,7 +125,9 @@ function useCaseEnded() {
     useCaseStatus = PENDING;
   }
 
-  console.log(`useCase :: ${useCase.name} :: ${translateStatusForLogMessages(useCaseStatus)} (${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending)`);
+  // starting this log with a new line, because of jasmines ./F/*-Log-Entries inbetween, that do not have line breaks.
+
+  console.log(`\n${useCaseStatus.toUpperCase()} use case \"${useCase.name}\": ${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending`);
 
   docuWriter.saveUseCase(merge({
     status: useCaseStatus
@@ -180,7 +183,9 @@ function scenarioEnded(status) {
       throw new Error(`Unknown status ${status}`);
   }
 
-  console.log(`scenario :: ${scenario.name} :: ${translateStatusForLogMessages(status)}`);
+  // log prefixed with `\n` to work properly together with .F*-Log entries of jasmine (not starting on same line as jasmine output)
+  // and also using process.stdout.write to have the following jasmine ./* Log entry belonging to this same scenario on the same line (does somehow not work on windows?).
+  process.stdout.write(formatWithAnsiColorForStatus(`\n${status.toUpperCase()} scenario "${useCase.name} - ${scenario.name}" `, status));
 
   docuWriter.saveScenario(merge({
     status: status
@@ -189,19 +194,17 @@ function scenarioEnded(status) {
   store.resetCurrentScenario();
 }
 
+function formatWithAnsiColorForStatus(message, status) {
 
-function translateStatusForLogMessages(status) {
-  if (!status) {
-    return 'n/a';
-  }
+  var colorsForStatus = {
+    failed: '31', // red
+    success: '32', // green
+    pending: '33' // yellow
+  };
 
-  const map = {};
-  map[SUCCESS] = 'suceeded';
-  map[FAILED] = 'failed';
-  map[PENDING] = 'pending';
-  const mapped = map[status];
-  if (!mapped) {
-    return status;
-  }
-  return mapped;
+  var colorCode = colorsForStatus[status];
+  var startColor = colorCode ? '\u001B[' + colorCode + 'm' : '';
+  var endColor = colorCode ? '\u001B[0m' : '';
+  return startColor + message + endColor;
+
 }

@@ -85,13 +85,17 @@ function ScenariooJasmineReporter(jasmine, options) {
    * is invoked at the end of a spec  (i.e. after every scenario)
    */
   function specDone(spec) {
+
+    scenariooReporter.scenarioEnded(jasmineStatusToScenariooStatus(spec.status));
+
+    // log details about failures after reporting general status for spec.
     if (spec.failedExpectations) {
+      console.log(''); // for starting error log on a new line
       spec.failedExpectations.forEach(fail=> {
         console.error(`${fail.message}\n${fail.stack}`);
       });
     }
-
-    scenariooReporter.scenarioEnded(jasmineStatusToScenariooStatus(spec.status));
+    
   }
 
   /**
