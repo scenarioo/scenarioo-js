@@ -126,7 +126,6 @@ function useCaseEnded() {
   }
 
   // starting this log with a new line, because of jasmines ./F/*-Log-Entries inbetween, that do not have line breaks.
-
   console.log(`\n${useCaseStatus.toUpperCase()} use case \"${useCase.name}\": ${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending`);
 
   docuWriter.saveUseCase(merge({
@@ -141,6 +140,10 @@ function useCaseEnded() {
  * @param {string} scenarioName
  */
 function scenarioStarted(scenarioName) {
+
+  // Log an empty line, to log everything for a new scenario on its own line (after the jasmine `.`/`F`-Log entry)
+  console.log('');
+
   store.updateCurrentScenario({
     stepCounter: -1,
     name: scenarioName,
@@ -183,9 +186,8 @@ function scenarioEnded(status) {
       throw new Error(`Unknown status ${status}`);
   }
 
-  // log prefixed with `\n` to work properly together with .F*-Log entries of jasmine (not starting on same line as jasmine output)
-  // and also using process.stdout.write to have the following jasmine ./* Log entry belonging to this same scenario on the same line (does somehow not work on windows?).
-  process.stdout.write(formatWithAnsiColorForStatus(`\n${status.toUpperCase()} scenario "${useCase.name} - ${scenario.name}" `, status));
+  // using process.stdout.write here to have the following jasmine ./* Log entry belonging to this same scenario on the same line (does somehow not work on windows?).
+  process.stdout.write(formatWithAnsiColorForStatus(`${status.toUpperCase()} scenario "${useCase.name} - ${scenario.name}" `, status));
 
   docuWriter.saveScenario(merge({
     status: status
