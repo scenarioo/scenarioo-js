@@ -35,13 +35,13 @@ describe('ScenariooReporter', () => {
   describe('#runEnded()', () => {
     it('successful ended and cleared store', () => {
       reporter.runStarted(defaultOptions);
-      reporter.runEnded();
+      reporter.runEnded(defaultOptions);
 
       assert(!store.isInitialized());
     });
 
     it('fail if run not started', () => {
-      assert.throws(() => reporter.runEnded(), /Cannot end test run. No test run was started/);
+      assert.throws(() => reporter.runEnded(defaultOptions), /Cannot end test run. No test run was started/);
     });
 
   });
@@ -50,11 +50,11 @@ describe('ScenariooReporter', () => {
 
     it('successful', () => {
       reporter.runStarted(defaultOptions);
-      reporter.useCaseStarted('uc1');
+      reporter.useCaseStarted(defaultOptions, 'uc1');
     });
 
     it('fail if run not started', () => {
-      assert.throws(() => reporter.useCaseStarted('uc1'), /Cannot start useCase, run was not started!/);
+      assert.throws(() => reporter.useCaseStarted(defaultOptions, 'uc1'), /Cannot start useCase, run was not started!/);
     });
 
   });
@@ -62,8 +62,8 @@ describe('ScenariooReporter', () => {
   describe('#scenarioStarted()', () => {
     it('successful', () => {
       reporter.runStarted(defaultOptions);
-      reporter.useCaseStarted('uc1');
-      reporter.scenarioStarted('sc1');
+      reporter.useCaseStarted(defaultOptions, 'uc1');
+      reporter.scenarioStarted(defaultOptions, 'sc1');
     });
   });
 
@@ -71,9 +71,9 @@ describe('ScenariooReporter', () => {
 
     it('successful (with state successful)', () => {
       reporter.runStarted(defaultOptions);
-      reporter.useCaseStarted('Some UseCase');
-      reporter.scenarioStarted('Some Scenario');
-      reporter.scenarioEnded(reporter.SUCCESS);
+      reporter.useCaseStarted(defaultOptions, 'Some UseCase');
+      reporter.scenarioStarted(defaultOptions, 'Some Scenario');
+      reporter.scenarioEnded(defaultOptions, reporter.SUCCESS);
 
       // parent useCase must be updated
       const useCase = store.getCurrentUseCase();
@@ -83,9 +83,9 @@ describe('ScenariooReporter', () => {
 
     it('successful (with state failed)', () => {
       reporter.runStarted(defaultOptions);
-      reporter.useCaseStarted('Some UseCase');
-      reporter.scenarioStarted('Some Scenario');
-      reporter.scenarioEnded(reporter.FAILED);
+      reporter.useCaseStarted(defaultOptions, 'Some UseCase');
+      reporter.scenarioStarted(defaultOptions, 'Some Scenario');
+      reporter.scenarioEnded(defaultOptions, reporter.FAILED);
 
       // parent useCase must be updated
       const useCase = store.getCurrentUseCase();
@@ -95,9 +95,9 @@ describe('ScenariooReporter', () => {
 
     it('successful (with state pending)', () => {
       reporter.runStarted(defaultOptions);
-      reporter.useCaseStarted('Some UseCase');
-      reporter.scenarioStarted('Some Scenario');
-      reporter.scenarioEnded(reporter.PENDING);
+      reporter.useCaseStarted(defaultOptions, 'Some UseCase');
+      reporter.scenarioStarted(defaultOptions, 'Some Scenario');
+      reporter.scenarioEnded(defaultOptions, reporter.PENDING);
 
       // parent useCase must be updated
       const useCase = store.getCurrentUseCase();
@@ -111,10 +111,10 @@ describe('ScenariooReporter', () => {
 
     it('successful (with one successful scenario)', () => {
       reporter.runStarted(defaultOptions);
-      reporter.useCaseStarted('Some UseCase');
-      reporter.scenarioStarted('Some Scenario');
-      reporter.scenarioEnded(reporter.SUCCESS);
-      reporter.useCaseEnded();
+      reporter.useCaseStarted(defaultOptions, 'Some UseCase');
+      reporter.scenarioStarted(defaultOptions, 'Some Scenario');
+      reporter.scenarioEnded(defaultOptions, reporter.SUCCESS);
+      reporter.useCaseEnded(defaultOptions);
 
       // build must be updated and marked as success
       const build = store.getBuild();
@@ -124,10 +124,10 @@ describe('ScenariooReporter', () => {
 
     it('successful (with one failed scenario)', () => {
       reporter.runStarted(defaultOptions);
-      reporter.useCaseStarted('Some UseCase');
-      reporter.scenarioStarted('Some Scenario');
-      reporter.scenarioEnded(reporter.FAILED);
-      reporter.useCaseEnded();
+      reporter.useCaseStarted(defaultOptions, 'Some UseCase');
+      reporter.scenarioStarted(defaultOptions, 'Some Scenario');
+      reporter.scenarioEnded(defaultOptions, reporter.FAILED);
+      reporter.useCaseEnded(defaultOptions);
 
       // build must be updated and marked as failed
       const build = store.getBuild();

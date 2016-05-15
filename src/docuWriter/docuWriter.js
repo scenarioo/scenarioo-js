@@ -80,7 +80,9 @@ export function start(branch, buildname, scenariooTargetDirectory, options) {
  */
 function cleanBuildDirectory(buildOutputDir, options) {
   if (options && options.cleanBuildOnStart) {
-    console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
+    if (!options.disableScenariooLogOutput) {
+      console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
+    }
     return del(buildOutputDir);
   } else {
     return Q.when(true);
