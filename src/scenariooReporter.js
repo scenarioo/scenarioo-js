@@ -62,6 +62,7 @@ function runStarted(options) {
 
 /**
  * @func scenariooReporter#runEnded
+ * @param {object} options
  */
 function runEnded(options) {
   if (!store.isInitialized()) {
@@ -86,6 +87,7 @@ function runEnded(options) {
 
 /**
  * @func scenariooReporter#useCaseStarted
+ * @param {object} options
  * @param {string} useCaseName
  */
 function useCaseStarted(options, useCaseName) {
@@ -102,6 +104,7 @@ function useCaseStarted(options, useCaseName) {
 
 /**
  * @func scenariooReporter#useCaseEnded
+ * @param {object} options
  */
 function useCaseEnded(options) {
   const useCase = store.getCurrentUseCase();
@@ -142,6 +145,7 @@ function useCaseEnded(options) {
 
 /**
  * @func scenariooReporter#scenarioStarted
+ * @param {options} options
  * @param {string} scenarioName
  */
 function scenarioStarted(options, scenarioName) {
@@ -167,6 +171,7 @@ function expectationFailed(options, failureMessage) {
 
 /**
  * @func scenariooReporter#scenarioEnded
+ * @param {options} options
  * @param {string} status one of {@link scenariooReporter#SUCCESS}, {@link scenariooReporter#FAILED}, {@link scenariooReporter#PENDING}
  */
 function scenarioEnded(options, status) {
