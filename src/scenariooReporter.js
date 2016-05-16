@@ -3,6 +3,7 @@ import path from 'path';
 import store from './scenariooStore';
 import docuWriter from './docuWriter/docuWriter';
 import scenarioo from './scenarioo-js';
+import process from 'process';
 
 const SUCCESS = 'success';
 const FAILED = 'failed';
@@ -54,13 +55,16 @@ function runStarted(options) {
   store.setBuildDate(new Date());
   const absoluteTargetDir = path.resolve(options.targetDirectory);
   docuWriter.start(store.getBranch(), store.getBuild().name, absoluteTargetDir, options);
-  console.log(`Reporting scenarios for scenarioo. Writing to "${absoluteTargetDir}"`);
+  if (!options.disableScenariooLogOutput) {
+    console.log(`Reporting scenarios for scenarioo. Writing to "${absoluteTargetDir}"`);
+  }
 }
 
 /**
  * @func scenariooReporter#runEnded
+ * @param {object} options
  */
-function runEnded() {
+function runEnded(options) {
   if (!store.isInitialized()) {
     throw new Error('Cannot end test run. No test run was started');
   }
@@ -76,15 +80,17 @@ function runEnded() {
   });
 
   store.clear();
-
-  console.log('All done!');
+  if (!options.disableScenariooLogOutput) {
+    console.log('All done!');
+  }
 }
 
 /**
  * @func scenariooReporter#useCaseStarted
+ * @param {object} options
  * @param {string} useCaseName
  */
-function useCaseStarted(useCaseName) {
+function useCaseStarted(options, useCaseName) {
   if (!store.isInitialized()) {
     throw new Error('Cannot start useCase, run was not started!');
   }
@@ -98,8 +104,9 @@ function useCaseStarted(useCaseName) {
 
 /**
  * @func scenariooReporter#useCaseEnded
+ * @param {object} options
  */
-function useCaseEnded() {
+function useCaseEnded(options) {
   const useCase = store.getCurrentUseCase();
   const build = store.getBuild();
 
@@ -124,7 +131,10 @@ function useCaseEnded() {
     useCaseStatus = PENDING;
   }
 
-  console.log(`useCase :: ${useCase.name} :: ${translateStatusForLogMessages(useCaseStatus)} (${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending)`);
+  if (!options.disableScenariooLogOutput) {
+    // starting this log with a new line, because of jasmines ./F/*-Log-Entries inbetween, that do not have line breaks.
+    console.log(`\n${useCaseStatus.toUpperCase()} use case \"${useCase.name}\": ${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending`);
+  }
 
   docuWriter.saveUseCase(merge({
     status: useCaseStatus
@@ -135,9 +145,16 @@ function useCaseEnded() {
 
 /**
  * @func scenariooReporter#scenarioStarted
+ * @param {options} options
  * @param {string} scenarioName
  */
-function scenarioStarted(scenarioName) {
+function scenarioStarted(options, scenarioName) {
+
+  if (!options.disableScenariooLogOutput) {
+    // Log an empty line, to log everything for a new scenario on its own line (after the jasmine `.`/`F`-Log entry)
+    console.log('');
+  }
+
   store.updateCurrentScenario({
     stepCounter: -1,
     name: scenarioName,
@@ -154,9 +171,10 @@ function expectationFailed(options, failureMessage) {
 
 /**
  * @func scenariooReporter#scenarioEnded
+ * @param {options} options
  * @param {string} status one of {@link scenariooReporter#SUCCESS}, {@link scenariooReporter#FAILED}, {@link scenariooReporter#PENDING}
  */
-function scenarioEnded(status) {
+function scenarioEnded(options, status) {
   const scenario = store.getCurrentScenario();
   const useCase = store.getCurrentUseCase();
 
@@ -180,7 +198,10 @@ function scenarioEnded(status) {
       throw new Error(`Unknown status ${status}`);
   }
 
-  console.log(`scenario :: ${scenario.name} :: ${translateStatusForLogMessages(status)}`);
+  if (!options.disableScenariooLogOutput) {
+    // use stdout write here to have the following jasmine `.` or `F` or `*` output on same line with scenario output.
+    process.stdout.write(formatWithAnsiColorForStatus(`${status.toUpperCase()} scenario "${useCase.name} - ${scenario.name}" `, status));
+  }
 
   docuWriter.saveScenario(merge({
     status: status
@@ -189,19 +210,17 @@ function scenarioEnded(status) {
   store.resetCurrentScenario();
 }
 
+function formatWithAnsiColorForStatus(message, status) {
 
-function translateStatusForLogMessages(status) {
-  if (!status) {
-    return 'n/a';
-  }
+  var colorsForStatus = {
+    failed: '31', // red
+    success: '32', // green
+    pending: '33' // yellow
+  };
 
-  const map = {};
-  map[SUCCESS] = 'suceeded';
-  map[FAILED] = 'failed';
-  map[PENDING] = 'pending';
-  const mapped = map[status];
-  if (!mapped) {
-    return status;
-  }
-  return mapped;
+  var colorCode = colorsForStatus[status];
+  var startColor = colorCode ? '\u001B[' + colorCode + 'm' : '';
+  var endColor = colorCode ? '\u001B[39m' : '';
+  return startColor + message + endColor;
+
 }

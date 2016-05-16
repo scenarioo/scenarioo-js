@@ -39,7 +39,7 @@ function ScenariooJasmineReporter(jasmine, options) {
    * @param suite
    */
   function suiteStarted(suite) {
-    scenariooReporter.useCaseStarted(suite.description);
+    scenariooReporter.useCaseStarted(options, suite.description);
   }
 
   /**
@@ -47,7 +47,7 @@ function ScenariooJasmineReporter(jasmine, options) {
    * @param spec
    */
   function specStarted(spec) {
-    scenariooReporter.scenarioStarted(spec.description);
+    scenariooReporter.scenarioStarted(options, spec.description);
   }
 
   function registerExpectationResultHandlerToReportExpectationFailures() {
@@ -85,27 +85,33 @@ function ScenariooJasmineReporter(jasmine, options) {
    * is invoked at the end of a spec  (i.e. after every scenario)
    */
   function specDone(spec) {
+
+    scenariooReporter.scenarioEnded(options, jasmineStatusToScenariooStatus(spec.status));
+
+    // log details about failures after reporting general status for spec.
     if (spec.failedExpectations) {
-      spec.failedExpectations.forEach(fail=> {
-        console.error(`${fail.message}\n${fail.stack}`);
-      });
+      if (!options.disableScenariooLogOutput) {
+        spec.failedExpectations.forEach(fail=> {
+          // leading line break is important to ensure we start on a new line (jasmine output could be inbetween that is single lined)
+          console.error(`\n${fail.message}\n${fail.stack}`);
+        });
+      }
     }
 
-    scenariooReporter.scenarioEnded(jasmineStatusToScenariooStatus(spec.status));
   }
 
   /**
    * is invoked when a suite is done (i.e. after every use case)
    */
   function suiteDone() {
-    scenariooReporter.useCaseEnded();
+    scenariooReporter.useCaseEnded(options);
   }
 
   /**
    * is invoked when all tests are done (at the end of all use cases)
    */
   function jasmineDone() {
-    scenariooReporter.runEnded();
+    scenariooReporter.runEnded(options);
   }
 
 }

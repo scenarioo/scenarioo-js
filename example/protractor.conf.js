@@ -68,7 +68,12 @@ var exportsConfig = {
       recordLastStepForStatus: {
         failed: true,
         success: true
-      }
+      },
+
+      /**
+       * suppress additional helpful scenarioo log output (optional, defaults to false).
+       */
+      disableScenariooLogOutput: false
 
     });
 

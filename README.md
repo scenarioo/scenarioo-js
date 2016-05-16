@@ -36,7 +36,7 @@ webdriver-manager update
 Configure scenarioo-js in your protractor config file.
 
 ```javascript
-onPrepare: function () {
+onPrepare: function onPrepare() {
     
     global.scenarioo = require('scenarioo-js');
     scenarioo.setupJasmineReporter(jasmine, {
@@ -62,14 +62,18 @@ onPrepare: function () {
       recordLastStepForStatus: {
          failed: true,
          success: true
-      }
+      },
+      
+      // suppress additional helpful scenarioo log output (optional, defaults to false).
+      disableScenariooLogOutput: false
       
     });  
       
     // Setup Fluent DSL (only if you need it, which is recommended)
     scenarioo.setupFluentDsl();
     
-  },
+  }
+  
 ```
 
 ### Testing
