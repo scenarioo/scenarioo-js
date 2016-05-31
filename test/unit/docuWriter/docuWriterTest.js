@@ -5,6 +5,7 @@ import testHelper from '../../utils/testHelper';
 import mockWebdriver from '../../utils/mockGlobals';
 import docuWriter from '../../../src/docuWriter/docuWriter';
 import store from '../../../src/scenariooStore';
+import { sanitizeForId } from '../../../src/docuWriter/identifierSanitizer';
 
 before(() => {
   mockWebdriver.registerMockGlobals();
@@ -36,15 +37,12 @@ describe('docuWriter', () => {
 
     it('should write branch directory on start()', () => {
       docuWriter.start(dummyBranch, 'some build name', targetDir, {})
-        .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will')));
+        .then(() => testHelper.assertFileExists(path.join(targetDir, sanitizeForId(dummyBranch.name))));
     });
 
     it('should write branch.xml on start() with all attributes', () => {
       return docuWriter.start(dummyBranch, 'some build name', targetDir, {})
-        .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/branch.xml'), [
-          '<branch><name>my unsafe branch name, will</name>',
-          '<description>my safe description</description>'
-        ]));
+        .then(() => testHelper.assertJsonContent(path.join(targetDir, sanitizeForId(dummyBranch.name) + '/branch.json'), dummyBranch));
     });
   });
 
@@ -54,22 +52,18 @@ describe('docuWriter', () => {
       return docuWriter.start(dummyBranch, 'save_build_test', targetDir, {});
     });
 
-    it('should save mandatory fields correctly build.xml', () => {
+    it('should save mandatory fields correctly build.json', () => {
       const buildDate = new Date();
       const build = {
+        id: 'save_build_test',
         name: 'save_build_test',
-        date: buildDate,
+        date: buildDate.toISOString(),
         status: 'failed'
       };
 
       return docuWriter.saveBuild(build, targetDir)
-        .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/save_build_test/build.xml'), [
-          '<build><name>save_build_test</name>',
-          '<date>' + buildDate.toISOString() + '</date>',
-          '<status>failed</status>'
-        ]));
+        .then(() => testHelper.assertJsonContent(path.join(targetDir, 'my-branch-id/save_build_test/build.json'), build));
     });
-
   });
 
 
@@ -80,17 +74,15 @@ describe('docuWriter', () => {
     });
 
     it('should create useCase directory', () => {
+      const expectedPath = `${sanitizeForId(dummyBranch.name)}/some-build-name/${sanitizeForId(dummyUseCase.name)}`;
       return docuWriter.saveUseCase(dummyUseCase)
-        .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll%21')));
+        .then(() => testHelper.assertFileExists(path.join(targetDir, expectedPath)));
     });
 
     it('should create usecase.xml', () => {
+      const expectedPath = `${sanitizeForId(dummyBranch.name)}/some-build-name/${sanitizeForId(dummyUseCase.name)}/usecase.json`;
       return docuWriter.saveUseCase(dummyUseCase)
-        .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/use+case+name%2C+toll%21/usecase.xml'), [
-          '<name>use case name, toll!</name>',
-          '<description>some description with special chars ;) %&amp;</description>',
-          '<status>success</status>'
-        ]));
+        .then(() => testHelper.assertJsonContent(path.join(targetDir, expectedPath), dummyUseCase));
     });
   });
 
@@ -107,12 +99,9 @@ describe('docuWriter', () => {
     });
 
     it('should save scenario.xml', () => {
+      const expectedPath = `${sanitizeForId(dummyBranch.name)}/some-build-name/${sanitizeForId(dummyUseCase.name)}/${sanitizeForId(dummyScenario.name)}/scenario.json`;
       return docuWriter.saveScenario(dummyScenario, 'a use case')
-        .then(() => testHelper.assertXmlContent(path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name/scenario.xml'), [
-          '<name> some cool scenario name</name>',
-          '<description>scenario description</description>',
-          '<status>success</status>'
-        ]));
+        .then(() => testHelper.assertJsonContent(path.join(targetDir, expectedPath), dummyScenario));
     });
 
   });
@@ -229,7 +218,5 @@ describe('docuWriter', () => {
           ]);
         });
     });
-
   });
-
 });

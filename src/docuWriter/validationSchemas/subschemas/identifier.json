@@ -1,5 +1,5 @@
 {
-  "title": "/subschema/identifier",
+  "id": "/subschema/identifier",
   "description": "Fields that can be used in urls and filenames",
   "type": "string",
   "pattern": "[A-Za-z0-9_-]+"

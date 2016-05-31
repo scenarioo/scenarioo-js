@@ -23,7 +23,6 @@ describe('entityValidator', () => {
     it('should throw on invalid branch: missing required properties', () => {
       assert.throws(() => validator.validateBranch({}), /Missing required property: name/);
     });
-
   });
 
 
@@ -168,10 +167,12 @@ describe('entityValidator', () => {
             region: {x: 1, y: 2, width: 100, height: 100}
           }
         ],
-        properties: {
-          labelKey: 'some property',
-          value: 'bla'
-        }
+        properties: [
+          {
+            labelKey: 'some property',
+            value: 'bla'
+          }
+        ]
       });
     });
 
@@ -183,7 +184,7 @@ describe('entityValidator', () => {
           // name is missing
           labels: []
         }
-      }), /Missing required property: name .* Invalid type: string \(expected array\) \(\/page\/labels, \/properties\/page\/properties\/labels\/type\)/);
+      }), /Missing required property: name/);
 
     });
 
@@ -195,7 +196,5 @@ describe('entityValidator', () => {
       }), /Invalid type: string \(expected array\) \(\/labels, \/properties\/labels\/type\)/);
 
     });
-
   });
-
 });

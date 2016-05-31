@@ -1,5 +1,5 @@
 {
-  "title": "/subschema/docuObject",
+  "id": "/subschema/docuObject",
   "type": "object",
   "properties": {
     "labelKey": { "type": "string" },
@@ -9,6 +9,5 @@
     "properties": { "$ref": "/subschema/docuObjectList" },
     "items": { "$ref": "/subschema/docuObjectList" }
   },
-  "required": [],
   "additionalProperties": false
 }

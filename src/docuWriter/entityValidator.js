@@ -11,12 +11,14 @@ export function loadSchemas() {
   // load json files in-sync. otherwise we'd have to make "validate" also async...!
   const schemas = {};
   const schemaRootDirPath = path.resolve(__dirname, './validationSchemas');
-  glob.sync('./*.json', {cwd: schemaRootDirPath})
+  glob.sync('./**/*.json', {cwd: schemaRootDirPath})
     .forEach(schemaFile => {
       const content = fs.readFileSync(path.join(schemaRootDirPath, schemaFile), 'utf-8');
-      schemas[path.basename(schemaFile, '.json')] = JSON.parse(content);
+      const schema = JSON.parse(content);
+      schemas[path.basename(schemaFile, '.json')] = schema;
+      // add all schemas for reference in subschemas
+      tv4.addSchema(schema);
     });
-
   return schemas;
 }
 
@@ -24,7 +26,6 @@ export function loadSchemas() {
  * add "mixins" to tv4 (they must have the "id" property set)
  * This is used for referencing via "$ref"
  */
-tv4.addSchema(entitySchemas.labels);
 tv4.addFormat('date', dateValidator);
 
 function toMessage(validationResult) {
@@ -43,6 +44,9 @@ function validate(schemaName, entity) {
   const result = tv4.validateMultiple(entity, schema);
   if (!result.valid) {
     throw new Error(`${schemaName}: ${toMessage(result)}`);
+  }
+  if (result.missing && result.missing.length) {
+    throw new Error(`Some referenced schema files are missing: ${result.missing}`);
   }
 }
 

@@ -1,5 +1,5 @@
 {
-  "title": "/subschema/labels",
+  "id": "/subschema/labels",
   "type": "array",
   "items": {
     "type": "string",

@@ -1,8 +1,4 @@
 {
-  "title": "/subschema/screenAnnotation/clickAction",
-  "type": "string",
-  "enum": [
-    "TO_NEXT_STEP",
-    "TO_URL"
-  ]
+  "id": "/subschema/screenAnnotation/clickActionUrl",
+  "type": "string"
 }

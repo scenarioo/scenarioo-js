@@ -19,11 +19,21 @@ function assertXmlContent(filePath, expectedContents) {
     });
 }
 
+function assertJsonContent(filePath, expectedObject) {
+  return Q.nfcall(fs.readFile, filePath, 'utf-8')
+    .then(jsonContent => {
+      const readObject = JSON.parse(jsonContent);
+
+      assert.deepEqual(readObject, expectedObject);
+    });
+}
+
 function assertFileExists(filePath) {
   return Q.nfcall(fs.stat, filePath);
 }
 
 export default {
   assertXmlContent: assertXmlContent,
+  assertJsonContent: assertJsonContent,
   assertFileExists: assertFileExists
 };

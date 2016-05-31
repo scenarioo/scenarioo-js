@@ -57,12 +57,11 @@ export function registerPageNameFunction(pageNameFunction) {
  * @returns {Promise}
  */
 export function start(branch, buildname, scenariooTargetDirectory, options) {
-  entityValidator.validateBranch(branch);
   this.branch = branch;
   this.branch.id = getId(branch);
 
-  // TODO: pass id directly instead of build name
-  const buildDirName = sanitizeForId(buildname);
+  entityValidator.validateBranch(branch);
+  const buildDirName = this.branch.id;
 
   // generate directories and write branch.json
   buildOutputDir = path.join(scenariooTargetDirectory, this.branch.id, buildDirName);
@@ -108,8 +107,10 @@ function cleanBuildOnStartIfEnabled(buildOutputDir, options) {
  * @returns {Promise}
  */
 export function saveBuild(build) {
-  entityValidator.validateBuild(build);
   build.id = getId(build);
+
+  entityValidator.validateBuild(build);
+
   const buildFilePath = path.join(buildOutputDir, 'build.json');
   return saveJson(buildFilePath, build);
 }
@@ -128,11 +129,12 @@ export function saveUseCase(useCase) {
   }
 
   // pick known attributes from given useCase object (user might choose to store other state on the usecase)
-  const useCaseToSave = pick(useCase, ['name', 'description', 'status', 'labels']);
-  entityValidator.validateUseCase(useCaseToSave);
+  const useCaseToSave = pick(useCase, ['id', 'name', 'description', 'status', 'labels']);
 
   useCaseToSave.id = getId(useCase);
   useCaseToSave.labels = sanitizeLabels(useCase.labels);
+
+  entityValidator.validateUseCase(useCaseToSave);
 
   const absUseCasePath = path.resolve(buildOutputDir, useCaseToSave.id);
   const useCasePath = path.join(absUseCasePath, 'usecase.json');
@@ -155,10 +157,11 @@ export function saveScenario(currentScenario, useCaseIdOrName) {
 
   // pick known attributes from given scenario object (user might choose to store other state on the scenario)
   const scenarioToSave = pick(currentScenario, ['name', 'description', 'status', 'labels']);
-  entityValidator.validateScenario(scenarioToSave);
 
   scenarioToSave.id = getId(scenarioToSave);
   scenarioToSave.labels = sanitizeLabels(scenarioToSave.labels);
+
+  entityValidator.validateScenario(scenarioToSave);
 
   const useCaseId = sanitizeForId(useCaseIdOrName);
 

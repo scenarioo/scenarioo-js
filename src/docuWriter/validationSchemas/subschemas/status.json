@@ -1,4 +1,4 @@
 {
-  "title": "/subschema/status",
+  "id": "/subschema/status",
   "type": "string"
 }

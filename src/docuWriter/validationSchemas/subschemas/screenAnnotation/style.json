@@ -1,5 +1,5 @@
 {
-  "title": "/subschema/screenAnnotation/style",
+  "id": "/subschema/screenAnnotation/style",
   "type": "string",
   "enum": [
     "CLICK",

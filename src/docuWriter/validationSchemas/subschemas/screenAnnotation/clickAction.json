@@ -1,5 +1,5 @@
 {
-  "title": "/subschema/screenAnnotation/clickAction",
+  "id": "/subschema/screenAnnotation/clickAction",
   "type": "string",
   "enum": [
     "TO_NEXT_STEP",

@@ -1,5 +1,5 @@
 {
-  "title": "/subschema/page",
+  "id": "/subschema/page",
   "type": "object",
   "properties": {
     "id": { "$ref": "/subschema/identifier" },

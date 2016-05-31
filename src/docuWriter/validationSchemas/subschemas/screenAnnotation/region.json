@@ -1,5 +1,5 @@
 {
-  "title": "/subschema/screenAnnotation/region",
+  "id": "/subschema/screenAnnotation/region",
   "type": "object",
   "properties": {
     "x": {
