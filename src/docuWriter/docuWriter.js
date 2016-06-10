@@ -25,6 +25,7 @@ let buildOutputDir;
  * @namespace docuWriter
  */
 const docuWriter = {
+  cleanBuild,
   registerPageNameFunction,
   start,
   saveUseCase,
@@ -67,8 +68,17 @@ export function start(branch, buildname, scenariooTargetDirectory, options) {
   // generate directories and write branch.xml
   buildOutputDir = path.join(scenariooTargetDirectory, encodeFileName(this.branch.name), buildDirName);
 
-  return cleanBuildDirectory(buildOutputDir, options)
+  return cleanBuildOnStartIfEnabled(buildOutputDir, options)
     .then(() => xmlWriter.writeXmlFile('branch', this.branch, path.resolve(path.join(scenariooTargetDirectory, encodeFileName(this.branch.name)), 'branch.xml')));
+}
+
+export function cleanBuild(options) {
+  var scenariooTargetDirectory = path.resolve(options.targetDirectory);
+  var buildOutputDir = path.join(scenariooTargetDirectory, encodeFileName(identifierSanitizer.sanitize(options.branchName)), encodeFileName(identifierSanitizer.sanitize(options.buildName)));
+  if (!options.disableScenariooLogOutput) {
+    console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
+  }
+  del.synch(buildOutputDir);
 }
 
 /**
@@ -78,7 +88,7 @@ export function start(branch, buildname, scenariooTargetDirectory, options) {
  * @param options
  * @returns {Promise}
  */
-function cleanBuildDirectory(buildOutputDir, options) {
+function cleanBuildOnStartIfEnabled(buildOutputDir, options) {
   if (options && options.cleanBuildOnStart) {
     if (!options.disableScenariooLogOutput) {
       console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
