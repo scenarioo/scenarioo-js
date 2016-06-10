@@ -78,7 +78,7 @@ export function cleanBuild(options) {
   if (!options.disableScenariooLogOutput) {
     console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
   }
-  del.synch(buildOutputDir);
+  del.sync(buildOutputDir);
 }
 
 /**
