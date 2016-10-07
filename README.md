@@ -9,27 +9,56 @@ This is a subproject of Scenarioo, for more information on scenarioo, check [htt
 
 ## Use
 
+### IMPORTANT VERSION NOTICE
+
+We are working on a new Version 2.2. We recommend to allready use the Release Candidate of this version.
+
+This Readme here is for the Release Candidate 2.2, that is not yet offcially released.
+
+Advantages of Version 2.2:
+* Compatible with Jasmine 2
+* Can be used with vanila Jasmine notation
+* Comes with more comfortable advanced DSLs
+* Can write more additional data to the documentation
+* Automatic screenshots on test failures and at end of tests
+
+To use the Release Candidate you have to explicitly refering to the release branch version for now, as follows:
+
+```
+npm install --save-dev git://github.com/scenarioo/scenarioo-js.git#release-2.2
+```
+
+Or put it into your package.json, as follows:
+```
+"devDependencies": {    
+    "scenarioo-js":"git://github.com/scenarioo/scenarioo-js.git#release-2.2"
+}
+```
+
+If you still want to use the old officially released ScenariooJS version, you can do so, by refering to the README files in our master branch. But we do not recommend that, because this version is not supported and maintained anymore.
+
 ### Installation
 
 Install scenarioo-js via npm
 
 ```
-$ npm install -D scenarioo-js
+$ npm install --save-dev scenarioo-js
 ```
 
 Make sure to also install protractor (v3.x)
 
 ```
-$ npm install -D protractor
+$ npm install --save-dev protractor
 ```
 
-Since protractor comes with command line tools, it is also recommend (for simplicity) to install protractor globaly.
+Since protractor comes with command line tools, it is also recommend (for simplicity) to install protractor globally.
 
 ```
-npm install -g protractor
+npm install --global protractor
 webdriver-manager update
 ```
 
+Otherwise you might have to define special scripts in your package.json file to use the command line tools from project's npm dependencies. Which of course is even the best solution to use protractor not as a global dependency.
 
 ### Configuration
 
@@ -78,7 +107,24 @@ onPrepare: function onPrepare() {
 
 ### Testing
 
-#### Using vanila Jasmine style in your tests
+#### Example Tests
+
+A small example application with Scenarioo tests can be found under [example/](example/). Below we explain different ways to write UI Tests with ScenariooJS. 
+
+For a quick reference, you can also have a look at the the following example files:
+
+ - [Vanilla Jasmine](#vanila-jasmine-style)
+    - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
+    - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
+ - [Fluent DSL for simple and clean UI tests _(Recommended)_](#scenarioo-fluent-dsl)
+    - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
+    - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
+    - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
+ - ~~Deprecated~~ Backwards DSL for fast migration from ScenariooJS 1 with Jasmine 1.x to ScenariooJS 2 with Jasmine 2.x
+    - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
+
+
+#### Vanila Jasmine Style
 
 Write your e2e tests in your normal Jasmine style with Protractor (or you could also use pure WebdriverJS without protractor, since ScenariooJS does not depend on protractor specific things).
 
@@ -111,7 +157,7 @@ Additional steps of a scenario can be reported by manually calling `scenarioo.sa
 
 You could (and probably should) also hook such step commands into your page objects (or even into protractor) to ensure that on every important action (e.g. every important click) a step is reported.
 
-#### Using scenarioo fluent DSL for your tests and your useCase & scenarios documentation
+#### Scenarioo Fluent DSL
 
 For a more nicer and clean syntax we recommend to use the **New Fluent DSL** of scenarioo to even more easily describe usecases and scenarios in your tests and annotate them with additional important information for the documentation:
 
@@ -156,11 +202,6 @@ In case you want to define your own custom DSL for your specific application und
 
 Run your protractor tests (e.g. as explained in [Examples Readme](/example/readme.md)) to run the tests and generate scenarioo documentation data. 
 This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
-
-## ScenaeriooJS API Documentation
-
-You can run `$ gulp docu` in order to create a browseable JSDoc API documentation of ScenariooJS.
-
 
 ## Migration Guide
 
