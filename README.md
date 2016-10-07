@@ -14,19 +14,19 @@ This is a subproject of Scenarioo, for more information on scenarioo, check http
 Install scenarioo-js via npm
 
 ```
-$ npm install -D scenarioo-js
+$ npm install --save-dev scenarioo-js
 ```
 
 Make sure to also install protractor (v3.x)
 
 ```
-$ npm install -D protractor
+$ npm install --save-dev protractor
 ```
 
-Since protractor comes with command line tools, it is also recommend (for simplicity) to install protractor globaly.
+Since protractor comes with command line tools, it is also recommend (for simplicity) to install protractor globally.
 
 ```
-npm install -g protractor
+npm install --global protractor
 webdriver-manager update
 ```
 
@@ -77,6 +77,23 @@ onPrepare: function onPrepare() {
 ```
 
 ### Testing
+
+### Example Tests
+
+A small example application with Scenarioo tests can be found under [example/](example/). Below we explain different ways to write UI Tests with ScenariooJS. 
+
+For a quick reference, you can also have a look at the the following example files:
+
+ - Vanilla Jasmine
+    - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
+    - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
+ - Fluent DSL for simple and clean UI tests _(Recommended)_
+    - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
+    - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
+    - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
+ - ~~Deprecated~~ Backwards DSL for fast migration from ScenariooJS 1 with Jasmine 1.x to ScenariooJS 2 with Jasmine 2.x
+    - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
+
 
 #### Using vanila Jasmine style in your tests
 
@@ -156,11 +173,6 @@ In case you want to define your own custom DSL for your specific application und
 
 Run your protractor tests (e.g. as explained in [Examples Readme](/example/readme.md)) to run the tests and generate scenarioo documentation data. 
 This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
-
-## ScenaeriooJS API Documentation
-
-You can run `$ gulp docu` in order to create a browseable JSDoc API documentation of ScenariooJS.
-
 
 ## Migration Guide
 
