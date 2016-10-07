@@ -78,16 +78,16 @@ onPrepare: function onPrepare() {
 
 ### Testing
 
-### Example Tests
+#### Example Tests
 
 A small example application with Scenarioo tests can be found under [example/](example/). Below we explain different ways to write UI Tests with ScenariooJS. 
 
 For a quick reference, you can also have a look at the the following example files:
 
- - Vanilla Jasmine
+ - [Vanilla Jasmine](#Vanila-Jasmine-Style)
     - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
     - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
- - Fluent DSL for simple and clean UI tests _(Recommended)_
+ - [Fluent DSL for simple and clean UI tests _(Recommended)_](#Scenarioo-Fluent-DSL)
     - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
     - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
@@ -95,7 +95,7 @@ For a quick reference, you can also have a look at the the following example fil
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
 
 
-#### Using vanila Jasmine style in your tests
+#### Vanila Jasmine Style
 
 Write your e2e tests in your normal Jasmine style with Protractor (or you could also use pure WebdriverJS without protractor, since ScenariooJS does not depend on protractor specific things).
 
@@ -128,7 +128,7 @@ Additional steps of a scenario can be reported by manually calling `scenarioo.sa
 
 You could (and probably should) also hook such step commands into your page objects (or even into protractor) to ensure that on every important action (e.g. every important click) a step is reported.
 
-#### Using scenarioo fluent DSL for your tests and your useCase & scenarios documentation
+#### Scenarioo Fluent DSL
 
 For a more nicer and clean syntax we recommend to use the **New Fluent DSL** of scenarioo to even more easily describe usecases and scenarios in your tests and annotate them with additional important information for the documentation:
 
