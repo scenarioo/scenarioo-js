@@ -84,10 +84,10 @@ A small example application with Scenarioo tests can be found under [example/](e
 
 For a quick reference, you can also have a look at the the following example files:
 
- - [Vanilla Jasmine](#Vanila-Jasmine-Style)
+ - [Vanilla Jasmine](#vanila-jasmine-style)
     - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
     - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
- - [Fluent DSL for simple and clean UI tests _(Recommended)_](#Scenarioo-Fluent-DSL)
+ - [Fluent DSL for simple and clean UI tests _(Recommended)_](#scenarioo-fluent-dsl)
     - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
     - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
