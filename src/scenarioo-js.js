@@ -100,9 +100,6 @@ const scenarioo = {
     return contextFactory('scenario');
   },
 
-  /**
-   *
-   */
 
   /**
    * Call this in your e2e test functions whenever you want scenarioo to report a step (with screen shot and metadata, etc.)

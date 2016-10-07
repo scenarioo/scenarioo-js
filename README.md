@@ -5,7 +5,7 @@
 
 Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation.
 
-This is a subproject of Scenarioo, for more information on scenarioo, check http://www.scenarioo.org.
+This is a subproject of Scenarioo, for more information on scenarioo, check [http://www.scenarioo.org](http://www.scenarioo.org).
 
 ## Use
 
@@ -120,7 +120,7 @@ For a quick reference, you can also have a look at the the following example fil
     - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
     - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
- - ~~Deprecated~~ Backwards DSL for fast migration from ScenariooJS 1 with Jasmine 1.x to ScenariooJS 2 with Jasmine 2.x
+ - [Backwards DSL for fast Migration from ScenariooJS 1 to ScenariooJS 2](#backwards-dsl-for-fast-migration)
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
 
 
@@ -228,6 +228,10 @@ and have either to be replaced by pure jasmine, a custom written DSL or by one o
 We recommend to use the new `Fluent DSL` or your own defined Application-Specific DSL 
 but for a fast migration it might be most easy to use the `Backwards DSL`, that is provided only for fast migration.
  
+### Backwards DSL for Fast Migration 
+
+Using Backwards DSL you can use the same old functions, that you had in ScenariooJS 0.x and 1.x.
+
 The `Backwards DSL` can be activated as follows:
 
 ```
@@ -238,7 +242,7 @@ scenarioo.setupBackwardsDsl();
 This brings you the old 1.x style DSL with `describeUseCase` and `describeScenario` functions back, for easier migration
 (with or without `scenarioo.` in front, both works).
 
-You can then later migrate those tests to the new `Fluent DSL` or even your own defined DSL or the purse jasmine 2 syntax.
+You can then later migrate those tests to the new `Fluent DSL` or even your own defined DSL or the pure vanila jasmine 2 syntax.
 We recommend to have a look at the new [Examples](/example) to see what style fits best for your project.
 
 ### Save Steps with `scenarioo.saveStep`
