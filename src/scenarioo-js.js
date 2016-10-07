@@ -20,6 +20,13 @@ const scenarioo = {
   options: {},
 
   /**
+   * Programmatically clean the build directory before tests are started.
+   */
+  cleanBuild: function(config) {
+    docuWriter.cleanBuild(config);
+  },
+
+  /**
    * Instantiates the scenarioo reporter for jasmine and registers it with the jasmine environment. `
    *
    * Usually this is invoked in your protractor config file to setup scenarioo documentation generation.
@@ -92,6 +99,10 @@ const scenarioo = {
   getScenarioContext: function () {
     return contextFactory('scenario');
   },
+
+  /**
+   *
+   */
 
   /**
    * Call this in your e2e test functions whenever you want scenarioo to report a step (with screen shot and metadata, etc.)

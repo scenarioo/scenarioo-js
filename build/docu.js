@@ -5,7 +5,7 @@ var
 
 
 gulp.task('docu', ['cleanDocuOut'], function () {
-  run('jsdoc src -r -d docu --readme ./README.md').exec().pipe(gulp.dest('output'));
+  run('jsdoc src -r -d docu --readme ./README.md -c ./build/jsdoc.conf.json').exec().pipe(gulp.dest('output'));
 });
 
 gulp.task('cleanDocuOut', function () {

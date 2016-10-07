@@ -3,14 +3,11 @@
  *
  * If you migrate from an old 1.x ScenariooJS version you can most easily migrate as follows:
  *
- * 1. Setup this DSL by calling following in your protractor onPrepare function:
- *
- * scenarioo.setupBackwardsDsl();
- *
- * 2. Replace all following calls in your tests accordingly:
- *
- * `scenarioo.descibeUseCase(...)` becomes `describeUseCase(...)`
- * `scenarioo.describeScenario(...)` becomes `describeScenario(...)`
+ *   1. Setup this DSL by calling following in your protractor onPrepare function:
+ *      scenarioo.setupBackwardsDsl();
+ *   2. Replace all following calls in your tests accordingly:
+ *      `scenarioo.descibeUseCase(...)` becomes `describeUseCase(...)`
+ *      `scenarioo.describeScenario(...)` becomes `describeScenario(...)`
  *
  * We recommend to better use the new Fluent DSL of scenarioo in your tests instead of this more backwards compatible DSL.
  */
