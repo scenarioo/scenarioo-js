@@ -5,7 +5,7 @@
 
 Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation.
 
-This is a subproject of Scenarioo, for more information on scenarioo, check http://www.scenarioo.org.
+This is a subproject of Scenarioo, for more information on scenarioo, check [http://www.scenarioo.org](http://www.scenarioo.org).
 
 ## Use
 
