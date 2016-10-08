@@ -223,7 +223,8 @@ function scenarioEnded(options, status) {
 
   if (!options.disableScenariooLogOutput) {
     // use stdout write here to have the following jasmine `.` or `F` or `*` output on same line with scenario output.
-    process.stdout.write(formatWithAnsiColorForStatus(`${status.toUpperCase()} scenario "${useCase.name} - ${scenario.name}" `, status));
+    // leading space because newer versions of jasmine seem to log the other way around again (seems to be very unstable how they report in jasmine)
+    process.stdout.write(formatWithAnsiColorForStatus(` ${status.toUpperCase()} scenario "${useCase.name} - ${scenario.name}" `, status));
   }
 
   docuWriter.saveScenario(merge({
