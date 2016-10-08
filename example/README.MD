@@ -13,9 +13,9 @@ gulp build
 
 serve the example application
 by calling following in directory scenarioo-js root
- 
+
 ```
-http-server -p 8081 example
+npm run serve-example
 ```
 
 Install protractor and install or update the chrome webriver (we install it globaly here, because this is more easy to use from command line, you can also try to use the local one, but we encountered less problems with using the global one)
