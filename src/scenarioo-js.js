@@ -3,9 +3,9 @@ import docuWriter from './docuWriter/docuWriter';
 import jasmineReporter from './reporters/jasmine';
 
 /**
- * Major entry pooint to setup scenarioo reporting, and also for accessing current reporting context in your tests, to report additional data on the current context during test execution.
+ * Major entry point to setup scenarioo reporting, and also for accessing current reporting context in your tests, to report additional data on the current context during test execution.
  *
- * @global
+ * @namespace scenarioo
  */
 const scenarioo = {
 
@@ -23,6 +23,8 @@ const scenarioo = {
 
   /**
    * Programmatically clean the build directory before tests are started.
+   *
+   * @param config
    */
   cleanBuild: function(config) {
     docuWriter.cleanBuild(config);
