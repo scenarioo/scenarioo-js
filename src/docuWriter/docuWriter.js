@@ -82,11 +82,13 @@ export function cleanBuild(options) {
 }
 
 /**
- * cleans specified build directory if required by options
+ * Clean specified build directory if required by options.
  *
  * @param buildOutputDir
  * @param options
  * @returns {Promise}
+ *
+ * @ignore
  */
 function cleanBuildOnStartIfEnabled(buildOutputDir, options) {
   if (options && options.cleanBuildOnStart) {
@@ -238,12 +240,17 @@ function getStepDataFromWebpage() {
     });
 }
 
+/**
+ * @ignore
+ */
 function getPageNameFromUrl(urlString) {
   return identifierSanitizer.sanitize(pageNameExtractor.getPageNameFromUrl(urlString));
 }
 
 /**
- * writes step xml file (000.xml, 001.xml, etc.)
+ * Write step xml file (000.xml, 001.xml, etc.)
+ *
+ * @ignore
  */
 function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalProperties) {
 
@@ -298,6 +305,9 @@ function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalPro
 
 }
 
+/**
+ * @ignore
+ */
 function saveScreenshot(stepCounter, absScenarioPath) {
   const screenShotDir = path.resolve(absScenarioPath, 'screenshots');
   const screenShotFileName = path.resolve(screenShotDir, leadingZeros(stepCounter) + '.png');
