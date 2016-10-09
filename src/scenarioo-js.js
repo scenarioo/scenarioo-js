@@ -3,7 +3,9 @@ import docuWriter from './docuWriter/docuWriter';
 import jasmineReporter from './reporters/jasmine';
 
 /**
- * @namespace scenarioo
+ * Major entry pooint to setup scenarioo reporting, and also for accessing current reporting context in your tests, to report additional data on the current context during test execution.
+ *
+ * @global
  */
 const scenarioo = {
 
@@ -75,7 +77,7 @@ const scenarioo = {
    * See examples for how to use it.
    */
   setupFluentDsl: function() {
-    require('./dsl/fluentDsl.js');
+    scenarioo.fluentDsl = require('./dsl/fluentDsl.js');
   },
 
   /**
