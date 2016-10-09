@@ -198,10 +198,16 @@ There is also a `Backward DSL` that is only interesting for migrating from old s
 In case you want to define your own custom DSL for your specific application under test, to be able to document and test it more easily, you are free to do so, by simply copying our Scenarioo Fluent DSL from this one simple javascript file here as a blueprint for your own DSL:
 [fluentDsl.js](/src/dsl/fluentDsl.js)
 
-### Generate and Browse Documentation
+### Generate and Browse Scenarioo Documentation
 
 Run your protractor tests (e.g. as explained in [Examples Readme](/example/README.MD)) to run the tests and generate scenarioo documentation data. 
 This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
+
+## ScenaeriooJS JSDoc API Documentation		
+
+You can run `$ gulp docu` in order to create a browseable JSDoc API documentation of ScenariooJS in directory `docu`. 
+
+Currently this documentation might not be optimal and not cover 100% of the features. Feel free to help us improving our documentation by doing a Pull Request or just ask us questions or give us feedback by creating a [Github Issue](https://github.com/scenarioo/scenarioo-js/issues/new?labels=feedback), we will try to help you.
 
 ## Migration Guide
 
