@@ -22,7 +22,8 @@
   "scripts": {
     "test": "gulp",
     "build": "gulp build",
-    "docu": "gulp docu"
+    "docu": "gulp docu",
+    "serve-example": "http-server -p 8081 example"
   },
   "dependencies": {
     "del": "2.2.0",

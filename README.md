@@ -200,7 +200,7 @@ In case you want to define your own custom DSL for your specific application und
 
 ### Generate and Browse Documentation
 
-Run your protractor tests (e.g. as explained in [Examples Readme](/example/readme.md)) to run the tests and generate scenarioo documentation data. 
+Run your protractor tests (e.g. as explained in [Examples Readme](/example/README.MD)) to run the tests and generate scenarioo documentation data. 
 This documentation can then be browsed by using the [Scenarioo Viewer Webapp](https://github.com/scenarioo/scenarioo).
 
 ## Migration Guide
