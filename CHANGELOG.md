@@ -12,6 +12,8 @@
 * Can write more additional data to the documentation:
    * labels
    * screen annotations
+* Improved Logging (can even be turned off and integrates nicely with jasmine output)
+* Support to clean output directory before running tests
 
 ### Bug Fixes
 * Smaller fixes and improvements
