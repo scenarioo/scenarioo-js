@@ -3,39 +3,15 @@
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
-Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation.
+Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation and make it available to everybody invollved in your project through the Scenarioo Viewer web frontend.
 
 This is a subproject of Scenarioo, for more information on scenarioo, check [http://www.scenarioo.org](http://www.scenarioo.org).
 
 ## Use
 
-### IMPORTANT VERSION NOTICE
+### Version Notice
 
-We are working on a new Version 2.2. We recommend to allready use the Release Candidate of this version.
-
-This Readme here is for the Release Candidate 2.2, that is not yet offcially released.
-
-Advantages of Version 2.2:
-* Compatible with Jasmine 2
-* Can be used with vanila Jasmine notation
-* Comes with more comfortable advanced DSLs
-* Can write more additional data to the documentation
-* Automatic screenshots on test failures and at end of tests
-
-To use the Release Candidate you have to explicitly refering to the release branch version for now, as follows:
-
-```
-npm install --save-dev git://github.com/scenarioo/scenarioo-js.git#release-2.2
-```
-
-Or put it into your package.json, as follows:
-```
-"devDependencies": {    
-    "scenarioo-js":"git://github.com/scenarioo/scenarioo-js.git#release-2.2"
-}
-```
-
-If you still want to use the old officially released ScenariooJS version, you can do so, by refering to the README files in our master branch. But we do not recommend that, because this version is not supported and maintained anymore.
+This documentation is for version 3.x of ScenariooJS. See [Changelog](CHANGELOG.md).
 
 ### Installation
 
@@ -45,7 +21,7 @@ Install scenarioo-js via npm
 $ npm install --save-dev scenarioo-js
 ```
 
-Make sure to also install protractor (v3.x)
+Make sure to also install protractor (version greater 4.x recommended, version 3.x should also work)
 
 ```
 $ npm install --save-dev protractor
