@@ -3,9 +3,9 @@
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
-Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation and make it available to everybody invollved in your project through the Scenarioo Viewer web frontend.
+Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation and make it available to everybody involved in your project through the Scenarioo Viewer web frontend.
 
-This is a subproject of Scenarioo, for more information on scenarioo, check [http://www.scenarioo.org](http://www.scenarioo.org).
+This is a sub project of Scenarioo, for more information on scenarioo, check [http://www.scenarioo.org](http://www.scenarioo.org).
 
 ## Use
 
@@ -81,15 +81,16 @@ onPrepare: function onPrepare() {
   
 ```
 
-### Testing
+### Writing Tests
 
 #### Example Tests
 
-A small example application with Scenarioo tests can be found under [example/](example/). Below we explain different ways to write UI Tests with ScenariooJS. 
+A small example application with Scenarioo tests can be found under [example/](example/). 
+Below we explain different ways to write UI Tests with ScenariooJS. 
 
 For a quick reference, you can also have a look at the the following example files:
 
- - [Vanilla Jasmine](#vanila-jasmine-style)
+ - [Vanilla Jasmine](#vanilla-jasmine-style)
     - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
     - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
  - [Fluent DSL for simple and clean UI tests _(Recommended)_](#scenarioo-fluent-dsl)
@@ -100,9 +101,11 @@ For a quick reference, you can also have a look at the the following example fil
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
 
 
-#### Vanila Jasmine Style
+#### Vanilla Jasmine Style
 
-Write your e2e tests in your normal Jasmine style with Protractor (or you could also use pure WebdriverJS without protractor, since ScenariooJS does not depend on protractor specific things).
+Write your e2e tests in your normal Jasmine style with Protractor
+(or you could also use pure WebdriverJS without protractor, 
+since ScenariooJS does not depend on protractor specific things).
 
 ```javascript
 
@@ -127,15 +130,22 @@ describe('Example Usecase', function() {
 ScenariooJS will report a useCase for every "describe" and a scenario for every "it" function in your test.
 
 Also a step at the end of each test scenario (on failure or success) will be reported if you configured so (see configuration possibilities in `example/protractor.conf.js`).
-We allways recommend to turn this on, becasue the last step is one of the most important ones in a test, especially if there are failures.
+We always recommend to turn this on, because the last step is one of the most important ones in a test, especially if there are failures.
 
 Additional steps of a scenario can be reported by manually calling `scenarioo.saveStep('stepName');` in your tests.
 
-You could (and probably should) also hook such step commands into your page objects (or even into protractor) to ensure that on every important action (e.g. every important click) a step is reported.
+#### General Recommendations About Recording Steps
+
+You could (and probably should) also hook such saveStep-commands into your important page object functions (instead of directly in your tests of course!).
+
+Or you could even try to do this by hooking into protractor functions, to ensure that on every important action (e.g. every important click) a step is reported.
+
+We recommend to do it in the page objects, because that is usually the place where you know, that something happened that is worth to record a step.
+
 
 #### Scenarioo Fluent DSL
 
-For a more nicer and clean syntax we recommend to use the **New Fluent DSL** of scenarioo to even more easily describe usecases and scenarios in your tests and annotate them with additional important information for the documentation:
+For a more nicer and clean syntax we recommend to use the **New Fluent DSL** of scenarioo to even more easily describe use cases and scenarios in your tests and annotate them with additional important information for the documentation:
 
 ```javascript
 
@@ -167,12 +177,14 @@ useCase('Example Use Case with Fluent DSL')
 
 See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs. 
 
+#### Backwards DSL
+
 There is also a `Backward DSL` that is only interesting for migrating from old scenarioo 1.x tests to the new scenarioo 2.x with jasmine 2 library more easily, see migration guide below.
 
-#### Defining your own customized application specific test & documentation DSL
+#### Define Custom App-specific DSL
 
 In case you want to define your own custom DSL for your specific application under test, to be able to document and test it more easily, you are free to do so, by simply copying our Scenarioo Fluent DSL from this one simple javascript file here as a blueprint for your own DSL:
-[fluentDsl.js](/src/dsl/fluentDsl.js)
+[fluentDsl.js](src/dsl/fluentDsl.js)
 
 ### Generate and Browse Documentation
 
@@ -183,7 +195,7 @@ This documentation can then be browsed by using the [Scenarioo Viewer Webapp](ht
 
 This migration guide explains how to switch from SceanriooJS 1.x to ScenariooJS 2.x
 
-### Jasmine2 Support
+### Jasmine 2 Support
 
 Version 2.x of scenarioo-js will depend on jasmine 2.  jasmine 1.x support will be dropped.
 Check the [Examples](/example) for a working example.
@@ -194,7 +206,7 @@ The configuration of the reporter has become more easier and has to be changed a
 
 The `scenarioo.reporter` is not available anymore. Instead you just have to call the setup function `scenarioo.setupJasmineReporter` to setup the reporter for you with jasmine 2.
 
-See documenation above for `Configuration` to see how this works now.
+See documentation above for `Configuration` to see how this works now.
 
 ### Application-specific DSL
 
@@ -218,7 +230,7 @@ scenarioo.setupBackwardsDsl();
 This brings you the old 1.x style DSL with `describeUseCase` and `describeScenario` functions back, for easier migration
 (with or without `scenarioo.` in front, both works).
 
-You can then later migrate those tests to the new `Fluent DSL` or even your own defined DSL or the pure vanila jasmine 2 syntax.
+You can then later migrate those tests to the new `Fluent DSL` or even your own defined DSL or the pure vanilla jasmine 2 syntax.
 We recommend to have a look at the new [Examples](/example) to see what style fits best for your project.
 
 ### Save Steps with `scenarioo.saveStep`
