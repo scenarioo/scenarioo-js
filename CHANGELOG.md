@@ -3,12 +3,12 @@
 ## Version 3.0
 
 ### New Features
-* Integrates easy with Jasmine 2 and Protractor
-* Automatic screenshots on test failures and at end of tests
+* Integrates easily with Jasmine 2 and Protractor
+* Automatic screenshots on test failures and at the end of tests
 * Comes with more comfortable DSLs:
-   * checkout the new "Fluent DSL"
-   * for easy migration there is a "Backwards DSL"
-* Can be used with vanilla Jasmine notation as well (if you want so)
+   * Brand new "Fluent DSL"
+   * "Backwards DSL" for easy migration
+* Can be used with vanilla Jasmine notation as well
 * Can write more additional data to the documentation:
    * labels
    * screen annotations
@@ -20,7 +20,7 @@
 
 ### Breaking Changes
 * Jasmine reporter depends on Jasmine 2 (writer can also be used without Jasmine, but this is the most common use case)
-* The library API slighly changed, but there is a very easy migration path, check the migration guide: [Migration Guide](README.md#migration-guide). 
+* The library API slightly changed, but there is a very easy migration path. Check out the migration guide: [Migration Guide](README.md#migration-guide). 
 
 ### Format Compatibility
 * Compatible with Scenarioo Viewer 3.x and 2.x

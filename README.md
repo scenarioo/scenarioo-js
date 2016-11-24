@@ -3,7 +3,8 @@
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
-Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation and make it available to everybody involved in your project through the Scenarioo Viewer web frontend.
+Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation 
+and make it available to everybody involved in your project through the Scenarioo Viewer web frontend.
 
 ## Introduction to Scenarioo
 
@@ -13,9 +14,9 @@ For general information about Scenarioo check our webpage
 
 ## Introduction to ScenariooJS
 
-Presentation Slides from the Zühlke Client Tech Days 2016 Conference Session:
+Presentation Slides from the Zühlke Client Technology Days 2016 Conference Session:
 [Effective E2E Testing with ScenariooJS and Protractor](http://scenarioo.org/e2e-testing-with-scenarioo-js)
-which is a good introduction and explanation how to use and introduce it.
+Refer to these slides as a good introduction and explanation of how to use and introduce it.
 
 ## Use
 
@@ -44,7 +45,8 @@ npm install --global protractor
 webdriver-manager update
 ```
 
-Otherwise you might have to define special scripts in your package.json file to use the command line tools from project's npm dependencies. Which of course is even the best solution to use protractor not as a global dependency.
+Otherwise you might have to define special scripts in your `package.json` file to use the command line tools from project's npm dependencies. 
+This would be the preferred way of using protractor as a non-global dependency.
 
 ### Configuration
 
@@ -113,9 +115,9 @@ For a quick reference, you can also have a look at the the following example fil
 
 #### Vanilla Jasmine Style
 
-Write your e2e tests in your normal Jasmine style with Protractor
+Write your e2e tests in your usual Jasmine style with Protractor
 (or you could also use pure WebdriverJS without protractor, 
-since ScenariooJS does not depend on protractor specific things).
+since ScenariooJS does not depend on protractor directly).
 
 ```javascript
 
@@ -132,33 +134,31 @@ describe('Example Usecase', function() {
     scenarioo.saveStep('one is displayed');
 
   });
-
 });
-
 ```
 
-ScenariooJS will report a useCase for every "describe" and a scenario for every "it" function in your test.
+ScenariooJS will report a useCase for every `describe` and a scenario for every `it` function in your test.
 
 Also a step at the end of each test scenario (on failure or success) will be reported if you configured so (see configuration possibilities in `example/protractor.conf.js`).
-We always recommend to turn this on, because the last step is one of the most important ones in a test, especially if there are failures.
+We recommend to turn this on, because the last step is one of the most important ones in a test, especially if there are failures.
 
 Additional steps of a scenario can be reported by manually calling `scenarioo.saveStep('stepName');` in your tests.
 
 #### General Recommendations About Recording Steps
 
-You could (and probably should) also hook such saveStep-commands into your important page object functions (instead of directly in your tests of course!).
+You can (and probably should) also hook `saveStep`-commands into your important page object functions (instead of directly in your tests).
 
-Or you could even try to do this by hooking into protractor functions, to ensure that on every important action (e.g. every important click) a step is reported.
+Or you can try to do this by hooking into protractor functions, to ensure that a step is reported on every important action (e.g. every important click).
 
-We recommend to do it in the page objects, because that is usually the place where you know, that something happened that is worth to record a step.
+We recommend to do it in the page objects, because that is usually the place where you know, that something worthy of recording as a step happened.
 
 
 #### Scenarioo Fluent DSL
 
-For a more nicer and clean syntax we recommend to use the **New Fluent DSL** of scenarioo to even more easily describe use cases and scenarios in your tests and annotate them with additional important information for the documentation:
+For a nicer and cleaner syntax we recommend to use the **New Fluent DSL** of scenarioo to describe use cases and scenarios 
+even easier in your tests and annotate them with additional important information for the documentation:
 
 ```javascript
-
 useCase('Example Use Case with Fluent DSL')
   .description('An optional but recommended description for the use case')
   .labels(['example-custom-label'])
@@ -182,18 +182,18 @@ useCase('Example Use Case with Fluent DSL')
       });
       
 });
-
 ```
 
 See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs. 
 
 #### Backwards DSL
 
-There is also a `Backward DSL` that is only interesting for migrating from old scenarioo 1.x tests to the new scenarioo 2.x with jasmine 2 library more easily, see migration guide below.
+There is also a `Backward DSL` that is only interesting for easier migration from old scenarioo 1.x tests to the new scenarioo 2.x library with jasmine 2. Refer to the migration guide below.
 
 #### Define Custom App-specific DSL
 
-In case you want to define your own custom DSL for your specific application under test, to be able to document and test it more easily, you are free to do so, by simply copying our Scenarioo Fluent DSL from this one simple javascript file here as a blueprint for your own DSL:
+In case you want to define your own custom DSL for your specific application under test, to be able to document and test it more easily,
+you are free to do so, by simply copying our Scenarioo Fluent DSL from this one simple javascript file here as a blueprint for your own DSL:
 [fluentDsl.js](src/dsl/fluentDsl.js)
 
 ### Generate and Browse Documentation
