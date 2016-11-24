@@ -5,7 +5,17 @@
 
 Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate a fancy e2e test documentation and make it available to everybody involved in your project through the Scenarioo Viewer web frontend.
 
-This is a sub project of Scenarioo, for more information on scenarioo, check [http://www.scenarioo.org](http://www.scenarioo.org).
+## Introduction to Scenarioo
+
+This is a sub project of Scenarioo.
+For general information about Scenarioo check our webpage 
+[http://www.scenarioo.org](http://www.scenarioo.org).
+
+## Introduction to ScenariooJS
+
+Presentation Slides from the Zühlke Client Tech Days 2016 Conference Session:
+[Effective E2E Testing with ScenariooJS and Protractor](http://scenarioo.org/e2e-testing-with-scenarioo-js)
+which is a good introduction and explanation how to use and introduce it.
 
 ## Use
 
