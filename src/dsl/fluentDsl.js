@@ -12,12 +12,12 @@
  *
  * That is why we propose to use this DSL in real projects as a blueprint starting point for your own e2e-test DSL.
  */
-var scenarioo = require('../index');
+import scenarioo from '../scenarioo-js';
 
 /**
  * Global configuration 'scenariooDslConfig' to define config for fluent DSL with default values.
  */
-var dslConfig = {
+export var dslConfig = {
 
   /**
    * Define all the allowed labels that can be applied on use cases, as key value-pairs, undefined labels will fail when set on a use case.
@@ -45,7 +45,7 @@ var dslConfig = {
 
 };
 
-function useCase(name) {
+export function useCase(name) {
 
   var description, labels, pendingMessage;
 
@@ -95,7 +95,7 @@ function useCase(name) {
   }
 }
 
-function scenario(name) {
+export function scenario(name) {
 
   var description, labels, pendingMessage;
 
@@ -155,7 +155,7 @@ function scenario(name) {
  * @param {object[]} [additionalProperties.screenAnnotations] - screenAnnotations are special objects to highlight rectangular areas in the screenshot and attach additional documentation data tot his areas (e.g. for clicked elements, or text typed by the user, etc.)
  * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
  **/
-function step(stepCaption, additionalProperties) {
+export function step(stepCaption, additionalProperties) {
   if (additionalProperties && additionalProperties.labels) {
     validateLabels('step', dslConfig.stepLabels, additionalProperties.labels);
   }

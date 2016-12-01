@@ -68,13 +68,19 @@ const scenarioo = {
   },
 
   /**
+   * @deprecated
+   *
    * Setup the new Fluent DSL to write e2e tests with scenarioo more easily.
    *
    * This defines global functions `usecase`, `scenario` and `step` to use for describing your e2e tests.
    *
+   * This is deprecated:
+   * you could also use the fluent DSL without having to call this activation function anymore, cause it is exposed by default when loading index.js.
+   *
    * See examples for how to use it.
    */
   setupFluentDsl: function() {
+    // Just import to define the globals
     require('./dsl/fluentDsl.js');
   },
 

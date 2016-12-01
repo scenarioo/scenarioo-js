@@ -6,9 +6,15 @@ var exportsConfig = {
 
   // Usual protractor test config
   allScriptsTimeout: 11000,
-  specs: ['test/**/*.spec.js'],
+  specs: ['test/**/*.spec.js', 'test/**/*.spec.ts'],
   baseUrl: e2eBaseUrl,
   rootElement: 'body',
+
+  beforeLaunch: function() {
+    require('ts-node').register({
+      project: 'test'
+    });
+  },
 
   /**
    * Enable & configure ScenariooJS reporter
@@ -77,10 +83,9 @@ var exportsConfig = {
 
     });
 
-    // one of the following (or both) is only needed when you want to use one of the gloabaly defined scenarioo DSLs
-    // which are helpful to describe your tests for the scenarioo documentation more easily.
+    // the following is only needed when you want to use the backwards DSL to support old
+    // scenarioo 0.1.x global functions in your tests.
     scenarioo.setupBackwardsDsl();
-    scenarioo.setupFluentDsl();
 
     /**
      * Calling your source control tool to get current revision

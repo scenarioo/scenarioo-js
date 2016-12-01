@@ -15,6 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import scenarioo from './scenarioo-js.js';
+import scenarioo from './scenarioo-js';
+import * as fluentDsl from './dsl/fluentDsl';
 
-module.exports = scenarioo;
+// also expose the fluent dsl functions on `scenarioo` by default
+// for working nicely with typescript typings
+// and to be able to import it nicely from this library root.
+scenarioo.useCase = fluentDsl.useCase;
+scenarioo.scenario = fluentDsl.scenario;
+scenarioo.step = fluentDsl.step;
+scenarioo.fluentDslConfig = fluentDsl.dslConfig;
+
+// to support both module systems
+export default scenarioo;
+if (typeof module === 'object' && module.exports) {
+  module.exports = scenarioo;
+}
+
