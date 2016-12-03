@@ -11,7 +11,7 @@
  *
  * We recommend to better use the new Fluent DSL of scenarioo in your tests instead of this more backwards compatible DSL.
  */
-var scenarioo = require('../index');
+import scenarioo from '../scenarioo-js';
 
 function describeUseCase(jasmineDescribeFunction, useCaseName, additionalPropertiesOrDescriptionOrDescribeFunction, describeFunction) {
   var additionalPropertiesOrDescription = describeFunction ? additionalPropertiesOrDescriptionOrDescribeFunction : null;
