@@ -25,6 +25,7 @@
     "docu": "gulp docu",
     "serve-example": "http-server -p 8081 example"
   },
+  "typings": "./lib/index.d.ts",
   "dependencies": {
     "del": "2.2.0",
     "glob": "7.0.3",
