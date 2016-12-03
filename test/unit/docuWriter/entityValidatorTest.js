@@ -30,7 +30,6 @@ describe('entityValidator', () => {
     it('should not throw on valid minimal build', () => {
       validator.validateBuild({
         name: 'Some Build name',
-        status: 'success',
         date: new Date().toISOString()
       });
     });
@@ -45,7 +44,7 @@ describe('entityValidator', () => {
     });
 
     it('should throw on invalid build: missing required properties', () => {
-      assert.throws(() => validator.validateBuild({}), /Missing required property: name .* Missing required property: status .* Missing required property: date/);
+      assert.throws(() => validator.validateBuild({}), /Missing required property: name .* Missing required property: date/);
     });
 
     it('should throw on invalid build: status attribute not "failed" or "success"', () => {
@@ -62,8 +61,7 @@ describe('entityValidator', () => {
 
     it('should not throw on valid minimal useCase', () => {
       validator.validateUseCase({
-        name: 'Some use case name',
-        status: 'success'
+        name: 'Some use case name'
       });
     });
 
@@ -77,7 +75,7 @@ describe('entityValidator', () => {
     });
 
     it('should throw on invalid useCase: missing required properties', () => {
-      assert.throws(() => validator.validateUseCase({}), /Missing required property: name .* Missing required property: status/);
+      assert.throws(() => validator.validateUseCase({}), /Missing required property: name .* /);
     });
 
     it('custom status text is allowed', () => {
