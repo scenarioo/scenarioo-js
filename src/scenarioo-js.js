@@ -77,7 +77,7 @@ const scenarioo = {
    * This is deprecated:
    * you could also use the fluent DSL without having to call this activation function anymore, cause it is exposed by default when loading index.js.
    *
-   * See examples for how to use it.
+   * See examples for how to use Fluent DSL.
    */
   setupFluentDsl: function() {
     // Just import to define the globals
@@ -86,7 +86,9 @@ const scenarioo = {
 
   /**
    * Will return the context for the current useCase.
-   * Allows you to set additional information like "description" and "labels"
+   * Allows you to set additional information like "description" and "labels".
+   *
+   * If you are using the Fluent DSL, you will not need it, the fluent DSL allows you to set this properties more easily.
    *
    * @func scenarioo#getUseCaseContext
    * @returns {context}
@@ -96,8 +98,10 @@ const scenarioo = {
   },
 
   /**
-   * will return the context for the current scenario.
+   * Will return the context for the current scenario.
    * Allows you to set additional information like "description" and "labels"
+   *
+   * If you are using the Fluent DSL, you will not need it, the fluent DSL allows you to set this properties more easily.
    *
    * @func scenarioo#getScenarioContext
    * @returns {context}
@@ -134,6 +138,8 @@ const scenarioo = {
 
   /**
    * MUST be called in an afterEach (and only in afterEach!), to ensure that all steps are written before the test is finished.
+   *
+   * If you are using the new fluent DSL, you do not have to care about it, since done by the DSL allready for you.
    */
   saveLastStep: function () {
 
@@ -162,6 +168,29 @@ const scenarioo = {
       }
     });
 
+  },
+
+  /**
+   * Enum constants to use as values for ScreenAnnotation field `style`.
+   */
+  ScreenAnnotationStyle: {
+    CLICK: 'CLICK',
+    KEYBOARD: 'KEYBOARD',
+    EXPECTED: 'EXPECTED',
+    NAVIGATE_TO_URL: 'NAVIGATE_TO_URL',
+    ERROR: 'ERROR',
+    WARN: 'WARN',
+    INFO: 'INFO',
+    HIGHLIGHT: 'HIGHLIGHT',
+    DEFAULT: 'DEFAULT'
+  },
+
+  /**
+   * Enum constants to use as values for ScreenAnnotation field `clickAction`.
+   */
+  ScreenAnnotationClickAction: {
+    TO_NEXT_STEP: 'TO_NEXT_STEP',
+    TO_URL: 'TO_URL'
   }
 
 };

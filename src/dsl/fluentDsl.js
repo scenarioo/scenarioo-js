@@ -15,9 +15,9 @@
 import scenarioo from '../scenarioo-js';
 
 /**
- * Global configuration 'scenariooDslConfig' to define config for fluent DSL with default values.
+ * Configuration 'scenarioo.fluentDslConfig' to define config for fluent DSL with default values.
  */
-export var dslConfig = {
+export var config = {
 
   /**
    * Define all the allowed labels that can be applied on use cases, as key value-pairs, undefined labels will fail when set on a use case.
@@ -78,7 +78,7 @@ export function useCase(name) {
       }
 
       beforeAll(function () {
-        validateLabels('useCase', dslConfig.useCaseLabels, labels);
+        validateLabels('useCase', config.useCaseLabels, labels);
         scenarioo.getUseCaseContext().setDescription(description);
         scenarioo.getUseCaseContext().addLabels(labels);
       });
@@ -133,7 +133,7 @@ export function scenario(name) {
     }
 
     function executeCallback() {
-      validateLabels('scenario', dslConfig.scenarioLabels, labels);
+      validateLabels('scenario', config.scenarioLabels, labels);
       scenarioo.getScenarioContext().setDescription(description);
       scenarioo.getScenarioContext().addLabels(labels);
       return itCallbackFunction();
@@ -144,7 +144,7 @@ export function scenario(name) {
 }
 
 /*
- * Save a step, also validates the passed labels according to global `scenariooDslConfig`.
+ * Save a step, also validates the passed labels according to `scenarioo.fluentDslConfig`.
  *
  * Call this in your e2e test functions whenever you want scenarioo to report a step (with screen shot and metadata, etc.),
  * or even better, hide this calls in your page objects or hook directly into protractor methods to do a step on each important interaction.
@@ -157,7 +157,7 @@ export function scenario(name) {
  **/
 export function step(stepCaption, additionalProperties) {
   if (additionalProperties && additionalProperties.labels) {
-    validateLabels('step', dslConfig.stepLabels, additionalProperties.labels);
+    validateLabels('step', config.stepLabels, additionalProperties.labels);
   }
   return scenarioo.saveStep(stepCaption, additionalProperties);
 }
@@ -166,13 +166,15 @@ function validateLabels(scopeText, definedLabels, labels) {
   if (labels) {
     labels.forEach(function (label) {
       if (!definedLabels[label]) {
-        fail('Label "' + label + '" is not defined in your project as a valid label for ' + scopeText + '. Please use `scenariooDslConfig.' + scopeText + 'LabelDefinitions` to define your labels. Currently defined labels allowed in a ' + scopeText + ' are: ' + JSON.stringify(definedLabels));
+        fail('Label "' + label + '" is not defined in your project as a valid label for ' + scopeText + '. Please use `scenarioo.fluentDslConfig.' + scopeText + 'LabelDefinitions` to define your labels. Currently defined labels allowed in a ' + scopeText + ' are: ' + JSON.stringify(definedLabels));
       }
     });
   }
 }
 
-global.scenariooDslConfig = dslConfig;
+// just for backwards compatibility, for those projects allready using these globals.
+// you should instead import it from library root (index --> scenarioo object).
+global.scenariooDslConfig = config;
 global.useCase = useCase;
 global.scenario = scenario;
 global.step = step;
