@@ -24,7 +24,7 @@ import * as fluentDsl from './dsl/fluentDsl';
 scenarioo.useCase = fluentDsl.useCase;
 scenarioo.scenario = fluentDsl.scenario;
 scenarioo.step = fluentDsl.step;
-scenarioo.fluentDslConfig = fluentDsl.dslConfig;
+scenarioo.fluentDslConfig = fluentDsl.config;
 
 // to support both module systems
 export default scenarioo;
