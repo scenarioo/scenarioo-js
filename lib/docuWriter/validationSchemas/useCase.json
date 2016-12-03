@@ -15,8 +15,7 @@
     }
   },
   "required": [
-    "name",
-    "status"
+    "name"
   ],
   "additionalProperties": false
 }
