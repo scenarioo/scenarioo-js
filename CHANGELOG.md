@@ -4,11 +4,12 @@
 
 ### New Features
 * Integrates easily with Jasmine 2 and Protractor
+* Comes with TypeScript Typings for newest API
 * Automatic screenshots on test failures and at the end of tests
 * Comes with more comfortable DSLs:
    * Brand new "Fluent DSL"
    * "Backwards DSL" for easy migration
-* Can be used with vanilla Jasmine notation as well
+* Can be used now with vanilla Jasmine test notation as well
 * Can write more additional data to the documentation:
    * labels
    * screen annotations
@@ -23,7 +24,7 @@
 * The library API slightly changed, but there is a very easy migration path. Check out the migration guide: [Migration Guide](README.md#migration-guide). 
 
 ### Format Compatibility
-* Compatible with Scenarioo Viewer 3.x and 2.x
+* Writes format 2.1 that is compatible with Scenarioo Viewer 3.x and 2.x
 
 ## Version 0.1.9
 
