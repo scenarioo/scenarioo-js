@@ -25,11 +25,13 @@ npm install
 npm run e2e
 ```
 
-Don't be alarmed when some of the tests failed.
+**Don't be alarmed when this fails with errors, this is expected!**
+ 
 
-You should see:
+**You should see following in the output:**<br/>
+```
 14 specs, 5 failures, 5 pending specs
-
+```
 
 This is for testing and demonstrating how test failures and also pending tests are reported in scenarioo.
 
