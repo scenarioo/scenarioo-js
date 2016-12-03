@@ -1,5 +1,7 @@
 import {browser, element, by} from 'protractor';
 import {useCase, scenario, step} from '../../lib';
+import {ScreenAnnotationStyle} from "../../lib";
+import {ScreenAnnotationClickAction} from "../../lib";
 
 /**
  * The use case description
@@ -26,9 +28,19 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         // to automatically document a step on each important interaction and not clutter your tests with such calls
         // (actually that is what we recommend for real projects and can be done easily).
 
-        // A step could also have additional propoerties, like e.g. labels (or screen annotations, as you can see in other examples
-        // (see pure jasmine example for other possibilities in steps)
+        // A step could also have additional propoerties, like e.g. labels
         step('a step with labels', {labels: ['step-label-example']});
+
+        // Or a step can have screen annotations
+        step('a step with a screen annotation', {
+          screenAnnotations: [
+            {
+              region: { x: 20, y:20, width: 500, height: 30 },
+              style: ScreenAnnotationStyle.CLICK,
+              clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP
+            }
+          ]
+        });
 
         // more steps of this scenario would of course come here ...
 
