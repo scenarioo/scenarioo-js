@@ -87,9 +87,6 @@ onPrepare: function onPrepare() {
       disableScenariooLogOutput: false
       
     });  
-      
-    // Setup Fluent DSL (only if you need it, which is recommended)
-    scenarioo.setupFluentDsl();
     
   }
   
