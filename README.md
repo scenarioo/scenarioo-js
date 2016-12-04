@@ -123,6 +123,8 @@ since ScenariooJS does not depend on protractor directly).
 
 ```javascript
 
+var secenarioo = require('scenarioo-js');
+
 describe('Example Usecase', function() {
 
   afterEach(scenarioo.saveLastStep);
@@ -137,6 +139,7 @@ describe('Example Usecase', function() {
 
   });
 });
+
 ```
 
 ScenariooJS will report a useCase for every `describe` and a scenario for every `it` function in your test.
