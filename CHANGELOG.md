@@ -4,16 +4,17 @@
 
 ### New Features
 * Integrates easily with Jasmine 2 and Protractor
-* Comes with TypeScript Typings for newest API
-* Automatic screenshots on test failures and at the end of tests
+* Comes with TypeScript Typings for using newest API in TypeScript
 * Comes with more comfortable DSLs:
    * Brand new "Fluent DSL"
    * "Backwards DSL" for easy migration
 * Can be used now with vanilla Jasmine test notation as well
+* Automatic screenshots on test failures and at the end of tests
+* Writes visible text for full text search into each step
 * Can write more additional data to the documentation:
    * labels
    * screen annotations
-* Improved Logging (can even be turned off and integrates nicely with jasmine output)
+* Improved Logging (can even be turned off and integrates nicely with jasmine's default output)
 * Support to clean output directory before running tests
 
 ### Bug Fixes
