@@ -1,5 +1,9 @@
 'use strict';
 
+// import scenariooJS: in real projects you would write following instead:
+// var scenarioo = require('scenarioo-js');
+var scenarioo = require('../lib');
+
 var e2eBaseUrl = 'http://localhost:8081';
 
 var exportsConfig = {
@@ -23,10 +27,6 @@ var exportsConfig = {
 
     // Read current software version that is documented from source control info
     var gitVersion = readVersionFromGit();
-
-    // import scenariooJS as globaly available reporting tool in your e2e tests
-    global.scenarioo = require('../lib');
-    // instead in your real project use: global.scenarioo = require('scenarioo-js');
 
     // Setup and configure the ScenariooJS jasmine reporter
     scenarioo.setupJasmineReporter(jasmine, {

@@ -26,7 +26,6 @@ npm run e2e
 ```
 
 **Don't be alarmed when this fails with errors, this is expected!**
- 
 
 **You should see following in the output:**<br/>
 ```
