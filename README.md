@@ -53,9 +53,11 @@ This would be the preferred way of using protractor as a non-global dependency.
 Configure scenarioo-js in your protractor config file.
 
 ```javascript
+
+var scenarioo = require('scenarioo-js');
+
 onPrepare: function onPrepare() {
     
-    global.scenarioo = require('scenarioo-js');
     scenarioo.setupJasmineReporter(jasmine, {
       
       targetDirectory: './scenarioReports',
@@ -107,11 +109,11 @@ For a quick reference, you can also have a look at the the following example fil
     - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
  - [Fluent DSL for simple and clean UI tests _(Recommended)_](#scenarioo-fluent-dsl)
     - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
+    - [exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts)
     - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
  - [Backwards DSL for fast Migration from ScenariooJS 1 to ScenariooJS 2](#backwards-dsl-for-fast-migration)
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
-
 
 #### Vanilla Jasmine Style
 
@@ -185,6 +187,14 @@ useCase('Example Use Case with Fluent DSL')
 ```
 
 See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs. 
+
+#### Using Scenarioo with Typescript
+
+There are now typings included for the Fluent DSL (only).
+Since this is the API we recommend to use in future we only provide typings for this Fluent DSL.
+See special Example with Fluent DSL in TypeScript 
+[exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts))
+
 
 #### Backwards DSL
 
