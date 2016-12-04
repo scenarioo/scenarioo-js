@@ -1,10 +1,13 @@
 # ScenariooJS - Release Process
 
-* Draft the release notes on GitHub (https://github.com/scenarioo/scenarioo-js/releases)
+* Review CHANGELOG.md and prepare the Release Notes
+
+* Draft the release on GitHub (https://github.com/scenarioo/scenarioo-js/releases)
   * Use semantic versioning
   * No `v` prefix for version number
   * Target: master
   * Meaningful title and descriptions (see previous releases)
+  * Use text from CHANGELOG.md
   * **Save only as Draft!**
 
 * Set correct version in package.json and run a full build
