@@ -1,75 +1,29 @@
-'use strict';
+import fs from 'fs';
+import assert from 'assert';
+import isArray from 'lodash/isArray';
+import Q from 'q';
 
-var
-  xml2js = require('xml2js'),
-  Q = require('q'),
-  expect = require('expect.js'),
-  fs = require('fs'),
-  findit = require('findit');
+function assertXmlContent(filePath, expectedContents) {
+  return Q.nfcall(fs.readFile, filePath, 'utf-8')
+    .then(xmlContent => {
 
+      xmlContent = xmlContent.replace(/(?:\r\n|\r|\n|\t)/g, '');
 
-function logDirectoryTree(rootDir) {
-
-  var deferred = Q.defer();
-
-  var find = findit(rootDir);
-
-  find.on('file', function (file) {
-    console.log(file);
-  });
-
-  find.on('directory', function (file) {
-    console.log(file);
-  });
-
-  find.on('end', function () {
-    deferred.resolve();
-  });
-
-  find.on('error', function () {
-    deferred.reject();
-  });
-
-  return deferred.promise;
-}
-
-function assertXmlContent(filePath, content, done) {
-  fs.readFile(filePath, function (err, data) {
-    if (err) {
-      done(err);
-      return;
-    }
-
-    var parser = new xml2js.Parser();
-    parser.parseString(data, function (err, result) {
-      if (err) {
-        done(err);
-        return;
+      if (!isArray(expectedContents)) {
+        expectedContents = [expectedContents];
       }
-      expect(result).to.eql(content);
 
-      done();
+      expectedContents.forEach(expectedContent => {
+        assert(xmlContent.indexOf(expectedContent) > -1, 'Given xml is expected to contain "' + expectedContent + '"\n' + xmlContent);
+      });
     });
-  });
 }
 
-function assertFileExists(targetDir, filePath, done) {
-  fs.exists(filePath, function (result) {
-    if (result === false) {
-      // file not found, list files in our test-out dir
-      logDirectoryTree(targetDir)
-        .then(function () {
-          done(new Error('File ' + filePath + ' does not exist!'));
-        });
-
-    } else {
-      done();
-    }
-  });
+function assertFileExists(filePath) {
+  return Q.nfcall(fs.stat, filePath);
 }
 
-module.exports = {
-  logDirectoryTree: logDirectoryTree,
+export default {
   assertXmlContent: assertXmlContent,
   assertFileExists: assertFileExists
 };

@@ -2,12 +2,12 @@
   "env": {
     "node": true
   },
-
   "rules": {
   },
-
   "globals": {
-    "before": false,
-    "beforeEach": false
+    "afterEach": false,
+    "beforeEach": false,
+    "after": false,
+    "before": false
   }
 }

@@ -1,21 +1,45 @@
 {
+  "extends": "eslint:recommended",
   "env": {
-    "node": true
+    "node": true,
+    "es6": true
   },
-
+  "parserOptions": {
+    "ecmaFeatures": {
+      "ecmaVersion": 6
+    },
+    "sourceType": "module"
+  },
   "rules": {
     "curly": 2,
-    "quotes": [2,"single"]
+    "semi": 2,
+    "eqeqeq": 2,
+    "no-unused-expressions": 2,
+    "quotes": [
+      2,
+      "single"
+    ],
+    "no-console": 0
   },
-
   "globals": {
-    "browser": false,
     "jasmine": false,
+    "beforeAll": false,
+    "afterAll": false,
+    "beforeEach": false,
+    "afterEach": false,
     "describe": false,
-    "ddescribe": false,
+    "fdescribe": false,
+    "xdescribe": false,
     "it": false,
-    "iit": false,
+    "xit": false,
+    "fit": false,
+    "pending": false,
+    "expect": false,
+    "fail": false,
+    "by": false,
     "element": false,
-    "by": false
+    "browser": false,
+    "describeUseCase": false,
+    "describeScenario": false
   }
 }

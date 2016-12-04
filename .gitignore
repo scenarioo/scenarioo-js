@@ -1,5 +1,27 @@
-node_modules
-test/out/**
+# IDE
 .idea
+
+# Test Output
+test/out/**
 test-reports
+
+# Various
 *.orig
+npm_dependencies_report.md
+docu
+target
+*.iml
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history

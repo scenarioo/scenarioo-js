@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "labels": {
+      "$ref": "labels"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "additionalProperties": false
+}

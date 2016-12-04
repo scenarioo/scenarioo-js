@@ -1,0 +1,33 @@
+{
+  "env": {
+    "node": true
+  },
+  "rules": {
+  },
+  "globals": {
+    "beforeAll": false,
+    "afterAll": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "describe": false,
+    "fdescribe": false,
+    "xdescribe": false,
+    "it": false,
+    "xit": false,
+    "fit": false,
+    "pending": false,
+    "expect": false,
+    "fail": false,
+    "scenarioo": false,
+    "describeUseCase": false,
+    "xdescribeUseCase": false,
+    "fdescribeUseCase": false,
+    "describeScenario": false,
+    "fdescribeScenario": false,
+    "xdescribeScenario": false,
+    "scenariooDslConfig": false,
+    "useCase": false,
+    "scenario": false,
+    "step": false
+  }
+}
