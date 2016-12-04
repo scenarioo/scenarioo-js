@@ -110,6 +110,9 @@
             "type": "string"
           }
         },
+        "required": [
+          "region"
+        ],
         "additionalProperties": false
       }
     },

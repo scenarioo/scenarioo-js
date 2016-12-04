@@ -11,7 +11,7 @@ import merge from 'lodash/merge';
 
 import Q from 'q';
 import mkdirp from 'mkdirp';
-import { leadingZeros, encodeFileName } from './utils';
+import {leadingZeros, encodeFileName} from './utils';
 import store from '../scenariooStore';
 import identifierSanitizer from './identifierSanitizer';
 import entityValidator from './entityValidator';
@@ -224,17 +224,27 @@ export function saveStep(stepTitle, additionalProperties) {
  * @returns {Promise}
  */
 function getStepDataFromWebpage() {
-  return browser
-    .getCurrentUrl()
+  var currentUrlPromise = browser.getCurrentUrl();
+  var htmlSourcePromise = browser.getPageSource();
+  var visibleTextPromise = browser.findElement(by.css('body')).getText();
+
+  return currentUrlPromise
     .then(currentUrl => {
 
-      return browser.getPageSource()
-        .then(pageHtmlSource => {
-          return {
-            url: currentUrl,
-            source: pageHtmlSource
-          };
+      return htmlSourcePromise
+        .then(htmlSource => {
+
+          return visibleTextPromise
+            .then(visibleText => {
+              return {
+                url: currentUrl,
+                source: htmlSource,
+                visibleText: visibleText
+              };
+            });
+
         });
+
     });
 }
 
@@ -250,7 +260,6 @@ function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalPro
   return getStepDataFromWebpage()
     .then(browserData => {
 
-
       const currentStepCounter = leadingZeros(currentScenario.stepCounter);
       const pageName = getPageNameFromUrl(browserData.url);
       const stepData = {
@@ -265,7 +274,9 @@ function writeStepXml(stepTitle, currentScenario, absScenarioPath, additionalPro
         html: {
           htmlSource: browserData.source
         },
-        metadata: {}
+        metadata: {
+          visibleText: browserData.visibleText
+        }
       };
 
       // now let's add additional properties that were passed in by the developer

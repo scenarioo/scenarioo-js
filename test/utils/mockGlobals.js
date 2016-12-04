@@ -15,6 +15,11 @@ function registerMockGlobals() {
     }
   };
 
+  global.by = {
+    css: function(locator) {
+      return {byCss: locator};
+    }
+  };
 
   global.browser = {
     getPageSource: function() {
@@ -29,8 +34,18 @@ function registerMockGlobals() {
     },
     takeScreenshot: function () {
       var deferred = Q.defer();
-      deferred.resolve('dummyImageDate');
+      deferred.resolve('dummyImageData');
       return deferred.promise;
+    },
+    findElement: function () {
+      var element = {
+        getText: function() {
+          var deferred = Q.defer();
+          deferred.resolve('dummy visible text');
+          return deferred.promise;
+        }
+      };
+      return element;
     }
   };
 

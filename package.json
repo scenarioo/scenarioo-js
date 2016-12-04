@@ -1,7 +1,7 @@
 {
   "name": "scenarioo-js",
   "description": "Scenarioo API for Javascript to generate Scenarioo Documentations",
-  "version": "0.1.9",
+  "version": "3.0.0",
   "homepage": "http://scenarioo.org",
   "author": {
     "name": "xeronimus",
@@ -25,6 +25,7 @@
     "docu": "gulp docu",
     "serve-example": "http-server -p 8081 example"
   },
+  "typings": "./lib/index.d.ts",
   "dependencies": {
     "del": "2.2.0",
     "glob": "7.0.3",
