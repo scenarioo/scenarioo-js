@@ -317,7 +317,7 @@ export interface ScreenAnnotation {
   /**
    * The style for the annotation. If not set the default style is used.
    */
-  style?: ScreenAnnotationStyle,
+  style?: ScreenAnnotationStyleOptions,
 
   /**
    * Optional text to be displkayed directly on screen inside the annotation.
@@ -337,7 +337,7 @@ export interface ScreenAnnotation {
   /**
    * Optional click action that should happen when user clicks on the rectangular annotation area in the documentation.
    */
-  clickAction?: ScreenAnnotationClickAction,
+  clickAction?: ScreenAnnotationClickActionOptions,
 
   /**
    * The URL to open in separate browser tab for clickAction = `TO_URL`.
@@ -351,67 +351,9 @@ export interface ScreenAnnotation {
 
 }
 
-export enum ScreenAnnotationStyle {
+export type ScreenAnnotationStyleOptions = 'CLICK' | 'KEYBOARD' | 'EXPECTED' | 'NAVIGATE_TO_URL' | 'ERROR' | 'WARN'
+  | 'INFO' | 'HIGHLIGHT' | 'DEFAULT';
+export type ScreenAnnotationClickActionOptions = 'TO_NEXT_STEP' | 'TO_URL';
 
-  /**
-   * Annotation with a mouse click icon, for click interactions in your test.
-   */
-  CLICK = 'CLICK',
-
-  /**
-   * Annotation with a keyboard icon for some data entered in your test.
-   */
-  KEYBOARD = 'KEYBOARD',
-
-  /**
-   * Annotation with a check mark icon, for expected outcomes that have been checked in your test like data displayed somewhere.
-   */
-  EXPECTED = 'EXPECTED',
-
-  /**
-   * Annotation with a browser navigation icon, for showing URLs the user navigated to or similar things.
-   */
-  NAVIGATE_TO_URL = 'NAVIGATE_TO_URL',
-
-  /**
-   * Annotation with an error icon, for arbitrary error annotations
-   * or as well fot expectations that have not been successful (w.g. wrong text displayed)
-   */
-  ERROR = 'ERROR',
-
-  /**
-   * Annotation with an warning icon, for arbitrary warning annotations.
-   */
-  WARN = 'WARN',
-
-  /**
-   * Annotation with an info icon, for arbitrary information annotations.
-   */
-  INFO = 'INFO',
-
-  /**
-   * Annotations with a highlight icon to mark and annotate arbitrary thing in your screen.
-   */
-  HIGHLIGHT = 'HIGHLIGHT',
-
-  /**
-   * Arbitrary annotations with a generic default annotation icon.
-   */
-  DEFAULT = 'DEFAULT'
-
-}
-
-export enum ScreenAnnotationClickAction {
-
-  /**
-   * Click action to go to the next step in this scenario, when clicking on this annotation.
-   */
-  TO_NEXT_STEP = 'TO_NEXT_STEP',
-
-  /**
-   * Click action to open a different resource (like additional documentation) in a separate browser tab,
-   * when clicking on this annotation in the documentation.
-   */
-  TO_URL = 'TO_URL'
-
-}
+export declare var ScreenAnnotationStyle : any;
+export declare var ScreenAnnotationClickAction : any;
