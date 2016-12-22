@@ -161,6 +161,8 @@ For a nicer and cleaner syntax we recommend to use the **New Fluent DSL** of sce
 even easier in your tests and annotate them with additional important information for the documentation:
 
 ```javascript
+import {useCase, scenario, step} from 'scenarioo';
+
 useCase('Example Use Case with Fluent DSL')
   .description('An optional but recommended description for the use case')
   .labels(['example-custom-label'])
@@ -188,12 +190,45 @@ useCase('Example Use Case with Fluent DSL')
 
 See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs. 
 
+#### Using labels with the Fluent DSL
+
+To avoid misspelling and cluttering of labels, the Labels have to be registered before usage with the Fluent DSL. 
+The use of unregistered labels will make the test fail. You can register your labels like this:
+(see also [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js))
+ 
+```
+import {fluentDslConfig} from 'scenarioo';
+
+/**
+ * Define all the labels that are allowed to be used on use cases
+ */
+fluentDslConfig.useCaseLabels = {
+  'example-custom-label': 'Just an example label that is defined to be allowed to be set on usecases, define well which labels you want to use in your project here.'
+};
+
+/**
+ * Define all the labels that are allowed to be used on scenarios
+ */
+fluentDslConfig.scenarioLabels = {
+  'happy': 'Happy case scenarios',
+  'error': 'Error scenarios that test that the system behaves as expected in error cases',
+  'example-label': 'Just an example dummy label that can be set on scenarios'
+};
+
+/**
+ * Define all the labels that are allowed to be used on steps
+ */
+fluentDslConfig.stepLabels = {
+  'step-label-example': 'just a dummy example for a label on a step'
+};
+```
+
 #### Using Scenarioo with Typescript
 
-There are now typings included for the Fluent DSL (only).
-Since this is the API we recommend to use in future we only provide typings for this Fluent DSL.
-See special Example with Fluent DSL in TypeScript 
-[exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts))
+Typescript Typings are provided for the Fluent DSL (only).
+Since the Fluent DSL is the recommended API of the future, older Scenarioo APIs do not come with typings as their usage is discouraged.
+Refer to [exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts)
+for a complete example using TypeScript with the Fluent DSL.
 
 
 #### Backwards DSL
