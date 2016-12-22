@@ -187,41 +187,11 @@ useCase('Example Use Case with Fluent DSL')
       
 });
 ```
+To avoid misspelling and cluttering of labels, the Labels have to be registered before usage with the Fluent DSL.
+Refer to [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js) to see how to register
+labels for usage in useCases, scenarios and steps.
 
 See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs. 
-
-#### Using labels with the Fluent DSL
-
-To avoid misspelling and cluttering of labels, the Labels have to be registered before usage with the Fluent DSL. 
-The use of unregistered labels will make the test fail. You can register your labels like this:
-(see also [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js))
- 
-```
-import {fluentDslConfig} from 'scenarioo';
-
-/**
- * Define all the labels that are allowed to be used on use cases
- */
-fluentDslConfig.useCaseLabels = {
-  'example-custom-label': 'Just an example label that is defined to be allowed to be set on usecases, define well which labels you want to use in your project here.'
-};
-
-/**
- * Define all the labels that are allowed to be used on scenarios
- */
-fluentDslConfig.scenarioLabels = {
-  'happy': 'Happy case scenarios',
-  'error': 'Error scenarios that test that the system behaves as expected in error cases',
-  'example-label': 'Just an example dummy label that can be set on scenarios'
-};
-
-/**
- * Define all the labels that are allowed to be used on steps
- */
-fluentDslConfig.stepLabels = {
-  'step-label-example': 'just a dummy example for a label on a step'
-};
-```
 
 #### Using Scenarioo with Typescript
 

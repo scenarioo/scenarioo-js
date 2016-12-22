@@ -10,10 +10,8 @@ import {
   ScreenAnnotationRegion
 } from '../../lib';
 
-
-fluentDslConfig.useCaseLabels = {
-  'example-custom-label': 'Just an example label that is defined to be allowed to be set on usecases, define well which labels you want to use in your project here.'
-};
+// Note that labels have to be registered before usage. Usually we do this once on starting up the test suite.
+// refer to ./exampleFluentDslLabelDefinitions.js to see how to define labels
 
 /**
  * The use case description
@@ -43,18 +41,15 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         step('a step with labels', {labels: ['step-label-example']});
 
         // Or a step can have screen annotations
-        // with a screen region
-        const region: ScreenAnnotationRegion = {
-          x: 20,
-          y: 20,
-          width: 500,
-          height: 30
-        };
-
         step('a step with a screen annotation', {
           screenAnnotations: [
             {
-              region: region,
+              region: {
+                x: 20,
+                y: 20,
+                width: 500,
+                height: 30
+              },
               style: ScreenAnnotationStyle.CLICK,
               clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP
             }
