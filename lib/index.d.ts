@@ -317,7 +317,7 @@ export interface ScreenAnnotation {
   /**
    * The style for the annotation. If not set the default style is used.
    */
-  style?: ScreenAnnotationStyleOptions,
+  style?: ScreenAnnotationStyle,
 
   /**
    * Optional text to be displkayed directly on screen inside the annotation.
@@ -337,7 +337,7 @@ export interface ScreenAnnotation {
   /**
    * Optional click action that should happen when user clicks on the rectangular annotation area in the documentation.
    */
-  clickAction?: ScreenAnnotationClickActionOptions,
+  clickAction?: ScreenAnnotationClickAction,
 
   /**
    * The URL to open in separate browser tab for clickAction = `TO_URL`.
@@ -351,9 +351,60 @@ export interface ScreenAnnotation {
 
 }
 
-export type ScreenAnnotationStyleOptions = 'CLICK' | 'KEYBOARD' | 'EXPECTED' | 'NAVIGATE_TO_URL' | 'ERROR' | 'WARN'
-  | 'INFO' | 'HIGHLIGHT' | 'DEFAULT';
-export type ScreenAnnotationClickActionOptions = 'TO_NEXT_STEP' | 'TO_URL';
+export type ScreenAnnotationStyle =
+  'CLICK' | 'KEYBOARD' | 'EXPECTED' | 'NAVIGATE_TO_URL' | 'ERROR' | 'WARN'
+    | 'INFO' | 'HIGHLIGHT' | 'DEFAULT';
+export namespace ScreenAnnotationStyle {
 
-export declare var ScreenAnnotationStyle : any;
-export declare var ScreenAnnotationClickAction : any;
+  /**
+   * Annotation with a mouse click icon, for click interactions in your test.
+   */
+  export const CLICK: ScreenAnnotationStyle;
+
+  /**
+   * Annotation with a keyboard icon for some data entered in your test.
+   */
+  export const KEYBOARD: ScreenAnnotationStyle;
+
+  /**
+   * Annotation with a check mark icon, for expected outcomes that have been checked in your test like data displayed somewhere.
+   */
+  export const EXPECTED: ScreenAnnotationStyle;
+
+  /**
+   * Annotation with a browser navigation icon, for showing URLs the user navigated to or similar things.
+   */
+  export const NAVIGATE_TO_URL: ScreenAnnotationStyle;
+
+  /**
+   * Annotation with an error icon, for arbitrary error annotations
+   * or as well fot expectations that have not been successful (w.g. wrong text displayed)
+   */
+  export const ERROR: ScreenAnnotationStyle;
+
+  /**
+   * Annotation with an warning icon, for arbitrary warning annotations.
+   */
+  export const WARN: ScreenAnnotationStyle;
+
+  /**
+   * Annotation with an info icon, for arbitrary information annotations.
+   */
+  export const INFO: ScreenAnnotationStyle;
+
+  /**
+   * Annotations with a highlight icon to mark and annotate arbitrary thing in your screen.
+   */
+  export const HIGHLIGHT: ScreenAnnotationStyle;
+
+  /**
+   * Arbitrary annotations with a generic default annotation icon.
+   */
+  export const DEFAULT: ScreenAnnotationStyle;
+}
+
+export type ScreenAnnotationClickAction = 'TO_NEXT_STEP' | 'TO_URL';
+export namespace ScreenAnnotationClickAction {
+  export const TO_NEXT_STEP: ScreenAnnotationClickAction;
+  export const TO_URL;
+}
