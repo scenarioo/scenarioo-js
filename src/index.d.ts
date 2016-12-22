@@ -351,67 +351,70 @@ export interface ScreenAnnotation {
 
 }
 
-export enum ScreenAnnotationStyle {
+export type ScreenAnnotationStyle =
+  'CLICK' | 'KEYBOARD' | 'EXPECTED' | 'NAVIGATE_TO_URL' | 'ERROR' | 'WARN'
+    | 'INFO' | 'HIGHLIGHT' | 'DEFAULT';
+
+export namespace ScreenAnnotationStyle {
 
   /**
    * Annotation with a mouse click icon, for click interactions in your test.
    */
-  CLICK = 'CLICK',
+  export const CLICK: ScreenAnnotationStyle;
 
   /**
    * Annotation with a keyboard icon for some data entered in your test.
    */
-  KEYBOARD = 'KEYBOARD',
+  export const KEYBOARD: ScreenAnnotationStyle;
 
   /**
    * Annotation with a check mark icon, for expected outcomes that have been checked in your test like data displayed somewhere.
    */
-  EXPECTED = 'EXPECTED',
+  export const EXPECTED: ScreenAnnotationStyle;
 
   /**
    * Annotation with a browser navigation icon, for showing URLs the user navigated to or similar things.
    */
-  NAVIGATE_TO_URL = 'NAVIGATE_TO_URL',
+  export const NAVIGATE_TO_URL: ScreenAnnotationStyle;
 
   /**
    * Annotation with an error icon, for arbitrary error annotations
    * or as well fot expectations that have not been successful (w.g. wrong text displayed)
    */
-  ERROR = 'ERROR',
+  export const ERROR: ScreenAnnotationStyle;
 
   /**
    * Annotation with an warning icon, for arbitrary warning annotations.
    */
-  WARN = 'WARN',
+  export const WARN: ScreenAnnotationStyle;
 
   /**
    * Annotation with an info icon, for arbitrary information annotations.
    */
-  INFO = 'INFO',
+  export const INFO: ScreenAnnotationStyle;
 
   /**
    * Annotations with a highlight icon to mark and annotate arbitrary thing in your screen.
    */
-  HIGHLIGHT = 'HIGHLIGHT',
+  export const HIGHLIGHT: ScreenAnnotationStyle;
 
   /**
    * Arbitrary annotations with a generic default annotation icon.
    */
-  DEFAULT = 'DEFAULT'
-
+  export const DEFAULT: ScreenAnnotationStyle;
 }
 
-export enum ScreenAnnotationClickAction {
+export type ScreenAnnotationClickAction = 'TO_NEXT_STEP' | 'TO_URL';
 
+export namespace ScreenAnnotationClickAction {
   /**
    * Click action to go to the next step in this scenario, when clicking on this annotation.
    */
-  TO_NEXT_STEP = 'TO_NEXT_STEP',
+  export const TO_NEXT_STEP: ScreenAnnotationClickAction;
 
   /**
    * Click action to open a different resource (like additional documentation) in a separate browser tab,
    * when clicking on this annotation in the documentation.
    */
-  TO_URL = 'TO_URL'
-
+  export const TO_URL: ScreenAnnotationClickAction;
 }

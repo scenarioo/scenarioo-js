@@ -1,5 +1,13 @@
 # Scenarioo JS Versions
 
+## Version 3.0.1
+
+### Bug Fixes
+* Improve TypeScript Typings for ScreenAnnotations to be 100% TypeScript conform (#46)
+
+### Format Compatibility
+* Writes format 2.1 that is compatible with Scenarioo Viewer 3.x and 2.x
+
 ## Version 3.0
 
 ### New Features
