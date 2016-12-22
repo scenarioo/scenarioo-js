@@ -354,6 +354,7 @@ export interface ScreenAnnotation {
 export type ScreenAnnotationStyle =
   'CLICK' | 'KEYBOARD' | 'EXPECTED' | 'NAVIGATE_TO_URL' | 'ERROR' | 'WARN'
     | 'INFO' | 'HIGHLIGHT' | 'DEFAULT';
+
 export namespace ScreenAnnotationStyle {
 
   /**
@@ -404,7 +405,16 @@ export namespace ScreenAnnotationStyle {
 }
 
 export type ScreenAnnotationClickAction = 'TO_NEXT_STEP' | 'TO_URL';
+
 export namespace ScreenAnnotationClickAction {
+  /**
+   * Click action to go to the next step in this scenario, when clicking on this annotation.
+   */
   export const TO_NEXT_STEP: ScreenAnnotationClickAction;
-  export const TO_URL;
+
+  /**
+   * Click action to open a different resource (like additional documentation) in a separate browser tab,
+   * when clicking on this annotation in the documentation.
+   */
+  export const TO_URL: ScreenAnnotationClickAction;
 }
