@@ -1,7 +1,19 @@
 import {browser, element, by} from 'protractor';
-import {useCase, scenario, step} from '../../lib';
-import {ScreenAnnotationStyle} from "../../lib";
-import {ScreenAnnotationClickAction} from "../../lib";
+// when using the npm module, use `import {...} from 'scenarioo'` instead
+import {
+  useCase,
+  scenario,
+  step,
+  fluentDslConfig,
+  ScreenAnnotationStyle,
+  ScreenAnnotationClickAction,
+  ScreenAnnotationRegion
+} from '../../lib';
+
+
+fluentDslConfig.useCaseLabels = {
+  'example-custom-label': 'Just an example label that is defined to be allowed to be set on usecases, define well which labels you want to use in your project here.'
+};
 
 /**
  * The use case description
@@ -17,8 +29,7 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
     scenario('Example Scenario with Fluent DSL')
       .description('An optional but recommended description for the scenario')
       .labels(['happy', 'example-label'])
-      .it(function () {
-
+      .it(() => {
         browser.get('/index.html');
 
         // use the step method to document interaction steps inside the scenario (with screenshot, etc.)
@@ -32,10 +43,18 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         step('a step with labels', {labels: ['step-label-example']});
 
         // Or a step can have screen annotations
+        // with a screen region
+        const region: ScreenAnnotationRegion = {
+          x: 20,
+          y: 20,
+          width: 500,
+          height: 30
+        };
+
         step('a step with a screen annotation', {
           screenAnnotations: [
             {
-              region: { x: 20, y:20, width: 500, height: 30 },
+              region: region,
               style: ScreenAnnotationStyle.CLICK,
               clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP
             }
@@ -43,7 +62,6 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         });
 
         // more steps of this scenario would of course come here ...
-
       });
 
     scenario('Example Failing Scenario with several expectation failures')

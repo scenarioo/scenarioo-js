@@ -45,6 +45,11 @@ export declare var scenario: (name: string) => ScenarioDeclaration;
  */
 export declare var step: (stepCaption: string, additionalProperties?: StepProperties) => any;
 
+export interface RecordLastStepForStatusConfig {
+  failed: boolean,
+  success: boolean
+}
+
 /**
  * Configuration object with all configuration properties for setup of scenarioo JS reporter.
  */
@@ -133,10 +138,7 @@ export interface ScenariooConfig {
    * Consider also the other scenarioo jasmine reporter config option 'reportStepOnExpectationFailed',
    * to also take a screenshot for every failed expectation separately, which is recommended.
    */
-  recordLastStepForStatus?: {
-    failed: boolean,
-    success: boolean
-  },
+  recordLastStepForStatus?: RecordLastStepForStatusConfig,
 
   /**
    * Optional parameter to turn additional scenarioo log outputs off during testing.
@@ -150,6 +152,10 @@ export interface ScenariooConfig {
 
 }
 
+export interface FluentDslLabelDefinitions {
+  [labelName: string]: string;
+}
+
 export interface FluentDslConfig {
 
   /**
@@ -158,7 +164,7 @@ export interface FluentDslConfig {
    * key (=property name): the unique label name
    * value: a description of the label
    */
-  useCaseLabels: any,
+  useCaseLabels: FluentDslLabelDefinitions,
 
   /**
    * Define all the allowed labels that can be applied on scenarios, as key-value-pairs, undefined labels will fail when set on a scenario.
@@ -166,7 +172,7 @@ export interface FluentDslConfig {
    * key (=property name): the unique label name
    * value: a description of the label
    */
-  scenarioLabels: any,
+  scenarioLabels: FluentDslLabelDefinitions,
 
   /**
    * Define all the allowed labels that can be applied on steps, as key-value-pairs, undefined labels will fail when set on a step.
@@ -174,7 +180,7 @@ export interface FluentDslConfig {
    * key (=property name): the unique label name
    * value: a description of the label
    */
-  stepLabels: any
+  stepLabels: FluentDslLabelDefinitions
 
 }
 
@@ -297,6 +303,13 @@ export interface StepProperties {
 
 }
 
+export interface ScreenAnnotationRegion {
+  x: number,
+  y: number,
+  width: number,
+  height: number
+}
+
 /**
  * ScreenAnnotation is a rectangular area in your step screenshot that you want to annotate with additional information,
  * like a button that was clicked, a text field that was entered, or any other additional info to display on the screen
@@ -307,12 +320,7 @@ export interface ScreenAnnotation {
   /**
    * the rectangular area in integer values of screen coordinates
    */
-  region: {
-    x: number,
-    y: number,
-    width: number,
-    height: number
-  },
+  region: ScreenAnnotationRegion,
 
   /**
    * The style for the annotation. If not set the default style is used.
