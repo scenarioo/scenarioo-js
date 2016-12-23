@@ -4,6 +4,7 @@
 
 ### Bug Fixes
 * Improve TypeScript Typings for ScreenAnnotations to be 100% TypeScript conform ([#46](https://github.com/scenarioo/scenarioo-js/issues/46))
+* Improve Documentation and error message (hint) for label definitions that was partially wrong or suboptimal ([#47](https://github.com/scenarioo/scenarioo-js/issues/47))
 
 ### Format Compatibility
 * Writes format 2.1 that is compatible with Scenarioo Viewer 3.x and 2.x
