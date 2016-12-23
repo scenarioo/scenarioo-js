@@ -161,7 +161,7 @@ For a nicer and cleaner syntax we recommend to use the **New Fluent DSL** of sce
 even easier in your tests and annotate them with additional important information for the documentation:
 
 ```javascript
-import {useCase, scenario, step} from 'scenarioo';
+import {useCase, scenario, step} from 'scenarioo-js';
 
 useCase('Example Use Case with Fluent DSL')
   .description('An optional but recommended description for the use case')
@@ -190,8 +190,6 @@ useCase('Example Use Case with Fluent DSL')
 To avoid misspelling and cluttering of labels, the Labels have to be registered before usage with the Fluent DSL.
 Refer to [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js) to see how to register
 labels for usage in useCases, scenarios and steps.
-
-See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs. 
 
 #### Using Scenarioo with Typescript
 

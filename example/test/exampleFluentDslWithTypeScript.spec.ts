@@ -1,17 +1,26 @@
+/**
+ * Example for using the new Scenarioo Fluent DSL with TypeScript Typings of ScenariooJS.
+ *
+ * For TypeScript typings we only support Fluent DSL as our newest and most comfortable API
+ * that is recommended to be used.
+ *
+ * Precondition for running this example using labels in Fluent DSL:
+ * All labels used in Scenarioo Fluent DSL have to be defined before usage.
+ * Usually we do this once on starting up the test suite.
+ * The example `./exampleFluentDslLabelDefinitions.js` demonstrates the declaration of all labels
+ * used in this examples.
+ */
 import {browser, element, by} from 'protractor';
-// when using the npm module, use `import {...} from 'scenarioo'` instead
 import {
   useCase,
   scenario,
   step,
-  fluentDslConfig,
   ScreenAnnotationStyle,
   ScreenAnnotationClickAction,
-  ScreenAnnotationRegion
-} from '../../lib';
+} from '../../lib';  // use 'scenarioo-js' instead of '../../lib' in real project
 
-// Note that labels have to be registered before usage. Usually we do this once on starting up the test suite.
-// refer to ./exampleFluentDslLabelDefinitions.js to see how to define labels
+// label definitions: usually only declared once on setup (no need to import in every test):
+import './exampleFluentDslLabelDefinitions';
 
 /**
  * The use case description
@@ -44,12 +53,7 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         step('a step with a screen annotation', {
           screenAnnotations: [
             {
-              region: {
-                x: 20,
-                y: 20,
-                width: 500,
-                height: 30
-              },
+              region: {x: 20, y: 20, width: 500, height: 30},
               style: ScreenAnnotationStyle.CLICK,
               clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP
             }
@@ -57,6 +61,7 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         });
 
         // more steps of this scenario would of course come here ...
+
       });
 
     scenario('Example Failing Scenario with several expectation failures')

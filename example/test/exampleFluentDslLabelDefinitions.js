@@ -1,9 +1,7 @@
-// when using the npm module, use `import {fluentDslConfig} from 'scenarioo'` instead
-import {fluentDslConfig} from '../../lib';
-
 /**
  * This example demonstrates how to well define the supported labels for the Fluent DSL.
  */
+var fluentDslConfig = require('../../lib').fluentDslConfig; // use `scenarioo-js` instead in real project
 
 /**
  * Define all the labels that are allowed to be used on use cases
