@@ -8,7 +8,7 @@ build the scenarioo js writer library (in scenarioo-js root)
 
 ```
 npm install
-gulp build
+npm run build
 ```
 
 serve the example application

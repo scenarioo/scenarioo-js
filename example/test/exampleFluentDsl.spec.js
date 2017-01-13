@@ -2,7 +2,14 @@
  *  Example for using the new scenarioo fluent DSL to test and document the usecases and scenarios
  *  of your application more explicitly than with jasmine describe and it functions.
  *
- *  This is what we recommend to use for more complex real projects.
+ *  This is what we recommend to use for more complex real projects
+ *  and this will also be the most convenient and most feature complete DSL for the future.
+ *
+ * Precondition for running this example using labels in Fluent DSL:
+ * All labels used have to be defined before usage (only for Fluent DSL!).
+ * Usually we do this once on starting up the test suite.
+ * The example `./exampleFluentDslLabelDefinitions.js` demonstrates the declaration of all labels
+ * used in this examples.
  *
  *  The DSL is included in scenarioo and can be easily extended to application specific stuff,
  *  by extending the DSL provided by ScenariooJS.
@@ -10,10 +17,9 @@
  *  Or you could also simply define your own DSL, just look at the file fluentDsl.js in the scenarioo sources,
  *  to see how easily your own DSL could be defined or how you could extend the existing one
  *  that you can take as a blueprint.
- *
- *  This example only works, when you call scenarioo.setupFluentDsl() in your protractor onPrepare function.
  */
 
+// label definitions: usually only declared once on setup (no need to import in every test):
 require('./exampleFluentDslLabelDefinitions');
 
 /**

@@ -161,6 +161,8 @@ For a nicer and cleaner syntax we recommend to use the **New Fluent DSL** of sce
 even easier in your tests and annotate them with additional important information for the documentation:
 
 ```javascript
+import {useCase, scenario, step} from 'scenarioo-js';
+
 useCase('Example Use Case with Fluent DSL')
   .description('An optional but recommended description for the use case')
   .labels(['example-custom-label'])
@@ -185,15 +187,16 @@ useCase('Example Use Case with Fluent DSL')
       
 });
 ```
-
-See [Examples](/example) for more information on how to use ScenariooJS and the different DSLs. 
+To avoid misspelling and cluttering of labels, the Labels have to be registered before usage with the Fluent DSL.
+Refer to [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js) to see how to register
+labels for usage in useCases, scenarios and steps.
 
 #### Using Scenarioo with Typescript
 
-There are now typings included for the Fluent DSL (only).
-Since this is the API we recommend to use in future we only provide typings for this Fluent DSL.
-See special Example with Fluent DSL in TypeScript 
-[exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts))
+Typescript Typings are provided for the Fluent DSL (only).
+Since the Fluent DSL is the recommended API of the future, older Scenarioo APIs do not come with typings as their usage is discouraged.
+Refer to [exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts)
+for a complete example using TypeScript with the Fluent DSL.
 
 
 #### Backwards DSL

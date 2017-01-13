@@ -1,7 +1,26 @@
+/**
+ * Example for using the new Scenarioo Fluent DSL with TypeScript Typings of ScenariooJS.
+ *
+ * For TypeScript typings we only support Fluent DSL as our newest and most comfortable API
+ * that is recommended to be used.
+ *
+ * Precondition for running this example using labels in Fluent DSL:
+ * All labels used in Scenarioo Fluent DSL have to be defined before usage.
+ * Usually we do this once on starting up the test suite.
+ * The example `./exampleFluentDslLabelDefinitions.js` demonstrates the declaration of all labels
+ * used in this examples.
+ */
 import {browser, element, by} from 'protractor';
-import {useCase, scenario, step} from '../../lib';
-import {ScreenAnnotationStyle} from "../../lib";
-import {ScreenAnnotationClickAction} from "../../lib";
+import {
+  useCase,
+  scenario,
+  step,
+  ScreenAnnotationStyle,
+  ScreenAnnotationClickAction,
+} from '../../lib';  // use 'scenarioo-js' instead of '../../lib' in real project
+
+// label definitions: usually only declared once on setup (no need to import in every test):
+import './exampleFluentDslLabelDefinitions';
 
 /**
  * The use case description
@@ -17,8 +36,7 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
     scenario('Example Scenario with Fluent DSL')
       .description('An optional but recommended description for the scenario')
       .labels(['happy', 'example-label'])
-      .it(function () {
-
+      .it(() => {
         browser.get('/index.html');
 
         // use the step method to document interaction steps inside the scenario (with screenshot, etc.)
@@ -35,7 +53,7 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         step('a step with a screen annotation', {
           screenAnnotations: [
             {
-              region: { x: 20, y:20, width: 500, height: 30 },
+              region: {x: 20, y: 20, width: 500, height: 30},
               style: ScreenAnnotationStyle.CLICK,
               clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP
             }

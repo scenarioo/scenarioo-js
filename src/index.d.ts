@@ -45,6 +45,11 @@ export declare var scenario: (name: string) => ScenarioDeclaration;
  */
 export declare var step: (stepCaption: string, additionalProperties?: StepProperties) => any;
 
+export interface RecordLastStepForStatusConfig {
+  failed: boolean,
+  success: boolean
+}
+
 /**
  * Configuration object with all configuration properties for setup of scenarioo JS reporter.
  */
@@ -133,10 +138,7 @@ export interface ScenariooConfig {
    * Consider also the other scenarioo jasmine reporter config option 'reportStepOnExpectationFailed',
    * to also take a screenshot for every failed expectation separately, which is recommended.
    */
-  recordLastStepForStatus?: {
-    failed: boolean,
-    success: boolean
-  },
+  recordLastStepForStatus?: RecordLastStepForStatusConfig,
 
   /**
    * Optional parameter to turn additional scenarioo log outputs off during testing.
@@ -150,6 +152,10 @@ export interface ScenariooConfig {
 
 }
 
+export interface FluentDslLabelDefinitions {
+  [labelName: string]: string;
+}
+
 export interface FluentDslConfig {
 
   /**
@@ -158,7 +164,7 @@ export interface FluentDslConfig {
    * key (=property name): the unique label name
    * value: a description of the label
    */
-  useCaseLabels: any,
+  useCaseLabels: FluentDslLabelDefinitions,
 
   /**
    * Define all the allowed labels that can be applied on scenarios, as key-value-pairs, undefined labels will fail when set on a scenario.
@@ -166,7 +172,7 @@ export interface FluentDslConfig {
    * key (=property name): the unique label name
    * value: a description of the label
    */
-  scenarioLabels: any,
+  scenarioLabels: FluentDslLabelDefinitions,
 
   /**
    * Define all the allowed labels that can be applied on steps, as key-value-pairs, undefined labels will fail when set on a step.
@@ -174,7 +180,7 @@ export interface FluentDslConfig {
    * key (=property name): the unique label name
    * value: a description of the label
    */
-  stepLabels: any
+  stepLabels: FluentDslLabelDefinitions
 
 }
 
@@ -297,6 +303,13 @@ export interface StepProperties {
 
 }
 
+export interface ScreenAnnotationRegion {
+  x: number,
+  y: number,
+  width: number,
+  height: number
+}
+
 /**
  * ScreenAnnotation is a rectangular area in your step screenshot that you want to annotate with additional information,
  * like a button that was clicked, a text field that was entered, or any other additional info to display on the screen
@@ -307,12 +320,7 @@ export interface ScreenAnnotation {
   /**
    * the rectangular area in integer values of screen coordinates
    */
-  region: {
-    x: number,
-    y: number,
-    width: number,
-    height: number
-  },
+  region: ScreenAnnotationRegion,
 
   /**
    * The style for the annotation. If not set the default style is used.
@@ -351,67 +359,70 @@ export interface ScreenAnnotation {
 
 }
 
-export enum ScreenAnnotationStyle {
+export type ScreenAnnotationStyle =
+  'CLICK' | 'KEYBOARD' | 'EXPECTED' | 'NAVIGATE_TO_URL' | 'ERROR' | 'WARN'
+    | 'INFO' | 'HIGHLIGHT' | 'DEFAULT';
+
+export namespace ScreenAnnotationStyle {
 
   /**
    * Annotation with a mouse click icon, for click interactions in your test.
    */
-  CLICK = 'CLICK',
+  export const CLICK: ScreenAnnotationStyle;
 
   /**
    * Annotation with a keyboard icon for some data entered in your test.
    */
-  KEYBOARD = 'KEYBOARD',
+  export const KEYBOARD: ScreenAnnotationStyle;
 
   /**
    * Annotation with a check mark icon, for expected outcomes that have been checked in your test like data displayed somewhere.
    */
-  EXPECTED = 'EXPECTED',
+  export const EXPECTED: ScreenAnnotationStyle;
 
   /**
    * Annotation with a browser navigation icon, for showing URLs the user navigated to or similar things.
    */
-  NAVIGATE_TO_URL = 'NAVIGATE_TO_URL',
+  export const NAVIGATE_TO_URL: ScreenAnnotationStyle;
 
   /**
    * Annotation with an error icon, for arbitrary error annotations
    * or as well fot expectations that have not been successful (w.g. wrong text displayed)
    */
-  ERROR = 'ERROR',
+  export const ERROR: ScreenAnnotationStyle;
 
   /**
    * Annotation with an warning icon, for arbitrary warning annotations.
    */
-  WARN = 'WARN',
+  export const WARN: ScreenAnnotationStyle;
 
   /**
    * Annotation with an info icon, for arbitrary information annotations.
    */
-  INFO = 'INFO',
+  export const INFO: ScreenAnnotationStyle;
 
   /**
    * Annotations with a highlight icon to mark and annotate arbitrary thing in your screen.
    */
-  HIGHLIGHT = 'HIGHLIGHT',
+  export const HIGHLIGHT: ScreenAnnotationStyle;
 
   /**
    * Arbitrary annotations with a generic default annotation icon.
    */
-  DEFAULT = 'DEFAULT'
-
+  export const DEFAULT: ScreenAnnotationStyle;
 }
 
-export enum ScreenAnnotationClickAction {
+export type ScreenAnnotationClickAction = 'TO_NEXT_STEP' | 'TO_URL';
 
+export namespace ScreenAnnotationClickAction {
   /**
    * Click action to go to the next step in this scenario, when clicking on this annotation.
    */
-  TO_NEXT_STEP = 'TO_NEXT_STEP',
+  export const TO_NEXT_STEP: ScreenAnnotationClickAction;
 
   /**
    * Click action to open a different resource (like additional documentation) in a separate browser tab,
    * when clicking on this annotation in the documentation.
    */
-  TO_URL = 'TO_URL'
-
+  export const TO_URL: ScreenAnnotationClickAction;
 }
