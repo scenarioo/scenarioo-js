@@ -101,9 +101,6 @@ Below we explain different ways to write UI Tests with ScenariooJS.
 
 For a quick reference, you can also have a look at the the following example files:
 
- - [Vanilla Jasmine](#vanilla-jasmine-style)
-    - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
-    - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
  - [Fluent DSL for simple and clean UI tests _(Recommended)_](#scenarioo-fluent-dsl)
     - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
     - [exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts)
@@ -111,6 +108,9 @@ For a quick reference, you can also have a look at the the following example fil
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
  - [Backwards DSL for fast Migration from ScenariooJS 1 to ScenariooJS 2](#backwards-dsl-for-fast-migration)
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
+ - [Vanilla Jasmine](#vanilla-jasmine-style)
+    - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
+    - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
 
 #### Vanilla Jasmine Style
 
