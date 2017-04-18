@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/scenarioo/scenarioo-js/issues"
   },
-  "license": "GPL-2.0",
+  "license": "MIT",
   "main": "lib/index.js",
   "engines": {
     "node": ">= 0.10.0"

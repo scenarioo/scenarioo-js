@@ -269,3 +269,8 @@ scenarioo.describeUseCase('Example Usecase', function () {
 
 });
 ```
+
+## License
+
+This software is provided under the MIT License.
+A copy is included in the [LICENSE](./LICENSE) file.
