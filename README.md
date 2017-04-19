@@ -7,7 +7,7 @@ Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.
 
 ## What is Scenarioo?
 
-Scenarioo is a generic reporting tool for tests with a powerful reporting viewer web application that can display reports generated from several testing technologies using one of the scenarioo writer libraries, like e.g. ScenariooJS.
+Scenarioo is a generic test reporting tool with a powerful reporting viewer web application that can display reports generated from several testing technologies using one of the scenarioo writer libraries, like e.g. ScenariooJS.
 
 For general information about Scenarioo and all its powerful features in the reports, please check our webpage 
 [http://www.scenarioo.org](http://www.scenarioo.org).
@@ -18,7 +18,7 @@ Some feature highlights include detection of changes in recorded screenshots and
 
 Presentation Slides from the Zühlke Client Technology Days 2016 Conference Session:
 [Effective E2E Testing with ScenariooJS and Protractor](http://scenarioo.org/e2e-testing-with-scenarioo-js)
-Refer to these slides as a good introduction and explanation of how to use and introduce it and even how to write good e2e tests.
+Refer to these slides as a good introduction and explanation of how to use and introduce it and even how to write good e2e tests using protractor.
 
 ## How to Use
 
