@@ -3,7 +3,7 @@
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
-Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate powerful e2e test reports including screenshots and make it available to everybody involved in your project through the Scenarioo Viewer web application - see Demo @ http://demo.scenarioo.org.
+Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate powerful e2e test reports including screenshots and make it available to everybody involved in your project through the Scenarioo Viewer Web Application: [see Scenarioo Viewer Demo](http://demo.scenarioo.org).
 
 Here is how an example test report of a test scenario in the viewer looks:
 ![Example of browsing a test scenario in the Scenarioo Viewer](docs/scenarioo-viewer-example.png)
@@ -19,9 +19,7 @@ Some feature highlights include detection of changes in recorded screenshots and
 
 ## Introduction to ScenariooJS
 
-Presentation Slides from the Zühlke Client Technology Days 2016 Conference Session:
-[Effective E2E Testing with ScenariooJS and Protractor](http://scenarioo.org/e2e-testing-with-scenarioo-js)
-Refer to these slides as a good introduction and explanation of how to use and introduce it and even how to write good e2e tests using protractor.
+[Effective E2E Testing with ScenariooJS and Protractor - Presentation Slides from the Zühlke Client Technology Days 2016 Conference Session](http://scenarioo.org/e2e-testing-with-scenarioo-js): Refer to these slides as a good introduction and explanation of how to use and introduce it and even how to write good e2e tests using protractor.
 
 ## How to Use
 
