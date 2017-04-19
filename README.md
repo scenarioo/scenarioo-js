@@ -3,7 +3,10 @@
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
-Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate powerful e2e test reports and make it available to everybody involved in your project through the Scenarioo Viewer web application - see Demo @ http://demo.scenarioo.org.
+Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate powerful e2e test reports including screenshots and make it available to everybody involved in your project through the Scenarioo Viewer web application - see Demo @ http://demo.scenarioo.org.
+
+Here is how an example test report of a test scenario in the viewer looks:
+![Example of browsing a test scenario in the Scenarioo Viewer](docs/scenarioo-viewer-example.png)
 
 ## What is Scenarioo?
 
