@@ -54,7 +54,7 @@ If you not want to install it globaly, you will have to define scripts for runni
 
 Configure scenarioo-js in your `protractor.conf.js`-file. 
 
-A typical configuration looks as follows:
+A typical configuration to setup scenarioo's jasmine reporter, looks as follows:
 
 ```javascript
 
@@ -156,15 +156,16 @@ useCase('Example Use Case with Fluent DSL')
 });
 ```
 
-This example will report one `use case` containing one `scenario` with several steps including screenshots, that everybody can browse using the Scenarioo Viewer Web Application. 
+This simple example will report one `use case` containing one `scenario` with several steps including screenshots, that everybody can browse using the Scenarioo Viewer Web Application. 
 
-If you turned it on in the configuration, scenarioo will as well automatically report one additional step with a screenshot at the end of the test or when the test or an expectation failed.
+Scenarioo will as well automatically report one additional step with a screenshot at the end of the test or when the test or an expectation failed, if you enabled so in the configuration (see above).
+
+To make this example work, the Labels have to be registered first before usage with the Fluent DSL.
+Refer to [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js) to see how to register
+labels for usage in useCases, scenarios and steps. This is to avoid misspelling and cluttering of labels in all your tests.
+But of course you do not have to add any labels, as long as you not want to label your tests.
 
 There are also functions like `fdescribe`, `xdescribe`, `xit`, `fit` in the DSL such that you have the same comfort as with using jasmine directly - or even more: there is even a special `pending` to mark temporarily disabled tests with a special pending-comment, which even works with protractor's asynch tests (contains a workaround for a known bug to the `pend`-feature of jasmine, which not works with protractor).
-
-To avoid misspelling and cluttering of labels, the Labels have to be registered before usage with the Fluent DSL.
-Refer to [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js) to see how to register
-labels for usage in useCases, scenarios and steps. But of course you do not have to add any labels if you not want to use any.
 
 If you do not like to use a special DSL in your tests, you can still use [Vanilla Jasmine Style](#vanilla-jasmine-style) to write your tests. But we not recommend to do so, because adding additional informations to your reports is less elegant using that other style.
 
@@ -177,7 +178,7 @@ for a simple example using TypeScript with the Fluent DSL, which looks almost th
 
 #### General Recommendations About Recording Steps
 
-You can (and probably should) also hook `step`-commands into your important page object functions (instead of directly in your tests).
+You can (and probably should) also hook `step`-commands into your important page object functions, instead of directly in your tests.
 
 Or you can try to do this by hooking into protractor functions, to ensure that a step is reported on every important action (e.g. every important click).
 
