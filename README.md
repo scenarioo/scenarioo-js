@@ -283,4 +283,14 @@ scenarioo.describeUseCase('Example Usecase', function () {
   });
 
 });
+
 ```
+
+## Authors
+
+This library was mainly developed by following developers:
+
+Sergio Trentini
+Adrian Herzog
+Dominic Langenegger
+Rolf Bruderer
