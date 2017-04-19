@@ -1,5 +1,5 @@
 # ScenariooJS
-> Scenarioo writer library for javascript to document your e2e tests
+> Scenarioo reporter for Protractor/WebDriverJS tests to produce feature rich e2e test reports
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
@@ -8,8 +8,10 @@ Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.
 ## Introduction to Scenarioo
 
 This is a sub project of Scenarioo.
-For general information about Scenarioo check our webpage 
+For general information about Scenarioo and all its powerful features in the reports, please check our webpage 
 [http://www.scenarioo.org](http://www.scenarioo.org).
+
+Some feature highlights include detection of changes in recorded screenshots and highlighting them in special DiffViewer or the included Issue Sketcher to sketch directly on the recorded screenshots.
 
 ## Introduction to ScenariooJS
 
@@ -85,7 +87,7 @@ onPrepare: function onPrepare() {
       recordLastStepForStatus: {
          failed: true,
          success: true
-      },
+      }
             
     });  
     
