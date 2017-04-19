@@ -234,7 +234,7 @@ This documentation can then be browsed by using the **Scenarioo Viewer Web App**
 
 This library was mainly developed by following developers:
 
-Sergio Trentini
-Adrian Herzog
-Dominic Langenegger
-Rolf Bruderer
+* Sergio Trentini
+* Adrian Herzog
+* Dominic Langenegger
+* Rolf Bruderer
