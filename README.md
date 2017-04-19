@@ -116,7 +116,7 @@ For a quick reference, you can also have a look at the following example files a
  - [Vanilla Jasmine](#vanilla-jasmine-style)
     - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
     - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
- - [Backwards DSL for fast Migration from ScenariooJS 1 to ScenariooJS 2](#backwards-dsl-for-fast-migration)
+ - [Backwards DSL for fast Migration from ScenariooJS 1 to ScenariooJS 2](#backwards-dsl-for-migration)
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
     
 #### Scenarioo Fluent DSL
@@ -217,7 +217,7 @@ Additional steps of a scenario can be reported by manually calling `scenarioo.sa
 
 Instead of using the Vanilla Jasmine Style, we recommend to use the special [Scenarioo Fluent DSL](#) which makes it even more easier to add additional information (like descriptions, labels, etc.) to your test reports.
 
-#### Backwards DSL
+#### Backwards DSL for Migration
 
 There is also a `Backward DSL` that is only interesting for easier migration from old scenarioo 1.x tests to the new scenarioo 2.x library with jasmine 2. See [Migration Guide](MIGRATION.md) on how to use this.
 
