@@ -1,5 +1,5 @@
 # ScenariooJS
-> Scenarioo reporter for Protractor/WebDriverJS tests to produce feature rich e2e test reports
+> Scenarioo writer library to produce feature rich e2e test reports (e.g. from Protractor/WebDriverJS tests)
 
 [![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
 
