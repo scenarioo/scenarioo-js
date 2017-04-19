@@ -20,7 +20,7 @@ Presentation Slides from the Zühlke Client Technology Days 2016 Conference Sess
 [Effective E2E Testing with ScenariooJS and Protractor](http://scenarioo.org/e2e-testing-with-scenarioo-js)
 Refer to these slides as a good introduction and explanation of how to use and introduce it and even how to write good e2e tests.
 
-## Use
+## How to Use
 
 ### Version Notice
 
