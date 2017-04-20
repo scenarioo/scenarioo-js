@@ -13,9 +13,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jasmine": "^2.5.47",
+    "@types/jasminewd2": "^2.0.2",
     "http-server": "0.7.2",
-    "protractor": "4.0.11",
     "jasmine-core": "^2.5.2",
+    "protractor": "5.1.1",
     "ts-node": "^1.6.1",
     "typescript": "~2.0.3"
   },

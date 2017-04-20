@@ -66,19 +66,18 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
 
     scenario('Example Failing Scenario with several expectation failures')
       .description('This scenario should demonstrate that also for each failed expectation a screenshot is taken')
-      .it(function exampleScenarioWithMultipleExpectationsFailingAndNoLabels() {
+      .it(async function exampleScenarioWithMultipleExpectationsFailingAndNoLabels() {
 
         browser.get('/index.html');
-        expect(element.all(by.css('.element-not-existing')).count()).toBe(78); // will fail --> expectation failed step
+        expect(await element.all(by.css('.element-not-existing')).count()).toBe(78); // will fail --> expectation failed step
 
         element(by.css('li#item_one')).click();
         step('item one clicked');
 
-        expect(element.all(by.css('.another-element-not-existing')).count()).toEqual(13); // will fail --> expectation failed step
+        expect(await element.all(by.css('.another-element-not-existing')).count()).toEqual(13); // will fail --> expectation failed step
 
-        element(by.css('li#item_is_not_present')).click(); // will fail the scenario --> scenario failed step
-        expect(element.all(by.css('.another-element-not-existing-after-scenario-failed')).count()).toEqual(6); // will not be executed (no step)
-
+        await element(by.css('li#item_is_not_present')).click(); // will fail the scenario --> scenario failed step
+        expect(await element.all(by.css('.another-element-not-existing-after-scenario-failed')).count()).toEqual(6); // will not be executed (no step)
       });
 
     scenario('Example Failing Scenario that throws an Error')

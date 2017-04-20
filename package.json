@@ -1,7 +1,7 @@
 {
   "name": "scenarioo-js",
   "description": "Scenarioo API for Javascript to generate Scenarioo Documentations",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "homepage": "http://scenarioo.org",
   "author": {
     "name": "xeronimus",
@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/scenarioo/scenarioo-js/issues"
   },
-  "license": "GPL-2.0",
+  "license": "MIT",
   "main": "lib/index.js",
   "engines": {
     "node": ">= 0.10.0"
