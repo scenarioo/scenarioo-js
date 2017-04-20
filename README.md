@@ -240,3 +240,8 @@ This library was mainly developed by following developers:
 * Adrian Herzog
 * Dominic Langenegger
 * Rolf Bruderer
+
+## License
+
+This software is provided under the MIT License.
+A copy is included in the [LICENSE](./LICENSE) file.
