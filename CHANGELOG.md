@@ -3,6 +3,9 @@
 ## Version 3.0.2
 * Change license to MIT
 
+### Format Compatibility
+* Writes format 2.1 that is compatible with Scenarioo Viewer 3.x and 2.x
+
 ## Version 3.0.1
 
 ### Bug Fixes
