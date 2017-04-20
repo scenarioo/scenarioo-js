@@ -1,5 +1,8 @@
 # Scenarioo JS Versions
 
+## Version 3.0.2
+* Change license to MIT
+
 ## Version 3.0.1
 
 ### Bug Fixes
