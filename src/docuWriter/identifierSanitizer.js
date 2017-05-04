@@ -19,6 +19,20 @@ export function sanitizeForId(inputString) {
 }
 
 /**
+ * E.g. urls or paths sanitized for use in display names
+ * @param inputString
+ */
+export function sanitizeForName(inputString) {
+  if (!inputString) {
+    return inputString;
+  }
+
+  // remove all diacritics. E.g. ä,å -> a
+  const removedDiacritics = diacritics.remove(inputString);
+  return removeUnallowedCharacters(removedDiacritics, undefined);
+}
+
+/**
  * Same as #sanitizeForId but allows spaces
  *
  * @ignore

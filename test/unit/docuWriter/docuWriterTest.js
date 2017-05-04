@@ -21,10 +21,13 @@ describe('docuWriter', () => {
     description: 'my safe description'
   };
 
+  const buildName = 'some build name';
+
   const dummyUseCase = {
     name: 'use case name, toll!',
     description: 'some description with special chars ;) %&',
-    status: 'success'
+    status: 'success',
+    labels: []
   };
 
   const dummyScenario = {
@@ -40,7 +43,7 @@ describe('docuWriter', () => {
         .then(() => testHelper.assertFileExists(path.join(targetDir, sanitizeForId(dummyBranch.name))));
     });
 
-    it('should write branch.xml on start() with all attributes', () => {
+    it('should write branch.json on start() with all attributes', () => {
       return docuWriter.start(dummyBranch, 'some build name', targetDir, {})
         .then(() => testHelper.assertJsonContent(path.join(targetDir, sanitizeForId(dummyBranch.name) + '/branch.json'), dummyBranch));
     });
@@ -62,7 +65,7 @@ describe('docuWriter', () => {
       };
 
       return docuWriter.saveBuild(build, targetDir)
-        .then(() => testHelper.assertJsonContent(path.join(targetDir, 'my-branch-id/save_build_test/build.json'), build));
+        .then(() => testHelper.assertJsonContent(path.join(targetDir, `${sanitizeForId(dummyBranch.name)}/${build.id}/build.json`), build));
     });
   });
 
@@ -70,17 +73,17 @@ describe('docuWriter', () => {
   describe('#saveUseCase()', () => {
 
     beforeEach(() => {
-      docuWriter.start(dummyBranch, 'some build name', targetDir, {});
+      docuWriter.start(dummyBranch, buildName, targetDir, {});
     });
 
     it('should create useCase directory', () => {
-      const expectedPath = `${sanitizeForId(dummyBranch.name)}/some-build-name/${sanitizeForId(dummyUseCase.name)}`;
+      const expectedPath = `${sanitizeForId(dummyBranch.name)}/${sanitizeForId(buildName)}/${sanitizeForId(dummyUseCase.name)}`;
       return docuWriter.saveUseCase(dummyUseCase)
         .then(() => testHelper.assertFileExists(path.join(targetDir, expectedPath)));
     });
 
-    it('should create usecase.xml', () => {
-      const expectedPath = `${sanitizeForId(dummyBranch.name)}/some-build-name/${sanitizeForId(dummyUseCase.name)}/usecase.json`;
+    it('should create usecase.json', () => {
+      const expectedPath = `${sanitizeForId(dummyBranch.name)}/${sanitizeForId(buildName)}/${sanitizeForId(dummyUseCase.name)}/usecase.json`;
       return docuWriter.saveUseCase(dummyUseCase)
         .then(() => testHelper.assertJsonContent(path.join(targetDir, expectedPath), dummyUseCase));
     });
@@ -94,30 +97,34 @@ describe('docuWriter', () => {
     });
 
     it('should save scenario directory', () => {
-      return docuWriter.saveScenario(dummyScenario, 'a use case')
-        .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will/some+build+name/a+use+case/+some+cool+scenario+name')));
+      const expectedPath = `${sanitizeForId(dummyBranch.name)}/${sanitizeForId(buildName)}/${sanitizeForId(dummyUseCase.name)}/${sanitizeForId(dummyScenario.name)}`;
+      return docuWriter.saveScenario(dummyScenario, dummyUseCase.name)
+        .then(() => testHelper.assertFileExists(path.join(targetDir, expectedPath)));
     });
 
-    it('should save scenario.xml', () => {
-      const expectedPath = `${sanitizeForId(dummyBranch.name)}/some-build-name/${sanitizeForId(dummyUseCase.name)}/${sanitizeForId(dummyScenario.name)}/scenario.json`;
-      return docuWriter.saveScenario(dummyScenario, 'a use case')
+    it('should save scenario.json', () => {
+      const expectedPath = `${sanitizeForId(dummyBranch.name)}/${sanitizeForId(buildName)}/${sanitizeForId(dummyUseCase.name)}/${sanitizeForId(dummyScenario.name)}/scenario.json`;
+      return docuWriter.saveScenario(dummyScenario, dummyUseCase.name)
         .then(() => testHelper.assertJsonContent(path.join(targetDir, expectedPath), dummyScenario));
     });
 
   });
 
   describe('#saveStep()', () => {
+    const useCaseName = 'UseCaseDescription';
+    const scenarioName = 'ScenarioDescription';
+    const expectedBasePath = `${sanitizeForId(dummyBranch.name)}/${sanitizeForId(buildName)}/${sanitizeForId(useCaseName)}/${sanitizeForId(scenarioName)}`;
 
     beforeEach(() => {
-      docuWriter.start(dummyBranch, 'myBuildName', targetDir, {});
-      store.init(dummyBranch.name, dummyBranch.description, 'myBuildName');
-      store.updateCurrentUseCase({name: 'UseCaseDescription'});
-      store.updateCurrentScenario({name: 'ScenarioDescription'});
+      docuWriter.start(dummyBranch, buildName, targetDir, {});
+      store.init(dummyBranch.name, dummyBranch.description, buildName);
+      store.updateCurrentUseCase({name: useCaseName});
+      store.updateCurrentScenario({name: scenarioName});
     });
 
     it('should save a step', () => {
       return docuWriter.saveStep('my step')
-        .then(() => testHelper.assertFileExists(path.join(targetDir, 'my+unsafe+branch+name%2C+will/myBuildName/UseCaseDescription/ScenarioDescription/steps/000.xml')));
+        .then(() => testHelper.assertFileExists(path.join(targetDir, `${expectedBasePath}/steps/000.json`)));
     });
 
     it('should save a step with default pagename', () => {
@@ -127,18 +134,18 @@ describe('docuWriter', () => {
       return docuWriter.saveStep('my step')
         .then(result => {
           assert.equal(result.step.page.name, '#_somepage');
-          assert.equal(result.step.stepDescription.index, 0);
+          assert.equal(result.step.index, 0);
         });
     });
 
     it('should increase stepCounter', () => {
       var firstSave = docuWriter.saveStep('my step 1')
         .then(result => {
-          assert.equal(result.step.stepDescription.index, 0);
+          assert.equal(result.step.index, 0);
         });
       var secondSave = docuWriter.saveStep('my step 2')
         .then(result => {
-          assert.equal(result.step.stepDescription.index, 1);
+          assert.equal(result.step.index, 1);
         });
 
       return Q.all([firstSave, secondSave]);
@@ -165,12 +172,7 @@ describe('docuWriter', () => {
         labels: ['red']
       })
         .then(result => {
-          var stepDescriptionLabels = result.step.stepDescription.labels;
-          assert.deepEqual(stepDescriptionLabels, ['red']);
-
-          return testHelper.assertXmlContent(result.xmlPath, [
-            '<labels><label>red</label></labels></stepDescription>'
-          ]);
+          return assert.deepEqual(result.step.labels, ['red']);
         });
     });
 
@@ -179,9 +181,7 @@ describe('docuWriter', () => {
         labels: ['red']
       })
         .then(result => {
-          return testHelper.assertXmlContent(result.xmlPath, [
-            '<labels><label>red</label></labels>'
-          ]);
+          return assert.deepEqual(result.step.labels, ['red']);
         });
     });
 
@@ -200,7 +200,7 @@ describe('docuWriter', () => {
       })
         .then(result => {
           var screenAnnotations = result.step.screenAnnotations;
-          assert.deepEqual(screenAnnotations, [
+          return assert.deepEqual(screenAnnotations, [
             {
               region: {x: 758, y: 462, width: 55, height: 28},
               style: 'CLICK',
@@ -208,13 +208,6 @@ describe('docuWriter', () => {
               title: 'Clicked Button',
               description: 'User clicked on button'
             }
-          ]);
-
-          return testHelper.assertXmlContent(result.xmlPath, [
-            '<screenAnnotations><screenAnnotation>',
-            '<style>CLICK</style>',
-            '<region><x>758</x><y>462</y><width>55</width><height>28</height></region>',
-            '<screenText>a text</screenText><title>Clicked Button</title><description>User clicked on button</description>'
           ]);
         });
     });

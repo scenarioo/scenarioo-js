@@ -1,0 +1,8 @@
+{
+  "id": "/subschema/screenAnnotation/clickAction",
+  "type": "string",
+  "enum": [
+    "TO_NEXT_STEP",
+    "TO_URL"
+  ]
+}

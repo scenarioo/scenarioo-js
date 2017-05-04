@@ -1,0 +1,9 @@
+{
+  "id": "/subschema/labels",
+  "type": "array",
+  "items": {
+    "type": "string",
+    "description": "allows spaces and all characters allowed in identifiers",
+    "pattern": "[A-Za-z0-9_ -]+"
+  }
+}

@@ -11,7 +11,7 @@ import merge from 'lodash/merge';
 import Q from 'q';
 import { leadingZeros } from './utils';
 import store from '../scenariooStore';
-import { sanitizeForId, sanitizeLabels } from './identifierSanitizer';
+import { sanitizeForId, sanitizeLabels, sanitizeForName } from './identifierSanitizer';
 import entityValidator from './entityValidator';
 import pageNameExtractor from './pageNameExtractor';
 
@@ -59,12 +59,14 @@ export function registerPageNameFunction(pageNameFunction) {
 export function start(branch, buildname, scenariooTargetDirectory, options) {
   this.branch = branch;
   this.branch.id = getId(branch);
+  this.build = {
+    name: buildname,
+    id: sanitizeForId(buildname)
+  };
 
   entityValidator.validateBranch(branch);
-  const buildDirName = this.branch.id;
-
   // generate directories and write branch.json
-  buildOutputDir = path.join(scenariooTargetDirectory, this.branch.id, buildDirName);
+  buildOutputDir = path.join(scenariooTargetDirectory, this.branch.id, this.build.id);
 
   return cleanBuildOnStartIfEnabled(buildOutputDir, options)
     .then(() => {
@@ -75,7 +77,7 @@ export function start(branch, buildname, scenariooTargetDirectory, options) {
 
 export function cleanBuild(options) {
   var scenariooTargetDirectory = path.resolve(options.targetDirectory);
-  var buildOutputDir = path.join(scenariooTargetDirectory, encodeFileName(identifierSanitizer.sanitize(options.branchName)), encodeFileName(identifierSanitizer.sanitize(options.buildName)));
+  var buildOutputDir = path.join(scenariooTargetDirectory, sanitizeForId(options.branchName), sanitizeForId(options.buildName));
   if (!options.disableScenariooLogOutput) {
     console.log('Cleaning build output directory for scenarioo documentation of this build: ' + buildOutputDir);
   }
@@ -207,7 +209,7 @@ export function saveStep(stepTitle, additionalProperties) {
 
   const currentScenario = {
     useCaseId: getId(store.getCurrentUseCase()),
-    scenarioId: getId(store.getCurrentUseCase()),
+    scenarioId: getId(store.getCurrentScenario()),
     stepCounter: store.incrementStepCounter()
   };
 
@@ -262,7 +264,7 @@ function getStepDataFromWebpage() {
 }
 
 function getPageNameFromUrl(urlString) {
-  return sanitizeForId(pageNameExtractor.getPageNameFromUrl(urlString));
+  return sanitizeForName(pageNameExtractor.getPageNameFromUrl(urlString));
 }
 
 /**
@@ -290,6 +292,7 @@ function writeStepJson(stepTitle, currentScenario, absScenarioPath, additionalPr
           properties: stepProperties,
           labels: sanitizeLabels(pageLabels)
         },
+        // TODO: step description missing?
         // TODO: how can we conveniently set these:
         sections: [],
         properties: []
@@ -298,7 +301,7 @@ function writeStepJson(stepTitle, currentScenario, absScenarioPath, additionalPr
       // now let's add additional properties that were passed in by the developer
       if (additionalProperties && additionalProperties.labels) {
         const stepLabels = additionalProperties.labels;
-        stepData.stepDescription.labels = sanitizeLabels(stepLabels);
+        stepData.labels = sanitizeLabels(stepLabels);
       }
       if (additionalProperties && additionalProperties.screenAnnotations && isArray(additionalProperties.screenAnnotations)) {
         stepData.screenAnnotations = additionalProperties.screenAnnotations.map(annotation => {
@@ -316,8 +319,8 @@ function writeStepJson(stepTitle, currentScenario, absScenarioPath, additionalPr
       const htmlSource = browserData.source;
       const jsonFileName = path.join(absScenarioPath, 'steps', currentStepCounter + '.json');
 
-      const htmlPromise = saveHtml(currentScenario.stepCounter, absScenarioPath, htmlSource);
       const jsonPromise = saveJson(jsonFileName, stepData);
+      const htmlPromise = saveHtml(currentScenario.stepCounter, absScenarioPath, htmlSource);
       return Q.all([jsonPromise, htmlPromise])
           .then((results) => {
             return {

@@ -1,0 +1,23 @@
+{
+  "id": "/subschema/screenAnnotations",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "region": { "$ref": "/subschema/screenAnnotation/region" },
+      "style": { "$ref": "/subschema/screenAnnotation/style" },
+      "clickAction": { "$ref": "/subschema/screenAnnotation/clickAction" },
+      "clickActionUrl": { "$ref": "/subschema/screenAnnotation/clickActionUrl" },
+      "screenText": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "properties": { "$ref": "/subschema/docuObjectList" }
+    }
+  }
+}

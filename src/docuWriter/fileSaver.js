@@ -44,7 +44,11 @@ export function saveJson(filePath, data) {
 
   return createDirectires(directoryPath)
     .then(() => {
-      return saveFile(filePath, JSON.stringify(data, null, 2), 'UTF-8');
+      return saveFile(filePath, JSON.stringify(data, null, 2), 'UTF-8')
+        .then(() => ({
+          jsonFileName: filePath,
+          stepData: data
+        }));
     });
 }
 

@@ -1,33 +1,20 @@
 {
   "type": "object",
   "properties": {
-    "name": {
-      "type": "string"
-    },
-    "status": {
-      "enum": [
-        "success",
-        "failed"
-      ]
-    },
+    "id": { "$ref": "/subschema/identifier" },
+    "name": { "$ref": "/subschema/name" },
+    "description": { "$ref": "/subschema/description" },
+    "revision": { "$ref": "/subschema/revision" },
     "date": {
-      "oneOf": [
-        {
-          "type": "string",
-          "pattern": "[0-9]{4,}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+|)(?:[+-][0-9]{2}:[0-9]{2}|Z)"
-        },
-        {
-          "type": "object"
-        }
-      ]
+      "type": "string",
+      "format": "date"
     },
-    "revision": {
-      "type": "string"
-    }
+    "status": { "$ref": "/subschema/status" },
+    "properties": { "$ref": "/subschema/docuObjectList" }
   },
   "required": [
-    "name",
-    "date"
+    "id",
+    "name"
   ],
   "additionalProperties": false
 }

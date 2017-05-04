@@ -41,7 +41,10 @@ function validate(schemaName, entity) {
     throw new Error(`No Schema for ${schemaName}`);
   }
 
-  const result = tv4.validateMultiple(entity, schema);
+  // serialize objects like dates
+  const jsonEntity = JSON.parse(JSON.stringify(entity));
+
+  const result = tv4.validateMultiple(jsonEntity, schema);
   if (!result.valid) {
     throw new Error(`${schemaName}: ${toMessage(result)}`);
   }
@@ -56,7 +59,7 @@ var dateValidator = function(data) {
     return null;
   }
 
-  const dateTimeRegex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/;
+  const dateTimeRegex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d(\.\d[3])?|Z)/;
 
   // test for ISO8601 date time string
   if (typeof data === 'string') {

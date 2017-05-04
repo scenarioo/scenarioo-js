@@ -1,0 +1,13 @@
+{
+  "id": "/subschema/docuObject",
+  "type": "object",
+  "properties": {
+    "labelKey": { "type": "string" },
+    "value": { "type": "string" },
+    "id": { "$ref": "/subschema/identifier" },
+    "type": { "$ref": "/subschema/identifier" },
+    "properties": { "$ref": "/subschema/docuObjectList" },
+    "items": { "$ref": "/subschema/docuObjectList" }
+  },
+  "additionalProperties": false
+}

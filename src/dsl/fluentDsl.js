@@ -47,7 +47,7 @@ export var config = {
 
 export function useCase(name) {
 
-  var description, labels, properties, pendingMessage;
+  var description, labels, /* properties, */ pendingMessage;
 
   return {
     description: function (d) {
@@ -58,10 +58,13 @@ export function useCase(name) {
       labels = l;
       return this;
     },
+    /*
+    // TODO: Format 3.0
     properties: function (p) {
       properties = p;
       return this;
     },
+    */
     // here you would have to put more functions to support setting more documentation properties, that you can set on use cases.
     pending: function (message) {
       pendingMessage = message;
@@ -101,7 +104,7 @@ export function useCase(name) {
 
 export function scenario(name, id) {
 
-  var description, labels, properties, pendingMessage;
+  var description, labels, /* properties, */ pendingMessage;
 
   return {
     description: function (d) {
@@ -112,10 +115,13 @@ export function scenario(name, id) {
       labels = l;
       return this;
     },
-    properties: function (p) {
-      properties = p;
-      return this;
-    },
+    /*
+     // TODO: Format 3.0
+     properties: function (p) {
+     properties = p;
+     return this;
+     },
+     */
     // here you would have to put more functions to support setting more documentation properties, that you can set on scenarios.
     pending: function (message) {
       pendingMessage = message;

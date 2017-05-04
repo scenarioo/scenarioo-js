@@ -19,10 +19,20 @@ function assertXmlContent(filePath, expectedContents) {
     });
 }
 
+const OPTIONAL_FIELDS = ['labels', 'id'];
+
 function assertJsonContent(filePath, expectedObject) {
   return Q.nfcall(fs.readFile, filePath, 'utf-8')
     .then(jsonContent => {
       const readObject = JSON.parse(jsonContent);
+
+      // copy the values of optional/generated fields
+      for (let fieldName of OPTIONAL_FIELDS) {
+        const val = expectedObject[fieldName];
+        if ((val === undefined || val === []) && readObject[fieldName]) {
+          expectedObject[fieldName] = readObject[fieldName];
+        }
+      }
 
       assert.deepEqual(readObject, expectedObject);
     });
