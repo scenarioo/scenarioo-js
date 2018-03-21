@@ -1,16 +1,16 @@
 # ScenariooJS - Release Process
 
-* Review CHANGELOG.md and prepare the Release Notes
+* Review `CHANGELOG.md` and prepare the Release Notes
 
 * Draft the release on GitHub (https://github.com/scenarioo/scenarioo-js/releases)
   * Use semantic versioning
   * No `v` prefix for version number
   * Target: master
   * Meaningful title and descriptions (see previous releases)
-  * Use text from CHANGELOG.md
+  * Use text from `CHANGELOG.md`
   * **Save only as Draft!**
 
-* Set correct version in package.json and run a full build
+* Set correct version in `package.json` and run a full build
 
 * **Run tests**:
     * `gulp test`
@@ -21,11 +21,11 @@
 
 * Wait for Travis CI Build to complete (https://travis-ci.org/scenarioo/scenarioo-js).
 
-* Merge develop branch into master branch.
+* Merge `develop` branch into `master` branch.
 
-* Tag the master branch with the new release version (`git tag x.x.x`)
+* Tag the `master` branch with the new release version (`git tag x.x.x`)
 
-* Commit the master branch and the version tag (`git push --tags`)
+* Commit the `master` branch and the version tag (`git push --tags`)
 
 * Publish new version to npm repository (`npm publish`). You need to have the necessary permissions on npmjs.com.
 
