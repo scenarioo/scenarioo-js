@@ -3,6 +3,8 @@ var
   babel = require('gulp-babel'),
   del = require('del');
 
+gulp.task('clean', ['cleanLib']);
+
 gulp.task('cleanLib', function () {
   return del('lib/*');
 });

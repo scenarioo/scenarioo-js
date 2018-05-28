@@ -115,6 +115,7 @@ For a quick reference, you can also have a look at the following example files a
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
  - [Vanilla Jasmine](#vanilla-jasmine-style)
     - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
+    - [exampleBasicJasmineWithTypeScript.spec.ts](example/test/exampleBasicJasmineWithTypeScript.spec.ts)
     - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
  - [Backwards DSL for fast Migration from ScenariooJS 1 to ScenariooJS 2](#backwards-dsl-for-migration)
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
@@ -184,6 +185,7 @@ Or you can try to do this by hooking into protractor functions, to ensure that a
 
 We recommend to do it in the page objects, because that is usually the place where you know, that something worthy of recording as a step happened.
 
+If you are using Typescript (old Jasmine syntax or the new Fluent DSL), you can follow the example [exampleBasicJasmineWithTypeScript.spec.ts](example/test/exampleBasicJasmineWithTypeScript.spec.ts) and the used page object [startPage.ts](example/test/pages/startPage.ts) as a reference on how to use a [Typescript Decorator](http://www.typescriptlang.org/docs/handbook/decorators.html) to perform this in an easy manner.
 #### Vanilla Jasmine Style
 
 If you prefer to write your e2e tests in your usual Jasmine style with Protractor without using special Scenarioo DSL, you can do so:
