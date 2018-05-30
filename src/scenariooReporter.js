@@ -179,7 +179,7 @@ function scenarioStarted(options, scenarioName) {
 }
 
 function expectationFailed(options, failureMessage) {
-  store.updateCurrentScenario({ status: 'failed'}); // remember early that it failed allready
+  store.updateCurrentScenario({ status: 'failed'}); // remember early that it failed already
   if (options.reportStepOnExpectationFailed) {
     scenarioo.saveStep('Failed: ' + failureMessage, {status: 'failed', labels: ['failed']});
   }
