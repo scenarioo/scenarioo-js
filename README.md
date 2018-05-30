@@ -230,7 +230,8 @@ you are free to do so, by simply copying our Scenarioo Fluent DSL from this one 
 ### Generate and Browse Documentation
 
 Run your protractor tests (e.g. as explained in [Examples Readme](/example/README.MD)) to run the tests and generate scenarioo documentation data. 
-This documentation can then be browsed by using the **Scenarioo Viewer Web App**: See [Installation of Viewer Web App](http://scenarioo.org/docs/setup/Scenarioo-Viewer-Web-Application-Setup.html) on how to install and run the viewer web app or using the docker image.
+
+This documentation can then be browsed by using the **Scenarioo Viewer Web App**: See [Installation of Viewer Web App](http://scenarioo.org/docs/master/setup/Scenarioo-Viewer-Web-Application-Setup.html) on how to install and run the viewer web app or using the docker image.
 
 ## Authors
 
