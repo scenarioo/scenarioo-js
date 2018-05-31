@@ -2,7 +2,7 @@
 
 
 /**
- * Special configuration to teswt that the tests also work without scenarioo reporting turned on.
+ * Special configuration to test that the tests also work without scenarioo reporting turned on.
  */
 
 var e2eBaseUrl = 'http://localhost:8081';
