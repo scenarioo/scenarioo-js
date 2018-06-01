@@ -135,6 +135,8 @@ const scenarioo = {
    * MUST be called in an afterEach (and only in afterEach!), to ensure that all steps are written before the test is finished.
    *
    * If you are using the new fluent DSL, you do not have to care about it, since done by the DSL already for you.
+   *
+   * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
    */
   saveLastStep: function () {
     if (!scenarioo.reportingEnabled) {
@@ -153,7 +155,7 @@ const scenarioo = {
         }
 
         // Report step with status and failure label
-        scenarioo.saveStep('scenario ' + status, {status: status, labels: labels});
+        return scenarioo.saveStep('scenario ' + status, {status: status, labels: labels});
       }
     }
   },
