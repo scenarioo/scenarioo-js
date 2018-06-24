@@ -53,8 +53,12 @@ export declare var step: (stepCaption: string, additionalProperties?: StepProper
  *
  * @param {string} [stepDescription?] - optional description text for the step to be recorded, will be displayed in `title` field of a step in scenarioo.
  * if not provided, it will use the following pattern: `{objectName}: {methodName}`.
+ * @param {object} [additionalProperties]
+ * @param {string[]} [additionalProperties.labels] - array of strings, labels are special keywords to label steps that have something in common.
+ * @param {object[]} [additionalProperties.screenAnnotations] - screenAnnotations are special objects to highlight rectangular areas in the screenshot and attach additional documentation data tot his areas (e.g. for clicked elements, or text typed by the user, etc.)
+
  */
-export declare var stepAnnotation: (stepDescription?: string) => any;
+export declare var reportStep: (stepDescription?: string, additionalProperties?: StepProperties) => any;
 
 /**
  * Save the last step of a e2e run. Only use that with non-fluent tests (like pretty old jasmine tests)

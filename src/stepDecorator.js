@@ -8,8 +8,11 @@ import scenarioo from './scenarioo-js';
  *
  * @param {string} [description?] - optional description text for the step to be recorded, will be displayed in `title` field of a step in scenarioo.
  * if not provided, it will use the following pattern: `{objectName}: {methodName}`.
+ * @param {object} [additionalProperties]
+ * @param {string[]} [additionalProperties.labels] - array of strings, labels are special keywords to label steps that have something in common.
+ * @param {object[]} [additionalProperties.screenAnnotations] - screenAnnotations are special objects to highlight rectangular areas in the screenshot and attach additional documentation data tot his areas (e.g. for clicked elements, or text typed by the user, etc.)
  */
-function stepAnnotation(description) {
+function reportStep(description, additionalProperties) {
   return function (target, propertyKey, descriptor) {
 
     const originalMethod = descriptor.value;
@@ -17,7 +20,7 @@ function stepAnnotation(description) {
     descriptor.value = function (...args) {
       const stepDescription = description || `${target.constructor.name}: ${propertyKey}`;
 
-      scenarioo.saveStep(stepDescription);
+      scenarioo.saveStep(stepDescription, additionalProperties);
 
       return originalMethod.apply(this, args);
     };
@@ -26,4 +29,4 @@ function stepAnnotation(description) {
   };
 }
 
-export default stepAnnotation;
+export default reportStep;
