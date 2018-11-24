@@ -16,7 +16,7 @@ var exportsConfig = {
 
   beforeLaunch: function() {
     require('ts-node').register({
-      project: 'test'
+      project: 'test/tsconfig.json'
     });
   },
 
