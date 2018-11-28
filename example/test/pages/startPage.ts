@@ -12,7 +12,7 @@ export class StartPage {
   }
 
   @reportStep()
-  clickFirstListItem() {
+  selectFirstListItem() {
     return this.firstListItem.click();
   }
 

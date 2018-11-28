@@ -32,7 +32,7 @@ describe('Example Use Case in Typescript with Page Objects and @reportStep', () 
    */
   it('Example Scenario with step annotation', () => {
 
-    startPage.clickFirstListItem();
+    startPage.selectFirstListItem();
     startPage.assertSelected('one');
 
     startPage.clickSecondListItem();
