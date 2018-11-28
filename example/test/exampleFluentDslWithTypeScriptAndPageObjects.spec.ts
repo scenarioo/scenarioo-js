@@ -41,7 +41,7 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         startPage.assertHeaderShown();
 
         // do something on the page itself.
-        startPage.clickFirstListItem();
+        startPage.selectFirstListItem();
         // assert that the output changed as expected.
         startPage.assertSelected("one");
 
