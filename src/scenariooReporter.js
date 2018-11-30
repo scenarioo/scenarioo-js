@@ -149,7 +149,7 @@ function useCaseEnded(options) {
 
   if (!options.disableScenariooLogOutput) {
     // starting this log with a new line, because of jasmines ./F/*-Log-Entries inbetween, that do not have line breaks.
-    console.log(`\n${useCaseStatus.toUpperCase()} use case \"${useCase.name}\": ${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending`);
+    console.log(`\n${useCaseStatus.toUpperCase()} use case "${useCase.name}": ${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending`);
   }
 
   docuWriter.saveUseCase(merge({
