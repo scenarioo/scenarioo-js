@@ -22,7 +22,7 @@ gulp.task('copyJsons', ['cleanLib'], function () {
 gulp.task('build', ['copyJsons', 'copyTypings', 'lint', 'test'], function () {
   return gulp.src('src/**/*.js')
     .pipe(babel({
-      presets: ['es2015']
+      presets: ['@babel/env']
     }))
     .pipe(gulp.dest('lib'));
 });

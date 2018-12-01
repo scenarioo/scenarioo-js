@@ -11,7 +11,7 @@ export function sanitize(identifier) {
     return undefined;
   }
 
-  return identifier.replace(/[\/|\\]/g, '_');
+  return identifier.replace(/[/|\\]/g, '_');
 }
 
 export default {sanitize};

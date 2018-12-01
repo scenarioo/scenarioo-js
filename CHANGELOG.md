@@ -1,5 +1,8 @@
 # Scenarioo JS Versions
 
+## Next version (not released)
+* Update Libraries
+
 ## Version 3.0.2
 * Change license to MIT
 * Improve readme file and migration guide

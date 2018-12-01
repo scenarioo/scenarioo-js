@@ -1,7 +1,7 @@
 # ScenariooJS
 > Scenarioo writer library to produce feature rich e2e test reports, e.g. from Protractor/WebDriverJS tests with Jasmine
 
-[![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
+[![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js) [![Greenkeeper badge](https://badges.greenkeeper.io/scenarioo/scenarioo-js.svg)](https://greenkeeper.io/)
 
 Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate powerful e2e test reports including screenshots and make it available to everybody involved in your project through the Scenarioo Viewer Web Application: **[see Scenarioo Viewer Demo](http://demo.scenarioo.org)**.
 
@@ -240,7 +240,7 @@ you are free to do so, by simply copying our Scenarioo Fluent DSL from this one 
 
 Run your protractor tests (e.g. as explained in [Examples Readme](/example/README.MD)) to run the tests and generate scenarioo documentation data. 
 
-This documentation can then be browsed by using the **Scenarioo Viewer Web App**: See [Installation of Viewer Web App](http://scenarioo.org/docs/master/setup/Scenarioo-Viewer-Web-Application-Setup.html) on how to install and run the viewer web app or using the docker image.
+This documentation can then be browsed by using the **Scenarioo Viewer Web App**: See [Installation of Viewer Web App](http://scenarioo.org/docs/master/tutorial/Scenarioo-Viewer-Web-Application-Setup.html) on how to install and run the viewer web app or using the docker image.
 
 ## Authors
 
