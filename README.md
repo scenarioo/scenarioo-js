@@ -111,10 +111,12 @@ For a quick reference, you can also have a look at the following example files a
  - [Fluent DSL for simple and clean UI tests _(Recommended)_](#scenarioo-fluent-dsl)
     - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
     - [exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts)
+    - [exampleFluentDslWithTypeScriptAndPageObjects.spec.ts](example/test/exampleFluentDslWithTypeScriptAndPageObjects.spec.ts)
     - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
  - [Vanilla Jasmine](#vanilla-jasmine-style)
     - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
+    - [exampleBasicJasmineWithTypeScript.spec.ts](example/test/exampleBasicJasmineWithTypeScript.spec.ts)
     - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
  - [Backwards DSL for fast Migration from ScenariooJS 1 to ScenariooJS 2](#backwards-dsl-for-migration)
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
@@ -183,6 +185,13 @@ You can (and probably should) also hook `step`-commands into your important page
 Or you can try to do this by hooking into protractor functions, to ensure that a step is reported on every important action (e.g. every important click).
 
 We recommend to do it in the page objects, because that is usually the place where you know, that something worthy of recording as a step happened.
+
+If you are using Typescript (old Jasmine syntax or the new Fluent DSL), you can follow the example 
+[exampleFluentDslWithTypeScriptAndPageObjects.spec.ts](example/test/exampleFluentDslWithTypeScriptAndPageObjects.spec.ts)
+[exampleBasicJasmineWithTypeScript.spec.ts](example/test/exampleBasicJasmineWithTypeScript.spec.ts) and the used page 
+object [startPage.ts](example/test/pages/startPage.ts) as a reference on how to use a 
+[Typescript Decorator](http://www.typescriptlang.org/docs/handbook/decorators.html) to perform this in an easy manner.
+
 
 #### Vanilla Jasmine Style
 
