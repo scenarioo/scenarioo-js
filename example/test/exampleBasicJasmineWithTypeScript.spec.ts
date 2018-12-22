@@ -13,7 +13,7 @@ describe('Example Use Case in Typescript with Page Objects and @reportStep', () 
 
   /**
    * This is needed in any case (!!) to ensure that the last step (whatever is configured to be saved as last step)
-   * is properly written before the spec execution ends.
+   * is properly written before the spec execution ends. Using new scenarioo Fluent DSL this would not be needed.
    */
   afterEach(saveLastStep);
 
