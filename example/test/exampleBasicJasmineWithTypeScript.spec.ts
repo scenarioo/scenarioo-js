@@ -35,7 +35,7 @@ describe('Example Use Case in Typescript with Page Objects and @reportStep', () 
     startPage.selectFirstListItem();
     startPage.assertSelected('one');
 
-    startPage.clickSecondListItem();
+    startPage.selectSecondListItem();
     startPage.assertSelected('two');
   });
 

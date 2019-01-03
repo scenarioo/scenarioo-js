@@ -18,11 +18,11 @@ export class StartPage {
 
   /**
    * By default, the @reportStep takes the Class Name followed by the method name as a description
-   * (e.g. 'StartPage: clickSecondListItem').
+   * (e.g. 'StartPage: selectSecondListItem').
    * This behaviour can be overwritten by providing a custom description as follows.
    */
   @reportStep("Custom message for this step") // this will result in the description: 'Custom message for this step'
-  clickSecondListItem() {
+  selectSecondListItem() {
     return this.secondListItem.click();
   }
 
