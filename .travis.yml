@@ -12,6 +12,7 @@ cache:
 
 script:
   - npm test
+  - cd example && npm install && npm run tslint
 
 after_success:
   - npm run docu
