@@ -7,7 +7,6 @@ export class StartPage {
   selectedItem = element(by.id('selected'));
   header = element(by.id('header'));
 
-
   async goTo() {
     await browser.get('/index.html');
   }
@@ -22,7 +21,7 @@ export class StartPage {
    * (e.g. 'StartPage: selectSecondListItem').
    * This behaviour can be overwritten by providing a custom description as follows.
    */
-  @reportStep("Custom message for this step") // this will result in the description: 'Custom message for this step'
+  @reportStep('Custom message for this step') // this will result in the description: 'Custom message for this step'
   async selectSecondListItem() {
     return await this.secondListItem.click();
   }

@@ -8,7 +8,6 @@ import {StartPage} from './pages/startPage';
 
 let startPage: StartPage;
 
-
 describe('Example Use Case in Typescript with Page Objects and @reportStep', () => {
 
   /**
@@ -31,13 +30,13 @@ describe('Example Use Case in Typescript with Page Objects and @reportStep', () 
    * been called that was annotated with `@reportStep()` on the page objects.
    * With this you don't have to write `scenarioo.saveStep()` in every test.
    */
-  it('Example Scenario with step annotation', () => {
+  it('Example Scenario with step annotation', async () => {
 
-    startPage.selectFirstListItem();
-    startPage.assertSelected('one');
+    await startPage.selectFirstListItem();
+    await startPage.assertSelected('one');
 
-    startPage.selectSecondListItem();
-    startPage.assertSelected('two');
+    await startPage.selectSecondListItem();
+    await startPage.assertSelected('two');
   });
 
 });

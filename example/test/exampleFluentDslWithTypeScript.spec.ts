@@ -11,7 +11,8 @@
  * used in this examples.
  */
 import {browser, by, element} from 'protractor';
-import {scenario, ScreenAnnotationClickAction, ScreenAnnotationStyle, step, useCase,} from '../../lib'; // use 'scenarioo-js' instead of '../../lib' in real project
+// use 'scenarioo-js' instead of '../../lib' in real project
+import {scenario, ScreenAnnotationClickAction, ScreenAnnotationStyle, step, useCase} from '../../lib';
 // label definitions: usually only declared once on setup (no need to import in every test):
 import './exampleFluentDslLabelDefinitions';
 
@@ -48,9 +49,9 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
             {
               clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP,
               region: {x: 20, y: 20, width: 500, height: 30},
-              style: ScreenAnnotationStyle.CLICK
-            }
-          ]
+              style: ScreenAnnotationStyle.CLICK,
+            },
+          ],
         });
 
         // more steps of this scenario would of course come here ...
@@ -62,15 +63,15 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
       .it(async function exampleScenarioWithMultipleExpectationsFailingAndNoLabels() {
 
         await browser.get('/index.html');
-        expect(await element.all(by.css('.element-not-existing')).count()).toBe(78); // will fail --> expectation failed step
+        await expect(element.all(by.css('.element-not-existing')).count()).toBe(78); // will fail --> expectation failed step
 
         await element(by.css('li#item_one')).click();
         step('item one clicked');
 
-        expect(await element.all(by.css('.another-element-not-existing')).count()).toEqual(13); // will fail --> expectation failed step
+        await expect(element.all(by.css('.another-element-not-existing')).count()).toEqual(13); // will fail --> expectation failed step
 
         await element(by.css('li#item_is_not_present')).click(); // will fail the scenario --> scenario failed step
-        expect(await element.all(by.css('.another-element-not-existing-after-scenario-failed')).count()).toEqual(6); // will not be executed (no step)
+        await expect(element.all(by.css('.another-element-not-existing-after-scenario-failed')).count()).toEqual(6); // will not be executed (no step)
       });
 
     scenario('Example Failing Scenario that throws an Error')
