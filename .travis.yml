@@ -8,11 +8,9 @@ node_js:
 cache:
   directories:
     - node_modules
-    - example/node_modules
 
 script:
   - npm test
-  - cd example && npm install && npm run tslint
 
 after_success:
   - npm run docu
