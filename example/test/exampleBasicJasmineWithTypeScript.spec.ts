@@ -17,8 +17,9 @@ describe('Example Use Case in Typescript with Page Objects and @reportStep', () 
    */
   afterEach(saveLastStep);
 
-  beforeEach(() => {
+  beforeEach(async () => {
     startPage = new StartPage();
+    await startPage.goTo();
   });
 
   /**

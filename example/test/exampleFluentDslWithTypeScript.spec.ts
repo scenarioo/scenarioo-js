@@ -10,15 +10,8 @@
  * The example `./exampleFluentDslLabelDefinitions.js` demonstrates the declaration of all labels
  * used in this examples.
  */
-import {browser, element, by} from 'protractor';
-import {
-  useCase,
-  scenario,
-  step,
-  ScreenAnnotationStyle,
-  ScreenAnnotationClickAction,
-} from '../../lib';  // use 'scenarioo-js' instead of '../../lib' in real project
-
+import {browser, by, element} from 'protractor';
+import {scenario, ScreenAnnotationClickAction, ScreenAnnotationStyle, step, useCase,} from '../../lib'; // use 'scenarioo-js' instead of '../../lib' in real project
 // label definitions: usually only declared once on setup (no need to import in every test):
 import './exampleFluentDslLabelDefinitions';
 
@@ -36,8 +29,8 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
     scenario('Example Scenario with Fluent DSL')
       .description('An optional but recommended description for the scenario')
       .labels(['happy', 'example-label'])
-      .it(() => {
-        browser.get('/index.html');
+      .it(async () => {
+        await browser.get('/index.html');
 
         // use the step method to document interaction steps inside the scenario (with screenshot, etc.)
         step('browse to start page');
@@ -53,9 +46,9 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
         step('a step with a screen annotation', {
           screenAnnotations: [
             {
+              clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP,
               region: {x: 20, y: 20, width: 500, height: 30},
-              style: ScreenAnnotationStyle.CLICK,
-              clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP
+              style: ScreenAnnotationStyle.CLICK
             }
           ]
         });
@@ -68,10 +61,10 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
       .description('This scenario should demonstrate that also for each failed expectation a screenshot is taken')
       .it(async function exampleScenarioWithMultipleExpectationsFailingAndNoLabels() {
 
-        browser.get('/index.html');
+        await browser.get('/index.html');
         expect(await element.all(by.css('.element-not-existing')).count()).toBe(78); // will fail --> expectation failed step
 
-        element(by.css('li#item_one')).click();
+        await element(by.css('li#item_one')).click();
         step('item one clicked');
 
         expect(await element.all(by.css('.another-element-not-existing')).count()).toEqual(13); // will fail --> expectation failed step

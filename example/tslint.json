@@ -1,0 +1,13 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "no-floating-promises": true,
+    "quotemark": [true, "single"],
+    "member-access": [false]
+  },
+  "rulesDirectory": []
+}
