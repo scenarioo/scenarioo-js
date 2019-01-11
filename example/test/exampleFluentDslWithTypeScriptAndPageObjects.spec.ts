@@ -11,7 +11,7 @@
  * used in this examples.
  */
 import {browser, by, element} from 'protractor';
-import {scenario, step, useCase,} from '../../lib'; // use 'scenarioo-js' instead of '../../lib' in real project
+import {scenario, step, useCase } from '../../lib'; // use 'scenarioo-js' instead of '../../lib' in real project
 // label definitions: usually only declared once on setup (no need to import in every test):
 import './exampleFluentDslLabelDefinitions';
 import {StartPage} from './pages/startPage';
@@ -25,25 +25,27 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
   .describe(() => {
     let startPage: StartPage;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       startPage = new StartPage();
+      await startPage.navigateToPage();
     });
+
     /**
      * A scenario description
      */
     scenario('Example Scenario with Fluent DSL and reportStep Decorator')
       .description('An optional but recommended description for the scenario')
       .labels(['happy', 'example-label'])
-      .it(() => {
+      .it(async () => {
         // the StartPage constructor navigates us to index.html
 
         // A step on a decorator could also have additional propoerties, like e.g. labels
-        startPage.assertHeaderShown();
+        await startPage.assertHeaderShown();
 
         // do something on the page itself.
-        startPage.selectFirstListItem();
+        await startPage.selectFirstListItem();
         // assert that the output changed as expected.
-        startPage.assertSelected("one");
+        await startPage.assertSelected('one');
 
         // The methods above are all decorated with the `reportStep` decorator, which lets them record new steps on the
         // scenarioo api as if you would have called scenarioo.saveStep(...).
