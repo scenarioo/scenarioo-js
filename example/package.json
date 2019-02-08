@@ -20,12 +20,12 @@
     "http-server": "^0.11.1",
     "jasmine-core": "^3.3.0",
     "protractor": "5.4.2",
-    "ts-node": "^7.0.1",
+    "ts-node": "^8.0.2",
     "tslint": "^5.12.0",
     "typescript": "~3.1.6"
   },
   "dependencies": {
-    "angular": "1.7.5",
+    "angular": "1.7.6",
     "core-js": "^2.4.1",
     "ts-helpers": "^1.1.1"
   }
