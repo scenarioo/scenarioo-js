@@ -1,9 +1,8 @@
-var gulp = require('gulp');
+const gulp = require('gulp');
 
-require('./build/dependencyCheck');
 require('./build/lint');
 require('./build/test');
 require('./build/docu');
 require('./build/build');
 
-gulp.task('default', ['lint', 'test']);
+gulp.task('default', gulp.series(['lint', 'test']));

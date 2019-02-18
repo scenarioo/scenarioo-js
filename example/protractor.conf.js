@@ -14,9 +14,12 @@ var exportsConfig = {
   baseUrl: e2eBaseUrl,
   rootElement: 'body',
 
+  // Do not use selenium server but instead connect directly to chrome
+  directConnect: true,
+
   beforeLaunch: function() {
     require('ts-node').register({
-      project: 'test'
+      project: 'test/tsconfig.json'
     });
   },
 

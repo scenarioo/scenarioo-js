@@ -1,7 +1,7 @@
 # ScenariooJS
 > Scenarioo writer library to produce feature rich e2e test reports, e.g. from Protractor/WebDriverJS tests with Jasmine
 
-[![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js)
+[![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js) [![Greenkeeper badge](https://badges.greenkeeper.io/scenarioo/scenarioo-js.svg)](https://greenkeeper.io/)
 
 Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate powerful e2e test reports including screenshots and make it available to everybody involved in your project through the Scenarioo Viewer Web Application: **[see Scenarioo Viewer Demo](http://demo.scenarioo.org)**.
 
@@ -111,10 +111,12 @@ For a quick reference, you can also have a look at the following example files a
  - [Fluent DSL for simple and clean UI tests _(Recommended)_](#scenarioo-fluent-dsl)
     - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
     - [exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts)
+    - [exampleFluentDslWithTypeScriptAndPageObjects.spec.ts](example/test/exampleFluentDslWithTypeScriptAndPageObjects.spec.ts)
     - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
  - [Vanilla Jasmine](#vanilla-jasmine-style)
     - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
+    - [exampleBasicJasmineWithTypeScript.spec.ts](example/test/exampleBasicJasmineWithTypeScript.spec.ts)
     - [exampleFailingTests.spec.js](example/test/exampleFailingTests.spec.js)
  - [Backwards DSL for fast Migration from ScenariooJS 1 to ScenariooJS 2](#backwards-dsl-for-migration)
     - [exampleBackwardsDsl.spec.js](example/test/exampleBackwardsDsl.spec.js)
@@ -184,6 +186,13 @@ Or you can try to do this by hooking into protractor functions, to ensure that a
 
 We recommend to do it in the page objects, because that is usually the place where you know, that something worthy of recording as a step happened.
 
+If you are using Typescript (old Jasmine syntax or the new Fluent DSL), you can follow the example 
+[exampleFluentDslWithTypeScriptAndPageObjects.spec.ts](example/test/exampleFluentDslWithTypeScriptAndPageObjects.spec.ts)
+[exampleBasicJasmineWithTypeScript.spec.ts](example/test/exampleBasicJasmineWithTypeScript.spec.ts) and the used page 
+object [startPage.ts](example/test/pages/startPage.ts) as a reference on how to use a 
+[Typescript Decorator](http://www.typescriptlang.org/docs/handbook/decorators.html) to perform this in an easy manner.
+
+
 #### Vanilla Jasmine Style
 
 If you prefer to write your e2e tests in your usual Jasmine style with Protractor without using special Scenarioo DSL, you can do so:
@@ -231,7 +240,7 @@ you are free to do so, by simply copying our Scenarioo Fluent DSL from this one 
 
 Run your protractor tests (e.g. as explained in [Examples Readme](/example/README.MD)) to run the tests and generate scenarioo documentation data. 
 
-This documentation can then be browsed by using the **Scenarioo Viewer Web App**: See [Installation of Viewer Web App](http://scenarioo.org/docs/master/setup/Scenarioo-Viewer-Web-Application-Setup.html) on how to install and run the viewer web app or using the docker image.
+This documentation can then be browsed by using the **Scenarioo Viewer Web App**: See [Installation of Viewer Web App](http://scenarioo.org/docs/master/tutorial/Scenarioo-Viewer-Web-Application-Setup.html) on how to install and run the viewer web app or using the docker image.
 
 ## Authors
 
