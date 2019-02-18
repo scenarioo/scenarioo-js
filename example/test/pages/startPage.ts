@@ -2,18 +2,18 @@ import {browser, by, element} from 'protractor';
 import {reportStep} from '../../../lib'; // use 'scenarioo-js' instead of '../../lib' in real project
 
 export class StartPage {
-  firstListItem = element(by.css('li#item_one'));
-  secondListItem = element(by.css('li#item_two'));
-  selectedItem = element(by.id('selected'));
-  header = element(by.id('header'));
+  private firstListItem = element(by.css('li#item_one'));
+  private secondListItem = element(by.css('li#item_two'));
+  private selectedItem = element(by.id('selected'));
+  private header = element(by.id('header'));
 
   async goTo() {
     await browser.get('/index.html');
   }
 
   @reportStep()
-  async selectFirstListItem() {
-    return await this.firstListItem.click();
+  public async selectFirstListItem() {
+    return this.firstListItem.click();
   }
 
   /**
@@ -22,16 +22,17 @@ export class StartPage {
    * This behaviour can be overwritten by providing a custom description as follows.
    */
   @reportStep('Custom message for this step') // this will result in the description: 'Custom message for this step'
-  async selectSecondListItem() {
-    return await this.secondListItem.click();
+  public async clickSecondListItem() {
+    return this.secondListItem.click();
   }
 
-  async assertSelected(expectedItem: string) {
+  public async assertSelected(expectedItem: string) {
     await expect(this.selectedItem.getText()).toEqual(expectedItem);
   }
 
   @reportStep('a step with labels', {labels: ['step-label-example']})
-  async assertHeaderShown() {
+  public async assertHeaderShown() {
     await expect(this.header.isDisplayed()).toBeTruthy();
   }
+
 }

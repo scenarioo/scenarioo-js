@@ -11,5 +11,5 @@ const mochaOpts = {
 
 gulp.task('cleanTestOut', () => del('test/out/*'));
 
-gulp.task('test', gulp.series(['cleanTestOut']), () => gulp.src('./test/unit/**/*.js', {read: false})
-  .pipe(mocha(mochaOpts)));
+gulp.task('test', gulp.series(['cleanTestOut'], () => gulp.src('./test/unit/**/*.js', {read: false})
+  .pipe(mocha(mochaOpts))));

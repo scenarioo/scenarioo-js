@@ -1,25 +1,18 @@
 # Example
 
-This example shows how to use scenarioo-js in a protractor (webdriverJS) environment.
+This example shows how to use *scenarioo-js* in a *Protractor* (*WebDriverJS*) environment.
 
-`example/app` contains a very simple angularJS application, which can be used for demonstration purposes and as well if 
-intend to contribute developing *scenarioo-js*.
+`example/app` contains a very simple *AngularJS* application, which can be used for demonstration purposes and also for contributing to  *scenarioo-js*.
 
-Build the scenarioo js writer library (in `scenarioo-js` root) and run the example application:
+Build the *scenarioo-js* writer library (in `scenarioo-js` root) and run the example application:
 
 ```
 npm install
 npm run build
-```
-
-serve the example application
-by calling following in directory scenarioo-js root
-
-```
 npm run serve-example
 ```
 
-Install needed dependencies (protractor) and run the tests:
+Now in a second terminal change to the `example` directory. Install the dependencies and run the tests like this:
 
 ```
 npm install
