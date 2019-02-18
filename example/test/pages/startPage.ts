@@ -7,22 +7,22 @@ export class StartPage {
   private selectedItem = element(by.id('selected'));
   private header = element(by.id('header'));
 
-  public async navigateToPage() {
+  async goTo() {
     await browser.get('/index.html');
   }
 
   @reportStep()
-  public selectFirstListItem() {
+  public async selectFirstListItem() {
     return this.firstListItem.click();
   }
 
   /**
    * By default, the @reportStep takes the Class Name followed by the method name as a description
-   * (e.g. 'StartPage: clickSecondListItem').
+   * (e.g. 'StartPage: selectSecondListItem').
    * This behaviour can be overwritten by providing a custom description as follows.
    */
   @reportStep('Custom message for this step') // this will result in the description: 'Custom message for this step'
-  public clickSecondListItem() {
+  public async clickSecondListItem() {
     return this.secondListItem.click();
   }
 

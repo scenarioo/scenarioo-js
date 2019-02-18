@@ -18,7 +18,6 @@ describe('Example Use Case in Typescript with Page Objects and @reportStep', () 
 
   beforeEach(async () => {
     startPage = new StartPage();
-    await startPage.navigateToPage();
   });
 
   /**
@@ -31,10 +30,11 @@ describe('Example Use Case in Typescript with Page Objects and @reportStep', () 
    * With this you don't have to write `scenarioo.saveStep()` in every test.
    */
   it('Example Scenario with step annotation', async () => {
+
     await startPage.selectFirstListItem();
     await startPage.assertSelected('one');
 
-    await startPage.clickSecondListItem();
+    await startPage.selectSecondListItem();
     await startPage.assertSelected('two');
   });
 

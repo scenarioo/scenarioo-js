@@ -10,15 +10,9 @@
  * The example `./exampleFluentDslLabelDefinitions.js` demonstrates the declaration of all labels
  * used in this examples.
  */
-import {browser, element, by} from 'protractor';
-import {
-  useCase,
-  scenario,
-  step,
-  ScreenAnnotationStyle,
-  ScreenAnnotationClickAction,
-} from '../../lib';  // use 'scenarioo-js' instead of '../../lib' in real project
-
+import {browser, by, element} from 'protractor';
+// use 'scenarioo-js' instead of '../../lib' in real project
+import {scenario, ScreenAnnotationClickAction, ScreenAnnotationStyle, step, useCase} from '../../lib';
 // label definitions: usually only declared once on setup (no need to import in every test):
 import './exampleFluentDslLabelDefinitions';
 
@@ -56,8 +50,8 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
               clickAction: ScreenAnnotationClickAction.TO_NEXT_STEP,
               region: {x: 20, y: 20, width: 500, height: 30},
               style: ScreenAnnotationStyle.CLICK
-            }
-          ]
+            },
+          ],
         });
 
         // more steps of this scenario would of course come here ...

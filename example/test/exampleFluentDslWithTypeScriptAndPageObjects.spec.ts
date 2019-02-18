@@ -10,8 +10,8 @@
  * The example `./exampleFluentDslLabelDefinitions.js` demonstrates the declaration of all labels
  * used in this examples.
  */
-import {browser, by, element} from 'protractor';
-import {scenario, step, useCase } from '../../lib'; // use 'scenarioo-js' instead of '../../lib' in real project
+
+import {scenario,  useCase} from '../../lib'; // use 'scenarioo-js' instead of '../../lib' in real project
 // label definitions: usually only declared once on setup (no need to import in every test):
 import './exampleFluentDslLabelDefinitions';
 import {StartPage} from './pages/startPage';
@@ -27,7 +27,7 @@ useCase('Example Use Case with Fluent DSL in TypeScript')
 
     beforeEach(async () => {
       startPage = new StartPage();
-      await startPage.navigateToPage();
+      await startPage.goTo();
     });
 
     /**
