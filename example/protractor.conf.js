@@ -125,8 +125,9 @@ var exportsConfig = {
     includeStackTrace: true,
 
     // Default time to wait in ms before a test fails.
-    defaultTimeoutInterval: 60000
+    defaultTimeoutInterval: 60000,
 
+    SELENIUM_PROMISE_MANAGER: 0
   }
 
 };

@@ -1,6 +1,13 @@
 # Scenarioo JS Versions
 
 ## Next version (not released)
+
+Breaking Changes:
+
+* Not using the WebDriver Control Flow anymore, so you should set `SELENIUM_PROMISE_MANAGER` to `0` in your protractor config file.
+
+Other Changes:
+
 * Update Libraries
 
 ## Version 3.0.2
