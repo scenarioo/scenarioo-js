@@ -127,47 +127,37 @@ const scenarioo = {
       return; // just do nothing when scenarioo is disabled.
     }
 
-    // make sure that "scenarioo.saveStep()" gets added to the protractor controlFlow
-    // this ensures that the save operation is not invoked immediately, but in-sync with the flow.
-    // We do this wrapping here in order to keep docuWriter simple (not another dependency to protractor)
     const stepArguments = arguments;
-    browser.controlFlow().execute(() => {
-       return docuWriter.saveStep.apply(docuWriter, stepArguments);
-    });
+    return docuWriter.saveStep.apply(docuWriter, stepArguments);
   },
 
   /**
    * MUST be called in an afterEach (and only in afterEach!), to ensure that all steps are written before the test is finished.
    *
-   * If you are using the new fluent DSL, you do not have to care about it, since done by the DSL allready for you.
+   * If you are using the new fluent DSL, you do not have to care about it, since done by the DSL already for you.
+   *
+   * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
    */
   saveLastStep: function () {
-
     if (!scenarioo.reportingEnabled) {
       return; // just do nothing when scenarioo is disabled.
     }
 
-    // ensure to schedule at least one dummy protractor task here (in any case!!)
-    // just to cause protractor to wait for flow to finish, before calling specDone.
-    browser.controlFlow().execute(() => {
-      var status = scenarioo.getScenarioContext().getCurrent().status;
-      status = status || 'success'; // not yet set = assuming success.
-      if (scenarioo.options.recordLastStepForStatus) {
-        if (scenarioo.options.recordLastStepForStatus[status]) {
+    var status = scenarioo.getScenarioContext().getCurrent().status;
+    status = status || 'success'; // not yet set = assuming success.
+    if (scenarioo.options.recordLastStepForStatus) {
+      if (scenarioo.options.recordLastStepForStatus[status]) {
 
-          // Put a label on failure steps
-          var labels = [];
-          if (status === 'failed') {
-            labels = ['failed'];
-          }
-
-          // Report step with status and failure label
-          scenarioo.saveStep('scenario ' + status, {status: status, labels: labels});
-
+        // Put a label on failure steps
+        var labels = [];
+        if (status === 'failed') {
+          labels = ['failed'];
         }
-      }
-    });
 
+        // Report step with status and failure label
+        return scenarioo.saveStep('scenario ' + status, {status: status, labels: labels});
+      }
+    }
   },
 
   /**

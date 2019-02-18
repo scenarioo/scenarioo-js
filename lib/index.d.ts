@@ -43,7 +43,7 @@ export declare var scenario: (name: string) => ScenarioDeclaration;
  * @param {object[]} [additionalProperties.screenAnnotations] - screenAnnotations are special objects to highlight rectangular areas in the screenshot and attach additional documentation data tot his areas (e.g. for clicked elements, or text typed by the user, etc.)
  * @returns {Promise} The returned promise will resolve to an object containing the saved step object, the path to the step xml file as well as the path to the screenshot file
  */
-export declare var step: (stepCaption: string, additionalProperties?: StepProperties) => any;
+export declare var step: (stepCaption: string, additionalProperties?: StepProperties) => PromiseLike<any>;
 
 /**
  * Saves a step in your e2e tests.
