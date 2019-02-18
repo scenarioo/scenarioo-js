@@ -7,31 +7,31 @@ export class StartPage {
   selectedItem = element(by.id('selected'));
   header = element(by.id('header'));
 
-  constructor() {
-    browser.get('/index.html');
+  async goTo() {
+    await browser.get('/index.html');
   }
 
   @reportStep()
-  selectFirstListItem() {
-    return this.firstListItem.click();
+  async selectFirstListItem() {
+    return await this.firstListItem.click();
   }
 
   /**
    * By default, the @reportStep takes the Class Name followed by the method name as a description
-   * (e.g. 'StartPage: clickSecondListItem').
+   * (e.g. 'StartPage: selectSecondListItem').
    * This behaviour can be overwritten by providing a custom description as follows.
    */
-  @reportStep("Custom message for this step") // this will result in the description: 'Custom message for this step'
-  clickSecondListItem() {
-    return this.secondListItem.click();
+  @reportStep('Custom message for this step') // this will result in the description: 'Custom message for this step'
+  async selectSecondListItem() {
+    return await this.secondListItem.click();
   }
 
-  assertSelected(expectedItem: string) {
-    expect(this.selectedItem.getText()).toEqual(expectedItem);
+  async assertSelected(expectedItem: string) {
+    await expect(this.selectedItem.getText()).toEqual(expectedItem);
   }
 
   @reportStep('a step with labels', {labels: ['step-label-example']})
-  assertHeaderShown() {
-    expect(this.header.isDisplayed()).toBeTruthy();
+  async assertHeaderShown() {
+    await expect(this.header.isDisplayed()).toBeTruthy();
   }
 }
