@@ -2,11 +2,14 @@
 
 ## Next version (not released)
 
-Breaking Changes:
+###Breaking Changes:
 
 * Not using the WebDriver Control Flow anymore, so you should set `SELENIUM_PROMISE_MANAGER` to `0` in your protractor config file.
 
-Other Changes:
+### Bug Fixes
+* When saveLastStep is activated then both the screenshot and the step.xml are correctly created.
+
+###Other Changes:
 
 * Update Libraries
 
