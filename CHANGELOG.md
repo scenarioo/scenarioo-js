@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 * When saveLastStep is activated then both the screenshot and the step.xml are correctly created. ([#80](https://github.com/scenarioo/scenarioo-js/issues/80))
+* When using the fluent DSL, description is now optional for use cases. ([#88](https://github.com/scenarioo/scenarioo-js/issues/88))
 
 ### Other Changes:
 
