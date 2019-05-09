@@ -7,7 +7,7 @@
 * Not using the WebDriver Control Flow anymore, so you should set `SELENIUM_PROMISE_MANAGER` to `0` in your protractor config file.
 
 ### Bug Fixes
-* When saveLastStep is activated then both the screenshot and the step.xml are correctly created.
+* When saveLastStep is activated then both the screenshot and the step.xml are correctly created. ([#80](https://github.com/scenarioo/scenarioo-js/issues/80))
 
 ### Other Changes:
 
