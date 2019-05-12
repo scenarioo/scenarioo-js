@@ -48,7 +48,7 @@
     "gulp-run": "^1.6.12",
     "gulp-util": "3.0.8",
     "http-server": "^0.11.1",
-    "jsdoc": "3.5.5",
+    "jsdoc": "3.6.2",
     "sinon": "7.2.5"
   },
   "keywords": [
