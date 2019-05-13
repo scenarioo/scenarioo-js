@@ -97,7 +97,8 @@ export function useCase(name) {
 
 export function scenario(name) {
 
-  var description, labels, pendingMessage;
+  var description = '';
+  var labels, pendingMessage;
 
   return {
     description: function (d) {
