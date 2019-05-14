@@ -23,7 +23,7 @@ npm run e2e
 
 **You should see following in the output:**<br/>
 ```
-16 specs, 5 failures, 5 pending specs
+17 specs, 5 failures, 5 pending specs
 ```
 
 This is for testing and demonstrating how test failures and also pending tests are reported in scenarioo.
