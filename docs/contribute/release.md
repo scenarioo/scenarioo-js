@@ -13,7 +13,7 @@
 * Set correct version in `package.json` and run a full build
 
 * **Run tests**:
-    * `gulp test`
+    * `npm test`
     * run all examples and check it works as expected (see [example/README.md](../../example/README.md) for details)
     * also test generated output from examples can be read by Viewer Webapp (import generated output)    
 
