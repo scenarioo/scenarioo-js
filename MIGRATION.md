@@ -1,6 +1,20 @@
-## Migration Guide
+# Migration Guide
 
-This migration guide explains how to switch from SceanriooJS 1.x to ScenariooJS 2.x
+This migration guide explains how to upgrade major versions of ScenariooJS.
+
+## 3.x to 4.x
+
+This section explains how to switch from ScenariooJS 3.x to ScenariooJS 4.x
+
+### Scenarioo Configuration
+
+ScenariooJS is no longer using WebDriver Control Flow. This means you should set `SELENIUM_PROMISE_MANAGER` to `0` in your protractor config file.
+
+For a complete example where `SELENIUM_PROMISE_MANAGER` has been configured correctly, see [Example protractor.conf.js](example/protractor.conf.js)
+
+## 1.x to 2.x
+
+This section explains how to switch from ScenariooJS 1.x to ScenariooJS 2.x
 
 ### Jasmine 2 Support
 
