@@ -23,6 +23,10 @@ Some feature highlights include detection of changes in recorded screenshots and
 
 ## How to Use
 
+### Quickstart
+
+If you just want to get a quick glance at how it all works, then you can follow this [Quickstart Guide](http://scenarioo.org/docs/master/tutorial/Quickstart-JS.html).
+
 ### Version Notice
 
 This documentation is for version 4.x of ScenariooJS. See [Changelog](CHANGELOG.md).
