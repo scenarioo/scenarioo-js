@@ -23,9 +23,13 @@ Some feature highlights include detection of changes in recorded screenshots and
 
 ## How to Use
 
+### Quickstart
+
+If you just want to get a quick glance at how it all works, then you can follow this [Quickstart Guide](http://scenarioo.org/docs/master/tutorial/Quickstart-JS.html).
+
 ### Version Notice
 
-This documentation is for version 3.x of ScenariooJS. See [Changelog](CHANGELOG.md).
+This documentation is for version 4.x of ScenariooJS. See [Changelog](CHANGELOG.md).
 
 ### Installation
 
@@ -112,7 +116,7 @@ For a quick reference, you can also have a look at the following example files a
     - [exampleFluentDsl.spec.js](example/test/exampleFluentDsl.spec.js)
     - [exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts)
     - [exampleFluentDslWithTypeScriptAndPageObjects.spec.ts](example/test/exampleFluentDslWithTypeScriptAndPageObjects.spec.ts)
-    - [exampleFluentDslLabelDefinitions.spec.js](example/test/exampleFluentDslLabelDefinitions.spec.js)
+    - [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js)
     - [exampleFluentDslPendingUseCase.spec.js](example/test/exampleFluentDslPendingUseCase.spec.js)
  - [Vanilla Jasmine](#vanilla-jasmine-style)
     - [exampleBasicJasmine.spec.js](example/test/exampleBasicJasmine.spec.js)
@@ -165,18 +169,18 @@ Scenarioo will as well automatically report one additional step with a screensho
 To make this example work, the Labels have to be registered first before usage with the Fluent DSL.
 Refer to [exampleFluentDslLabelDefinitions.js](example/test/exampleFluentDslLabelDefinitions.js) to see how to register
 labels for usage in useCases, scenarios and steps. This is to avoid misspelling and cluttering of labels in all your tests.
-But of course you do not have to add any labels, as long as you not want to label your tests.
+But of course you do not have to add any labels, as long as you do not want to label your tests.
 
-There are also functions like `fdescribe`, `xdescribe`, `xit`, `fit` in the DSL such that you have the same comfort as with using jasmine directly - or even more: there is even a special `pending` to mark temporarily disabled tests with a special pending-comment, which even works with protractor's asynch tests (contains a workaround for a known bug to the `pend`-feature of jasmine, which not works with protractor).
+There are also functions like `fdescribe`, `xdescribe`, `xit`, `fit` in the DSL such that you have the same comfort as with using jasmine directly - or even more: there is even a special `pending` to mark temporarily disabled tests with a special pending-comment, which even works with protractor's async tests (contains a workaround for a known bug to the `pend`-feature of jasmine, which does not work with protractor).
 
-If you do not like to use a special DSL in your tests, you can still use [Vanilla Jasmine Style](#vanilla-jasmine-style) to write your tests. But we not recommend to do so, because adding additional informations to your reports is less elegant using that other style.
+If you do not like to use a special DSL in your tests, you can still use [Vanilla Jasmine Style](#vanilla-jasmine-style) to write your tests. But we do not recommend to do so, because adding additional information to your reports is less elegant using that style.
 
 #### Using Scenarioo with Typescript
 
 Typescript Typings are provided for the Fluent DSL (only).
 Since the Fluent DSL is the recommended API of the future, older Scenarioo APIs do not come with typings as their usage is discouraged.
 Refer to [exampleFluentDslWithTypeScript.spec.ts](example/test/exampleFluentDslWithTypeScript.spec.ts)
-for a simple example using TypeScript with the Fluent DSL, which looks almost the same as above javascript example.
+for a simple example using TypeScript with the Fluent DSL, which looks almost the same as the javascript example above.
 
 #### General Recommendations About Recording Steps
 
@@ -186,8 +190,8 @@ Or you can try to do this by hooking into protractor functions, to ensure that a
 
 We recommend to do it in the page objects, because that is usually the place where you know, that something worthy of recording as a step happened.
 
-If you are using Typescript (old Jasmine syntax or the new Fluent DSL), you can follow the example 
-[exampleFluentDslWithTypeScriptAndPageObjects.spec.ts](example/test/exampleFluentDslWithTypeScriptAndPageObjects.spec.ts)
+If you are using Typescript (old Jasmine syntax or the new Fluent DSL), you can follow the examples 
+[exampleFluentDslWithTypeScriptAndPageObjects.spec.ts](example/test/exampleFluentDslWithTypeScriptAndPageObjects.spec.ts),
 [exampleBasicJasmineWithTypeScript.spec.ts](example/test/exampleBasicJasmineWithTypeScript.spec.ts) and the used page 
 object [startPage.ts](example/test/pages/startPage.ts) as a reference on how to use a 
 [Typescript Decorator](http://www.typescriptlang.org/docs/handbook/decorators.html) to perform this in an easy manner.
@@ -195,7 +199,7 @@ object [startPage.ts](example/test/pages/startPage.ts) as a reference on how to 
 
 #### Vanilla Jasmine Style
 
-If you prefer to write your e2e tests in your usual Jasmine style with Protractor without using special Scenarioo DSL, you can do so:
+If you prefer to write your e2e tests in your usual Jasmine style with Protractor without using the special Scenarioo DSL, you can do so:
 
 ```javascript
 
@@ -218,17 +222,17 @@ describe('Example Usecase', function() {
 
 ```
 
-ScenariooJS will automatically report a `use case` for every `describe`-block and a `scenario` inside this use case for every contained `it`-block during running the tests.
+ScenariooJS will automatically report a `use case` for every `describe`-block and a `scenario` inside this use case for every contained `it`-block during running of the tests.
 
-Also a step (including a screenshot and additional details about the step) is reported at the end of each test scenario (on failure or success), if you configured so (see configuration possibilities in `example/protractor.conf.js`). We recommend to turn this on, because the last step is one of the most important ones in a test, especially if there are failures.
+Also a step (including a screenshot and additional details about the step) is reported at the end of each test scenario (on failure or success), if you configured this (see configuration possibilities in [Example protractor.conf.js](example/protractor.conf.js)). We recommend to turn this on, because the last step is one of the most important ones in a test, especially if there are failures.
 
 Additional steps of a scenario can be reported by manually calling `scenarioo.saveStep('stepName');` in your tests.
 
-Instead of using the Vanilla Jasmine Style, we recommend to use the special [Scenarioo Fluent DSL](#) which makes it even more easier to add additional information (like descriptions, labels, etc.) to your test reports.
+Instead of using the Vanilla Jasmine Style, we recommend to use the special [Scenarioo Fluent DSL](#scenarioo-fluent-dsl) which makes it even easier to add additional information (like descriptions, labels, etc.) to your test reports.
 
 #### Backwards DSL for Migration
 
-There is also a `Backward DSL` that is only interesting for easier migration from old scenarioo 1.x tests to the new scenarioo 2.x library with jasmine 2. See [Migration Guide](MIGRATION.md) on how to use this.
+There is also a `Backward DSL` that is only interesting for an easier migration from old scenarioo 1.x tests to the new scenarioo 2.x library with jasmine 2. See [Migration Guide](MIGRATION.md) on how to use this.
 
 #### Define Custom App-specific DSL
 
