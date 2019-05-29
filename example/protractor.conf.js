@@ -14,9 +14,12 @@ var exportsConfig = {
   baseUrl: e2eBaseUrl,
   rootElement: 'body',
 
+  // Do not use selenium server but instead connect directly to chrome
+  directConnect: true,
+
   beforeLaunch: function() {
     require('ts-node').register({
-      project: 'test'
+      project: 'test/tsconfig.json'
     });
   },
 
@@ -122,8 +125,9 @@ var exportsConfig = {
     includeStackTrace: true,
 
     // Default time to wait in ms before a test fails.
-    defaultTimeoutInterval: 60000
+    defaultTimeoutInterval: 60000,
 
+    SELENIUM_PROMISE_MANAGER: 0
   }
 
 };

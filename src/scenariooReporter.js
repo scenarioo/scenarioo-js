@@ -149,7 +149,7 @@ function useCaseEnded(options) {
 
   if (!options.disableScenariooLogOutput) {
     // starting this log with a new line, because of jasmines ./F/*-Log-Entries inbetween, that do not have line breaks.
-    console.log(`\n${useCaseStatus.toUpperCase()} use case \"${useCase.name}\": ${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending`);
+    console.log(`\n${useCaseStatus.toUpperCase()} use case "${useCase.name}": ${useCase.passedScenarios} passed, ${useCase.failedScenarios} failed, ${ useCase.pendingScenarios} pending`);
   }
 
   docuWriter.saveUseCase(merge({
@@ -179,7 +179,7 @@ function scenarioStarted(options, scenarioName) {
 }
 
 function expectationFailed(options, failureMessage) {
-  store.updateCurrentScenario({ status: 'failed'}); // remember early that it failed allready
+  store.updateCurrentScenario({ status: 'failed'}); // remember early that it failed already
   if (options.reportStepOnExpectationFailed) {
     scenarioo.saveStep('Failed: ' + failureMessage, {status: 'failed', labels: ['failed']});
   }

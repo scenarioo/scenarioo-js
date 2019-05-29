@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import path from 'path';
 import Q from 'q';
 import mkdirp from 'mkdirp';
-import js2xmlparser from 'js2xmlparser';
+import {parse as js2xmlparser} from 'js2xmlparser';
 
 /**
  * writes the given data object as xml file
@@ -43,18 +43,23 @@ function serialize(rootElement, data) {
   // see https://github.com/michaelkourlas/node-js2xmlparser
   return js2xmlparser(rootElement, dataClone, {
 
-    convertMap: {
+    typeHandlers: {
       // automatically convert all dates to ISOString representation
       '[object Date]': function (date) {
         return date.toISOString();
       }
     },
 
-    arrayMap: {
+    wrapHandlers: {
       // we want the array property "labels" to be represented as <labels><label>....</label></labels>
-      labels: 'label',
+      labels: function () {
+        return 'label';
+      },
       // we want the array property "screenAnnotations" to be represented as <screenAnnotations><screenAnnotation>....</screenAnnotation></screenAnnotations>
-      screenAnnotations: 'screenAnnotation'
+      screenAnnotations: function () {
+        return 'screenAnnotation';
+      },
+
     }
   });
 }

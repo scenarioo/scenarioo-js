@@ -7,6 +7,9 @@ function assertXmlContent(filePath, expectedContents) {
   return Q.nfcall(fs.readFile, filePath, 'utf-8')
     .then(xmlContent => {
 
+      // Replace tabs in the beginning
+      xmlContent = xmlContent.replace(/^[ \t]*/gm, '');
+      // Replace all newlines and tabs
       xmlContent = xmlContent.replace(/(?:\r\n|\r|\n|\t)/g, '');
 
       if (!isArray(expectedContents)) {

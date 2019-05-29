@@ -1,5 +1,19 @@
 # Scenarioo JS Versions
 
+## Version 4.0.0
+
+### Breaking Changes
+
+* Not using the WebDriver Control Flow anymore, so you should set `SELENIUM_PROMISE_MANAGER` to `0` in your protractor config file.
+
+### Bug Fixes
+* When saveLastStep is activated then both the screenshot and the step.xml are correctly created. ([#80](https://github.com/scenarioo/scenarioo-js/issues/80))
+* When using the fluent DSL, description is now optional for use cases. ([#88](https://github.com/scenarioo/scenarioo-js/issues/88))
+
+### Other Changes
+
+* Update Libraries
+
 ## Version 3.0.2
 * Change license to MIT
 * Improve readme file and migration guide

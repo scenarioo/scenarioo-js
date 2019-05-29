@@ -97,7 +97,8 @@ export function useCase(name) {
 
 export function scenario(name) {
 
-  var description, labels, pendingMessage;
+  var description = '';
+  var labels, pendingMessage;
 
   return {
     description: function (d) {
@@ -172,7 +173,7 @@ function validateLabels(scopeText, definedLabels, labels) {
   }
 }
 
-// just for backwards compatibility, for those projects allready using these globals.
+// just for backwards compatibility, for those projects already using these globals.
 // you should instead import it from library root (index --> scenarioo object).
 global.scenariooDslConfig = config;
 global.useCase = useCase;
