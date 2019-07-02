@@ -27,7 +27,7 @@
   },
   "typings": "./lib/index.d.ts",
   "dependencies": {
-    "del": "4.0.0",
+    "del": "5.0.0",
     "glob": "7.1.4",
     "immutable": "3.8.2",
     "js2xmlparser": "4.0.0",
