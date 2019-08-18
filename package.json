@@ -44,7 +44,7 @@
     "gulp": "^4.0.0",
     "gulp-babel": "8.0.0",
     "gulp-eslint": "5.0.0",
-    "gulp-mocha": "6.0.0",
+    "gulp-mocha": "7.0.0",
     "gulp-run": "^1.6.12",
     "gulp-util": "3.0.8",
     "http-server": "^0.11.1",
