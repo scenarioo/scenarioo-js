@@ -49,7 +49,7 @@
     "gulp-util": "3.0.8",
     "http-server": "^0.11.1",
     "jsdoc": "3.6.3",
-    "sinon": "7.5.0"
+    "sinon": "8.1.0"
   },
   "keywords": [
     "scenarioo"
