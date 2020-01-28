@@ -47,7 +47,7 @@
     "gulp-mocha": "6.0.0",
     "gulp-run": "^1.6.12",
     "gulp-util": "3.0.8",
-    "http-server": "^0.11.1",
+    "http-server": "^0.12.0",
     "jsdoc": "3.6.3",
     "sinon": "8.1.0"
   },
