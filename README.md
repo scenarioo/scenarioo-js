@@ -1,7 +1,7 @@
 # ScenariooJS
 > Scenarioo writer library to produce feature rich e2e test reports, e.g. from Protractor/WebDriverJS tests with Jasmine
 
-[![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js) [![Greenkeeper badge](https://badges.greenkeeper.io/scenarioo/scenarioo-js.svg)](https://greenkeeper.io/)
+[![Version](https://badge.fury.io/js/scenarioo-js.png)](http://badge.fury.io/js/scenarioo-js)  [![Build Status](https://travis-ci.org/scenarioo/scenarioo-js.svg?branch=develop)](https://travis-ci.org/scenarioo/scenarioo-js) 
 
 Using ScenariooJS in your protractor (or pure [WebDriverJs](https://code.google.com/p/selenium/wiki/WebDriverJs)) e2e tests you can generate powerful e2e test reports including screenshots and make it available to everybody involved in your project through the Scenarioo Viewer Web Application: **[see Scenarioo Viewer Demo](http://demo.scenarioo.org)**.
 
