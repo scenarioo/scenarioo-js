@@ -30,7 +30,7 @@
     "del": "4.0.0",
     "glob": "7.1.6",
     "immutable": "3.8.2",
-    "js2xmlparser": "4.0.0",
+    "js2xmlparser": "4.0.1",
     "lodash": "4.17.15",
     "mkdirp": "0.5.1",
     "process": "0.11.10",
