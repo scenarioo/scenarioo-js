@@ -25,8 +25,8 @@
     "typescript": "~3.1.6"
   },
   "dependencies": {
-    "angular": "1.7.9",
-    "core-js": "^3.1.2",
+    "angular": "1.8.0",
+    "core-js": "^3.6.5",
     "ts-helpers": "^1.1.1"
   }
 }
