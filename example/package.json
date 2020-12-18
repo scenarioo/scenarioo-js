@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "angular": "1.8.0",
-    "core-js": "^3.7.0",
+    "core-js": "^3.8.1",
     "ts-helpers": "^1.1.1"
   }
 }
