@@ -73,7 +73,7 @@ function runEnded(options) {
   const build = store.getBuild();
   const status = (build.failedUseCases === 0) ? 'success' : 'failed';
 
-  docuWriter.saveBuild({
+  const saveProm = docuWriter.saveBuild({
     status: status,
     name: build.name,
     date: build.date,
@@ -84,6 +84,7 @@ function runEnded(options) {
   if (!options.disableScenariooLogOutput) {
     console.log('All done!');
   }
+  return saveProm;
 }
 
 /**
