@@ -6,7 +6,7 @@ const
 
 const mochaOpts = {
   reporter: 'spec',
-  compilers: ['js:@babel/register']
+  require: ['@babel/register']
 };
 
 gulp.task('cleanTestOut', () => del('test/out/*'));

@@ -111,7 +111,7 @@ function ScenariooJasmineReporter(jasmine, options) {
    * is invoked when all tests are done (at the end of all use cases)
    */
   function jasmineDone() {
-    scenariooReporter.runEnded(options);
+    return scenariooReporter.runEnded(options);
   }
 
 }
